@@ -1,2 +1,2 @@
 #!/bin/sh
-ln -sf ~/editor_config/.vimrc ~/.vimrc
+ln -sf ~/editor_settings/.vimrc ~/.vimrc
