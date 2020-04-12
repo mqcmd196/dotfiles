@@ -96,8 +96,8 @@ Plug 'tpope/vim-endwise'
 Plug 'jiangmiao/auto-pairs'
 "ruby on rails用のプラグイン"
 "Plug 'tpope/vim-rails'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'w0rp/ale'
 "vim上でgitを使う
 Plug 'tpop/vim-fugitive'
 
@@ -109,7 +109,7 @@ call plug#end()
 
 "colorscheme molokai " カラースキームにmolokaiを設定する
 
-"set t_Co=256 " iTerm2など既に256色環境なら無くても良い
+set t_Co=256 " iTerm2など既に256色環境なら無くても良い
 syntax enable " 構文に色を付ける
 
 "----------------------------------------------------------
