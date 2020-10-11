@@ -10,3 +10,4 @@
 (invoke-rosemacs)
 (global-set-key "\C-x\C-r" ros-keymap)
 
+(electric-pair-mode 1)
