@@ -1,3 +1,3 @@
 #!/bin/sh
-ln -sf ~/editor_settings/.vimrc ~/.vimrc
-ln -sf ~/editor_settings/.emacs ~/.emacs
+ln -sf ~/dotfiles/.vimrc ~/.vimrc
+ln -sf ~/dotfiles/.emacs ~/.emacs
