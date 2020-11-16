@@ -127,3 +127,5 @@ fi
 
 # source `catkin locate --shell-verbs`
 echo "CMAKE_PREFIX_PATH: ""$CMAKE_PREFIX_PATH"
+
+source /opt/ros/melodic/setup.bash
