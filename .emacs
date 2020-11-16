@@ -4,9 +4,8 @@
 (global-set-key "\M-g" 'goto-line)
 (global-unset-key "\C-o" )
 
-(setq default-tab-width 4)
 (global-linum-mode t)
-(setq indent-tabs-mode nil)
+(setq-default tab-width 4 indent-tabs-mode nil)
 
 (setq rosdistro (getenv "ROS_DISTRO"))
 (add-to-list 'load-path (format "/opt/ros/%s/share/emacs/site-lisp" (or rosdistro "melodic")))
