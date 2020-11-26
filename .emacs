@@ -24,7 +24,7 @@
  '(minibuffer-prompt ((t (:foreground "color-33")))))
 
 ;; for ROS
-(when (getenv "ROS_DISTRO")
+(when (string= (getenv "ROS_DISTRO") "melodic")
   (setq rosdistro (getenv "ROS_DISTRO"))
   (add-to-list 'load-path (format "/opt/ros/%s/share/emacs/site-lisp" (or rosdistro "melodic")))
   (require 'rosemacs)
