@@ -4,8 +4,21 @@
 (global-set-key "\M-g" 'goto-line)
 (global-unset-key "\C-o" )
 
+;; use fetch1075's tab settings
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2
+			  c-basic-offiset 2
+			  js-indent-level 2)
+(add-hook 'python-mode-hook '(lambda ()
+							   (setq python-indent-offset 4)))
+(add-hook 'c-mode-common-hook '(lambda ()
+								 (c-set-style "linux")
+								 (setq c-basic-offset tab-width)))
 (global-linum-mode t)
-(setq-default tab-width 4 indent-tabs-mode nil)
+
+;; save history at ~/
+(setq backup-directory-alist '((".*" . "~/.ehist")))
+(setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
 
 (electric-pair-mode 1)
 
