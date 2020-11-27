@@ -125,8 +125,6 @@ else
     export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w \n\[\033[01;34m\]\$\[\033[00m\] '
 fi
 
-source /opt/ros/melodic/setup.bash
-
 # source `catkin locate --shell-verbs`
 echo "CMAKE_PREFIX_PATH: ""$CMAKE_PREFIX_PATH"
 
