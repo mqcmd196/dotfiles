@@ -119,11 +119,21 @@ fi
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+
+# for showing git branch at the current directory
 if [ -f /etc/bash_completion.d/git-prompt ]; then
     export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w$(__git_ps1) \n\[\033[01;34m\]\$\[\033[00m\] '
 else
     export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w \n\[\033[01;34m\]\$\[\033[00m\] '
 fi
+
+# for using percol on reverse-i-search
+_replace_by_history() {
+ local l=$(HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | percol --query "$READLINE_LINE")
+ READLINE_LINE="$l"
+ READLINE_POINT=${#l}
+}
+bind -x '"\C-r": _replace_by_history'
 
 # source `catkin locate --shell-verbs`
 echo "CMAKE_PREFIX_PATH: ""$CMAKE_PREFIX_PATH"
