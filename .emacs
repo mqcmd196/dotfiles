@@ -20,6 +20,10 @@
 (setq backup-directory-alist '((".*" . "~/.ehist")))
 (setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
 
+;; Don't show initilal screen
+(setq inhibit-startup-message t)
+(setq initial-scratch-message nil)
+
 (electric-pair-mode 1)
 
 (custom-set-variables
