@@ -16,6 +16,12 @@
 								 (setq c-basic-offset tab-width)))
 (global-linum-mode t)
 
+;; yaml mode
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+
 ;; save history at ~/
 (setq backup-directory-alist '((".*" . "~/.ehist")))
 (setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
