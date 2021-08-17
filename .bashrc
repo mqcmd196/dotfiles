@@ -293,6 +293,3 @@ mujin_workspace_checkout mujin
 # alias gitdiff='f(){ git diff `git merge-base origin/master $@` $@; unset -f f; }; f'
 # alias git='f(){ sg net "/usr/bin/git $@"; unset -f f; }; f'
 # ################################### END PERSONAL ###################################
-
-export PATH=$PATH:~/.local/bin
-source ~/mujin/jhbuildcommon/setup.bash
