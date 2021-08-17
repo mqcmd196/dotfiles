@@ -1,6 +1,4 @@
 ;; emacs settings
-
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -10,6 +8,9 @@
 (global-set-key "\C-h" 'backward-delete-char)
 (global-set-key "\M-g" 'goto-line)
 (global-unset-key "\C-o" )
+(global-set-key "\C-x\C-b" 'buffer-menu)
+(add-to-list 'default-frame-alist
+                       '(font . "DejaVu Sans Mono-9"))
 
 ;; use fetch1075's tab settings
 (setq-default indent-tabs-mode nil)
@@ -50,6 +51,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
  '(font-lock-function-name-face ((t (:foreground "cyan"))))
  '(minibuffer-prompt ((t (:foreground "color-33")))))
 
@@ -66,3 +68,4 @@
   (setq inferior-euslisp-program "roseus")
   (slime-setup '(slime-fancy slime-banner slime-repl-ansi-color))
 )
+(put 'upcase-region 'disabled nil)
