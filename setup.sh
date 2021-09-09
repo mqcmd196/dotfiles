@@ -31,8 +31,8 @@ setup_percol(){
 # shell settings
 setup_shell(){
     echo "Setting up the shell configs..."
-    ln -sf $BASH_CONFIGDIR/bashrc $HOME/.bashrc
-    ln -sf $ZSH_CONFIGDIR/zshrc $HOME/.zshrc
+    ln -sf $BASH_CONFIGDIR/rc.bash $HOME/.bashrc
+    ln -sf $ZSH_CONFIGDIR/rc.zsh $HOME/.zshrc
     echo "Finished to set the shell configs"
 }
 
