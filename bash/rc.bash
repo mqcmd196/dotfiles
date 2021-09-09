@@ -151,5 +151,12 @@ for file in `\find ${BASH_PERSONAL_CONFIGDIR} -maxdepth 1 -type f,l`; do
     source $file
 done
 
+# use emacs26 as default
+if (type emacs26 > /dev/null 2>&1); then
+    alias emacs='emacs26'
+fi
+
+alias e='emacs'
+
 unset BASH_PERSONAL_CONFIGDIR
 # ################################# END PERSONAL CONFIGS #################################
