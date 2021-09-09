@@ -120,6 +120,8 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
+# ################################### PERSONAL CONFIGS ###################################
+BASH_PERSONAL_CONFIGDIR=$HOME/.bash.d
 # for showing git branch at the current directory
 if [ -f /etc/bash_completion.d/git-prompt ]; then
     export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w$(__git_ps1) \n\[\033[01;34m\]\$\[\033[00m\] '
@@ -135,10 +137,19 @@ _replace_by_history() {
 }
 bind -x '"\C-r": _replace_by_history'
 
-# source `catkin locate --shell-verbs`
-echo "CMAKE_PREFIX_PATH: ""$CMAKE_PREFIX_PATH"
+# share history on tmux
+function share_history {
+    history -a
+    history -c
+    history -r
+}
+PROMPT_COMMAND='share_history'
+shopt -u histappend
 
-# for using ROS2 on macOS
-if [ "$(uname)" == 'Darwin' ]; then
-    export OPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1
-fi
+# sources the files at BASH_PERSONAL_CONFIGDIR
+for file in `\find ${BASH_PERSONAL_CONFIGDIR} -maxdepth 1 -type f,l`; do
+    source $file
+done
+
+unset BASH_PERSONAL_CONFIGDIR
+# ################################# END PERSONAL CONFIGS #################################

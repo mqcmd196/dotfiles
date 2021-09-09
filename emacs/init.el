@@ -10,7 +10,9 @@
 (global-unset-key "\C-o" )
 (global-set-key "\C-x\C-b" 'buffer-menu)
 (add-to-list 'default-frame-alist
-                       '(font . "DejaVu Sans Mono-9"))
+             '(font . "DejaVu Sans Mono-9"))
+(add-to-list 'display-buffer-alist
+             '("^\\*shell\\*$" . (display-buffer-same-window))) ;; Show emacs-shell on the same window
 
 ;; use fetch1075's tab settings
 (setq-default indent-tabs-mode nil)
@@ -53,7 +55,8 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
  '(font-lock-function-name-face ((t (:foreground "cyan"))))
- '(minibuffer-prompt ((t (:foreground "color-33")))))
+ '(minibuffer-prompt ((t (:foreground "color-33"))))
+ '(term-color-blue ((t (:background "deep sky blue" :foreground "deep sky blue")))))
 
 ;; for ROS
 (when (string= (getenv "ROS_DISTRO") "melodic")
