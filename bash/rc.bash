@@ -158,5 +158,7 @@ fi
 
 alias e='emacs'
 
+source $BASH_PERSONAL_CONFIGDIR/local.bash # set local config
+
 unset BASH_PERSONAL_CONFIGDIR
 # ################################# END PERSONAL CONFIGS #################################
