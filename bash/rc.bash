@@ -146,11 +146,6 @@ function share_history {
 PROMPT_COMMAND='share_history'
 shopt -u histappend
 
-# sources the files at BASH_PERSONAL_CONFIGDIR
-for file in `\find ${BASH_PERSONAL_CONFIGDIR} -maxdepth 1 -type f,l`; do
-    source $file
-done
-
 # use emacs26 as default
 if (type emacs26 > /dev/null 2>&1); then
     alias emacs='emacs26'
@@ -158,7 +153,10 @@ fi
 
 alias e='emacs'
 
-source $BASH_PERSONAL_CONFIGDIR/local.bash # set local config
+# sources the files at BASH_PERSONAL_CONFIGDIR
+for file in `\find ${BASH_PERSONAL_CONFIGDIR} -maxdepth 1 -type f,l`; do
+    source $file
+done
 
 unset BASH_PERSONAL_CONFIGDIR
 # ################################# END PERSONAL CONFIGS #################################
