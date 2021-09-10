@@ -14,7 +14,6 @@ copy_bash_config(){
                &&  [ $file != $BASH_SETUP_CONFIGDIR/rc.bash ]; then
             ln -sf $file $BASH_HOME_CONFIGDIR
         fi
-    
     done
     if [ ! -e $BASH_HOME_CONFIGDIR/local.bash ]; then
         touch $BASH_HOME_CONFIGDIR/local.bash
