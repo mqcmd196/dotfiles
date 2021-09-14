@@ -24,11 +24,8 @@ copy_emacs_config(){
     if [ ! -d $EMACS_HOME_CONFIGDIR ]; then
         mkdir -p $EMACS_HOME_CONFIGDIR
     fi
-    for file in `\find ${EMACS_SETUP_CONFIGDIR} -maxdepth 1 -type f`; do
-        if [ $file != $EMACS_SETUP_CONFIGDIR/setup.sh ]; then
-           ln -sf $file $EMACS_HOME_CONFIGDIR
-        fi
-    done
+    ln -sf $EMACS_SETUP_CONFIGDIR/init.el $EMACS_HOME_CONFIGDIR
+    ln -sf $EMACS_SETUP_CONFIGDIR/conf $EMACS_HOME_CONFIGDIR
 }
 
 install_yaml_mode(){

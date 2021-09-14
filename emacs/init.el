@@ -3,7 +3,6 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
@@ -50,7 +49,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (gnu-elpa-keyring-update))))
+ '(package-selected-packages
+   (quote
+    (use-package company lsp-ui lsp-mode gnu-elpa-keyring-update))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -75,3 +76,7 @@
   (slime-setup '(slime-fancy slime-banner slime-repl-ansi-color))
 )
 (put 'upcase-region 'disabled nil)
+
+;; lsp
+(add-to-list 'load-path "~/.emacs.d/conf")
+(load "lsp")
