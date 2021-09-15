@@ -122,11 +122,12 @@ fi
 
 # ################################### PERSONAL CONFIGS ###################################
 BASH_PERSONAL_CONFIGDIR=$HOME/.bash.d
+export DOTFILES_DIR
 # for showing git branch at the current directory
 if [ -f /etc/bash_completion.d/git-prompt ]; then
-    export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w$(__git_ps1) \n\[\033[01;34m\]\$\[\033[00m\] '
+    export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \[\033[00m\]$ '
 else
-    export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w \n\[\033[01;34m\]\$\[\033[00m\] '
+    export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 fi
 
 # for using percol on reverse-i-search
