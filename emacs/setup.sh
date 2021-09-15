@@ -37,11 +37,32 @@ install_yaml_mode(){
     cd $ppwd
 }
 
+install_ccls(){
+    echo "Installing the ccls..."
+    ppwd=$(pwd)
+    echo "Go to ccls path..."
+    cd $EMACS_SETUP_CONFIGDIR
+    git submodule update --init --recursive
+    echo "Building the ccls..."
+    if [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+        if [ $(lsb_release -r | awk '{print $2}') == '18.04' ]; then
+            wget -c http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+            tar xf clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+            cd ccls
+            cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=../clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04 -DUSE_SYSTEM_RAPIDJSON=OFF
+            cmake --build Release
+            cd -
+        fi
+    fi
+    cd $ppwd
+}
+
 main(){
     if !(type emacs26 > /dev/null 2>&1); then
         install_emacs
     fi
     install_yaml_mode
+    install_ccls
     copy_emacs_config
 }
 

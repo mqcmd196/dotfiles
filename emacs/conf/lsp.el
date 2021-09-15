@@ -37,3 +37,13 @@
    ("python.analysis.disabled" lsp-python-ms-disabled)
    ("python.autoComplete.extraPaths" lsp-python-ms-extra-paths)
    ("python.analysis.autoSearchPaths" ,(<= (length lsp-python-ms-extra-paths) 0) t)))
+
+;; C/C++
+(use-package ccls
+  :custom
+  (ccls-executable (concat (getenv "HOME") "/dotfiles/emacs/ccls/Release/ccls"))
+  (ccls-sem-highlight-method 'font-lock)
+  ;; (ccls-use-default-rainbow-sem-highlight)
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda () (require 'ccls) (lsp))))
+

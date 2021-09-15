@@ -5,6 +5,7 @@
 ;; You may delete these explanatory comments.
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp") ;; use shared packages
@@ -51,7 +52,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (use-package company lsp-ui lsp-mode gnu-elpa-keyring-update))))
+    (ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
