@@ -5,10 +5,6 @@ if [ "$(uname)" == 'Darwin' ]; then
     export OPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1
 fi
 
-# catkin_add_configs(){
-#     catkin config --profile default_export --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-# }
-
 ros_workspace_set(){
     ROS_WORKSPACE_DIR=$1
     ROS_WORKSPACE_DEVEL_SETUP=${ROS_WORKSPACE_DIR}/devel/setup.bash
