@@ -16,9 +16,10 @@ ros_workspace_set(){
     ROS_WORKSPACE_DIR=$1
     ROS_WORKSPACE_DEVEL_SETUP=${ROS_WORKSPACE_DIR}/devel/setup.bash
     if [ -e $ROS_WORKSPACE_DEVEL_SETUP ]; then
-        ROS_WORKSPACE_DISPLAY=$(basename $(pwd $(cd ${ROS_WORKSPACE_DIR})) $0)
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \[\033[01;32m\](ROS_workspace:${ROS_WORKSPACE_DISPLAY}) \[\033[00m\]$ '
         source $ROS_WORKSPACE_DEVEL_SETUP
+        local catkin_ws=$(cd $(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/.. && pwd)
+        ROS_WORKSPACE_DISPLAY=$(basename $catkin_ws)
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \[\033[01;32m\](ROS_workspace:${ROS_WORKSPACE_DISPLAY}) \[\033[00m\]$ '
         echo sourced $ROS_WORKSPACE_DISPLAY
     else
         echo No such ROS workspace
