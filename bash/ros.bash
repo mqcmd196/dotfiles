@@ -5,16 +5,29 @@ if [ "$(uname)" == 'Darwin' ]; then
     export OPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1
 fi
 
+init_ros_bash(){
+    local cpu_cores=$(python -c 'import multiprocessing as m; print(m.cpu_count());')
+    local jobs=$(($cpu_cores / 2))
+    alias catkinb="catkin b -j$jobs -p$jobs -c"
+    alias catkinbt="catkin bt -j$jobs -p$jobs -c"
+}
+
 ros_workspace_set(){
     ROS_WORKSPACE_DIR=$1
     ROS_WORKSPACE_DEVEL_SETUP=${ROS_WORKSPACE_DIR}/devel/setup.bash
     if [ -e $ROS_WORKSPACE_DEVEL_SETUP ]; then
-        ROS_WORKSPACE_DISPLAY=`basename ${ROS_WORKSPACE_DIR}`
+        ROS_WORKSPACE_DISPLAY=$(basename $(pwd $(cd ${ROS_WORKSPACE_DIR})) $0)
         PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \[\033[01;32m\](ROS_workspace:${ROS_WORKSPACE_DISPLAY}) \[\033[00m\]$ '
         source $ROS_WORKSPACE_DEVEL_SETUP
+        echo sourced $ROS_WORKSPACE_DISPLAY
     else
         echo No such ROS workspace
     fi
+}
+
+ros_workspace_show(){
+    local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
+    cd $catkin_ws && pwd
 }
 
 catkin_before_build(){
@@ -57,14 +70,14 @@ catkin_generate_compile_commands_json(){
     echo "]" >> $concatenated
 }
 
-catkin_appropriate_build(){
-    local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
-    cd $catkin_ws
-    catkin_before_build
-    local cpu_cores=$(python -c 'import multiprocessing as m; print(m.cpu_count());')
-    local jobs=$(($cpu_cores / 2))
-    catkin b -j$jobs -p$jobs -c
+catkin_after_build(){
     catkin_generate_compile_commands_json
+    local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
+    touch $catkin_ws/.ccls-root
     ros_workspace_set $catkin_ws
 }
+
+if [ -d /opt/ros ]; then
+    init_ros_bash
+fi
 
