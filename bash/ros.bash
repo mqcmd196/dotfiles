@@ -10,6 +10,7 @@ init_ros_bash(){
     local jobs=$(($cpu_cores / 2))
     alias catkinb="catkin b -j$jobs -p$jobs -c"
     alias catkinbt="catkin bt -j$jobs -p$jobs -c"
+    bind -x '"\C-\M-r": _ross'
 }
 
 ros_workspace_set(){
@@ -76,6 +77,27 @@ catkin_after_build(){
     local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
     touch $catkin_ws/.ccls-root
     ros_workspace_set $catkin_ws
+}
+
+_ross() {
+    local mode
+    local var
+    local com
+    mode=$(echo -e "node\ntopic" | percol)
+    if [ ${mode} ]; then
+        if [ ${mode} = "node" ]; then
+            local var=$(rosnode list | percol)
+            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | percol)
+        elif [ ${mode} = "topic" ]; then
+            local var=$(rostopic list | percol)
+            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype\n" | percol)
+        fi
+    fi
+    if [ ${var} ] && [ ${com} ]; then
+        local fullcmd="ros${mode} ${com} ${var}"
+        READLINE_LINE="$fullcmd"
+        READLINE_POINT=${#fullcmd}
+    fi
 }
 
 if [ -d /opt/ros ]; then
