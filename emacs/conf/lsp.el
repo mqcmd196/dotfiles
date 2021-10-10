@@ -3,7 +3,7 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
 (setq lsp-completion-provider :capf)
-(setq lsp-idle-delay 0.500)
+(setq lsp-idle-delay 0.1)
 
 ;; lsp-ui
 (require 'lsp-ui)
@@ -20,6 +20,9 @@
 (define-key company-active-map (kbd "M-n") 'company-select-next)
 (define-key company-active-map (kbd "M-p") 'company-select-previous)
 (define-key company-active-map (kbd "M-s") 'company-filter-candidates) ;; Maybe has another bind?
+
+;; use flymake check only after saved
+(setq flycheck-check-syntax-automatically '(save mode-enable))
 
 ;; Python
 (require 'lsp-python-ms)

@@ -148,8 +148,8 @@ PROMPT_COMMAND='share_history'
 shopt -u histappend
 
 # use emacs26 as default
-if (type emacs26 > /dev/null 2>&1); then
-    alias emacs='emacs26'
+if (type emacs27 > /dev/null 2>&1); then
+    alias emacs='emacs27'
 fi
 
 alias e='emacs'

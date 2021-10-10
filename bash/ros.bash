@@ -51,6 +51,7 @@ catkin_before_build(){
 catkin_generate_compile_commands_json(){
     echo Generating workspace compile_commands.json...
     local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
+    local old_dir=$(pwd)
     cd ${catkin_ws}
     if [ -e compile_commands.json ]; then
         rm compile_commands.json
@@ -70,6 +71,7 @@ catkin_generate_compile_commands_json(){
         first=0
     done
     echo "]" >> $concatenated
+    cd $old_dir
 }
 
 catkin_after_build(){
