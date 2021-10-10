@@ -1,17 +1,17 @@
 #!/bin/bash
 EMACS_SETUP_CONFIGDIR=$(cd $(dirname $0);pwd)
 EMACS_HOME_CONFIGDIR=$HOME/.emacs.d
-EMACS=emacs26
+EMACS=emacs27
 
 # install emacs
 install_emacs(){
-    echo "Installing the emacs26..."
+    echo "Installing the emacs27..."
     if [ "$(uname)" == 'Darwin' ]; then
-        brew install emacs26
+        brew install emacs27
     elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
         if [ $(lsb_release -r | awk '{print $2}') == '18.04' ]; then
             sudo add-apt-repository ppa:kelleyk/emacs && sudo apt update
-            sudo apt install emacs26
+            sudo apt install emacs27
         fi
     else
         echo "Not supported OS"
@@ -26,15 +26,6 @@ copy_emacs_config(){
     fi
     ln -sf $EMACS_SETUP_CONFIGDIR/init.el $EMACS_HOME_CONFIGDIR
     ln -sf $EMACS_SETUP_CONFIGDIR/conf $EMACS_HOME_CONFIGDIR
-}
-
-install_yaml_mode(){
-    echo "Installing the emacs yaml-mode..."
-    ppwd=$(pwd)
-    echo "Go to yaml-mode path..."
-    cd $EMACS_SETUP_CONFIGDIR/yaml-mode
-    make clean && make EMACS=emacs26 && sudo make install EMACS=emacs26
-    cd $ppwd
 }
 
 install_ccls(){
@@ -58,7 +49,7 @@ install_ccls(){
 }
 
 main(){
-    if !(type emacs26 > /dev/null 2>&1); then
+    if !(type emacs27 > /dev/null 2>&1); then
         install_emacs
     fi
     install_yaml_mode
