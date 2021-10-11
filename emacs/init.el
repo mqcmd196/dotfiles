@@ -5,6 +5,13 @@
 ;; You may delete these explanatory comments.
 
 ;; package list
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -23,7 +30,7 @@
  '(flycheck-checker-error-threshold 1000)
  '(init-loader-show-log-after-init 'error-only)
  '(package-selected-packages
-   '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
+   '(flycheck magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
