@@ -20,9 +20,10 @@
  '(ag-highlight-search t)
  '(ag-reuse-buffers 'nil)
  '(ag-reuse-window 'nil)
+ '(flycheck-checker-error-threshold 1000)
  '(init-loader-show-log-after-init 'error-only)
  '(package-selected-packages
-   '(helm-git-files magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
+   '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

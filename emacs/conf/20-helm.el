@@ -1,4 +1,4 @@
-(r>equire 'helm-mode)
+(require 'helm-mode)
 (require 'helm-config)
 (setq helm-buffer-max-length 40)
 

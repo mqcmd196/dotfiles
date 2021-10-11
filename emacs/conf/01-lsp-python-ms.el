@@ -5,6 +5,18 @@
             (when (derived-mode-p 'python-mode)
               (require 'lsp-python-ms)
               (lsp)))) ; or lsp-deferred
+;; (use-package lsp-python-ms
+;;   :init
+;;   (setq lsp-python-ms-auto-install-server t)
+;;   :hook
+;;   ((python-mode . (lambda ()
+;;                     (require 'lsp-python-ms)
+;;                     (lsp-deferred)))
+;;    (flycheck-mode . (lambda ()
+;;                       (flycheck-add-next-checker 'lsp 'python-flake8)
+;;                       ))
+;;    )
+;;   )
 (setq lsp-python-ms-auto-install-server t)
 (lsp-register-custom-settings
  `(("python.analysis.cachingLevel" lsp-python-ms-cache)
