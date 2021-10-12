@@ -30,13 +30,14 @@
  '(flycheck-checker-error-threshold 1000)
  '(init-loader-show-log-after-init 'error-only)
  '(package-selected-packages
-   '(flycheck magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
+   '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
+ '(anzu-replace-highlight ((t (:inherit query-replace :background "black" :strike-through "red" :weight bold))))
  '(font-lock-function-name-face ((t (:foreground "cyan"))))
  '(minibuffer-prompt ((t (:foreground "color-33"))))
  '(term-color-blue ((t (:background "deep sky blue" :foreground "deep sky blue")))))
