@@ -9,7 +9,7 @@
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
 ;; counsel
-;; (global-set-key (kbd "M-x")   'counsel-M-x) comment out to use M-x not installed pc
+(global-set-key (kbd "M-x")   'counsel-M-x) ;; comment out to use M-x not installed pc
 (global-set-key (kbd "M-y")   'counsel-yank-pop)
 (global-set-key (kbd "C-.")  'counsel-projectile-ag)
 
@@ -17,4 +17,4 @@
 (global-set-key (kbd "C->")  'helm-ag-project-root)
 
 ;; google
-(global-set-key (kbd "C-x C-g") 'google-this)
+(global-set-key (kbd "C-M-g") 'google-this)

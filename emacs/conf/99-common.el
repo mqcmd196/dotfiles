@@ -18,4 +18,7 @@
 ;; google
 (require 'google-this)
 
+;; generic-x
+(require 'generic-x)
+
 (put 'upcase-region 'disabled nil)
