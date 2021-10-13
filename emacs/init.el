@@ -38,11 +38,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
- '(anzu-replace-highlight ((t (:inherit query-replace :background "black" :strike-through "red" :weight bold))))
+ '(anzu-replace-highlight ((t (:inherit query-replace))))
  '(doom-modeline-project-dir ((t (:inherit bold :foreground "dodger blue"))))
  '(doom-modeline-project-parent-dir ((t (:inherit bold :foreground "royal blue"))))
  '(font-lock-function-name-face ((t (:foreground "cyan"))))
  '(minibuffer-prompt ((t (:foreground "color-33"))))
+ '(query-replace ((t (:foreground "dark red" :strike-through t :weight bold))))
  '(term-color-blue ((t (:background "deep sky blue" :foreground "deep sky blue")))))
 
 (unless load-file-name
