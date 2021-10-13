@@ -11,4 +11,4 @@
 ;; lsp-ui
 (require 'lsp-ui)
 (setq lsp-ui-imenu-enable t)
-(setq lsp-headerline-breadcrumb-enable t)
+(setq lsp-headerline-breadcrumb-enable nil)
