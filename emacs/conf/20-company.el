@@ -1,8 +1,8 @@
 ;; company, completion tool
 (require 'company)
 (global-company-mode t)
-(setq company-idle-delay 0.500)
-(setq company-async-timeout 3.0)
+(setq company-idle-delay 0.01)
+(setq company-async-timeout 0.05)
 (setq company-minimum-prefix-length 1)
 (setq company-selection-wrap-around t)
 (setq completion-ignore-case t)

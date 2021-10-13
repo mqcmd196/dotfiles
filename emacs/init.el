@@ -28,7 +28,7 @@
  '(ag-highlight-search t)
  '(ag-reuse-buffers 'nil)
  '(ag-reuse-window 'nil)
- '(flycheck-checker-error-threshold 1000)
+ '(flycheck-checker-error-threshold 100000)
  '(init-loader-show-log-after-init 'error-only)
  '(package-selected-packages
    '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
