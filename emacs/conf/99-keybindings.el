@@ -8,6 +8,11 @@
 (global-set-key (kbd "M-%")   'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
+;; company
+(define-key company-active-map [tab] 'company-complete-selection)
+(define-key company-active-map (kbd "C-h") nil)
+(define-key company-active-map (kbd "C-!") 'company-show-doc-buffer)
+
 ;; counsel
 (global-set-key (kbd "M-x")   'counsel-M-x) ;; comment out to use M-x not installed pc
 (global-set-key (kbd "M-y")   'counsel-yank-pop)
