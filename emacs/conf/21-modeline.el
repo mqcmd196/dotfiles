@@ -18,5 +18,5 @@
 (setq doom-modeline-workspace-name nil)
 (setq doom-modeline-persp-icon t)
 (setq doom-modeline-irc-stylize 'identity)
-(setq doom-modeline-height 1)
+(setq doom-modeline-height 20)
 (doom-modeline-mode 1)
