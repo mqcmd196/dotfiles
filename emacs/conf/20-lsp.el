@@ -7,6 +7,8 @@
 (setq lsp-idle-delay 0.500)
 (setq lsp-log-io nil) ; if set to true can cause a performance hit
 (setq lsp-diagnostic-provider :flycheck) ; use flycheck instead of flymake to improve the performance
+(setq lsp-signature-auto-activate t)
+(setq lsp-signature-doc-lines 1) ; restrict lines of lsp-signature doc showed at the bottom
 
 ;; lsp-ui
 (require 'lsp-ui)

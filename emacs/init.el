@@ -31,7 +31,8 @@
  '(flycheck-checker-error-threshold 100000)
  '(init-loader-show-log-after-init 'error-only)
  '(package-selected-packages
-   '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode)))
+   '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode))
+ '(safe-local-variable-values '((encoding . utf-8))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -41,9 +42,11 @@
  '(anzu-replace-highlight ((t (:inherit query-replace))))
  '(doom-modeline-project-dir ((t (:inherit bold :foreground "dodger blue"))))
  '(doom-modeline-project-parent-dir ((t (:inherit bold :foreground "royal blue"))))
+ '(error ((t (:foreground "OrangeRed4" :weight bold))))
  '(font-lock-function-name-face ((t (:foreground "cyan"))))
  '(minibuffer-prompt ((t (:foreground "color-33"))))
  '(query-replace ((t (:foreground "dark red" :strike-through t :weight bold))))
+ '(success ((t (:foreground "lime green" :weight bold))))
  '(term-color-blue ((t (:background "deep sky blue" :foreground "deep sky blue")))))
 
 (unless load-file-name
