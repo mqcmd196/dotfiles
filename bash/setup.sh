@@ -22,8 +22,18 @@ copy_bash_config(){
     fi
 }
 
+copy_oh_my_bash(){
+    echo "Copying oh-my-bash..."
+    ln -sf $BASH_SETUP_CONFIGDIR/oh-my-bash $BASH_HOME_CONFIGDIR
+    echo "Installing fonts..."
+    sudo apt install fonts-powerline 
+    ln -sf $BASH_SETUP_CONFIGDIR/fonts $BASH_HOME_CONFIGDIR
+    $BASH_HOME_CONFIGDIR/fonts/install.sh
+}
+
 main(){
     copy_bash_config
+    copy_oh_my_bash
 }
 
 main

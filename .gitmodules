@@ -1,3 +1,9 @@
 [submodule "emacs/ccls"]
 	path = emacs/ccls
 	url = https://github.com/MaskRay/ccls.git
+[submodule "bash/oh-my-bash"]
+	path = bash/oh-my-bash
+	url = https://github.com/ohmybash/oh-my-bash.git
+[submodule "bash/fonts"]
+	path = bash/fonts
+	url = https://github.com/powerline/fonts
