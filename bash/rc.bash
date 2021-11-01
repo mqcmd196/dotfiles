@@ -3,16 +3,16 @@
 export OSH=$HOME/.bash.d/oh-my-bash
 OSH_THEME="agnoster"
 completions=(
-    git
-    composer
-    ssh
+    # git
+    # composer
+    # ssh
 )
 aliases=(
   general
 )
 plugins=(
-  git
-  bashmarks
+  # git
+  # bashmarks
 )
 source $OSH/oh-my-bash.sh
 # ################################# END OH-MY-BASH CONFIGS ###############################
@@ -28,15 +28,6 @@ _replace_by_history() {
  READLINE_POINT=${#l}
 }
 bind -x '"\C-r": _replace_by_history'
-
-# share history on tmux
-# function share_history {
-#     history -a
-#     history -c
-#     history -r
-# }
-# PROMPT_COMMAND='share_history'
-# shopt -u histappend
 
 # use emacs27 as default
 if (type emacs27 > /dev/null 2>&1); then
