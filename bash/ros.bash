@@ -14,6 +14,10 @@ init_ros_bash(){
         bind -x '"\C-\M-r": _ross'
     fi
 }
+
+ros_workspace_init(){
+    source /opt/ros/melodic/setup.bash # melodic only
+    catkin config -a --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 }
 
 ros_workspace_set(){
