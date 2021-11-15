@@ -10,7 +10,10 @@ init_ros_bash(){
     local jobs=$(($cpu_cores / 2))
     alias catkinb="catkin b -j$jobs -p$jobs -c"
     alias catkinbt="catkin bt -j$jobs -p$jobs -c"
-    bind -x '"\C-\M-r": _ross'
+    if [ -t 1 ]; then
+        bind -x '"\C-\M-r": _ross'
+    fi
+}
 }
 
 ros_workspace_set(){
