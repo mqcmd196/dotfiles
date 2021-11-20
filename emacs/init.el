@@ -31,7 +31,7 @@
  '(flycheck-checker-error-threshold 100000)
  '(init-loader-show-log-after-init 'error-only)
  '(package-selected-packages
-   '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode))
+   '(cmake-mode magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode))
  '(safe-local-variable-values '((encoding . utf-8))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

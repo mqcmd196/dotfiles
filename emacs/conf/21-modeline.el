@@ -3,8 +3,9 @@
 )
 
 (require 'all-the-icons)
-
 (require 'doom-modeline)
+(require 'projectile)
+;; (setq doom-modeline-project-detection 'auto)
 (setq doom-modeline-project-detection 'projectile)
 (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
 (setq doom-modeline-buffer-encoding nil)
