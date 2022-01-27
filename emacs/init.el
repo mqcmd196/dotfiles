@@ -31,12 +31,8 @@
  '(flycheck-checker-error-threshold 100000)
  '(init-loader-show-log-after-init 'error-only)
  '(package-selected-packages
-   '(magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode))
- '(safe-local-variable-values
-   '((lsp-python-ms-extra-paths .
-                                ["/home/obinata/coral_ws/src/coral_usb_ros/python"])
-     (lsp-python-ms-python-executable . "/usr/bin/python3")
-     (encoding . utf-8))))
+   '(cmake-mode magit ccls use-package company lsp-ui lsp-mode gnu-elpa-keyring-update yaml-mode))
+ '(safe-local-variable-values '((encoding . utf-8))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
