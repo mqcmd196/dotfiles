@@ -125,6 +125,7 @@ BASH_PERSONAL_CONFIGDIR=$HOME/.bash.d
 export DOTFILES_DIR
 # for showing git branch at the current directory
 if [ -f /etc/bash_completion.d/git-prompt ]; then
+
     export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \[\033[00m\]$ '
 else
     export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -155,9 +156,11 @@ fi
 alias e='emacs'
 
 # sources the files at BASH_PERSONAL_CONFIGDIR
-for file in `\find ${BASH_PERSONAL_CONFIGDIR} -maxdepth 1 -type f,l`; do
-    source $file
-done
+if [ -d $BASH_PERSONAL_CONFIGDIR ]; then
+    for file in `\find ${BASH_PERSONAL_CONFIGDIR} -maxdepth 1 -type f,l`; do
+	source $file
+    done
+fi
 
 unset BASH_PERSONAL_CONFIGDIR
 # ################################# END PERSONAL CONFIGS #################################
