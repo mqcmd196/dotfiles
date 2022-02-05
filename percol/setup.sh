@@ -8,7 +8,7 @@ install_percol(){
     if [ "$(uname)" == 'Darwin' ]; then
         pip2 install percol
     elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
-        sudo pip2 install percol
+        sudo pip3 install percol
     else
         echo "Not supported OS"
         exit 1
