@@ -6,7 +6,7 @@ if [ "$(uname)" == 'Darwin' ]; then
 fi
 
 init_ros_bash(){
-    local cpu_cores=$(python -c 'import multiprocessing as m; print(m.cpu_count());')
+    local cpu_cores=$(python3 -c 'import multiprocessing as m; print(m.cpu_count());')
     local jobs=$(($cpu_cores / 2))
     alias catkinb="catkin b -j$jobs -p$jobs -c"
     alias catkinbt="catkin bt -j$jobs -p$jobs -c"
@@ -16,7 +16,11 @@ init_ros_bash(){
 }
 
 ros_workspace_init(){
-    source /opt/ros/melodic/setup.bash # melodic only
+    if [ -e "/opt/ros/melodic/setup.bash" ]; then
+        source /opt/ros/melodic/setup.bash # melodic only
+    elif [ -e "/opt/ros/noetic/setup.bash" ]; then
+        source /opt/ros/noetic/setup.bash
+    fi
     catkin config -a --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 }
 

@@ -46,13 +46,14 @@ install_ccls(){
             cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=../clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04 -DUSE_SYSTEM_RAPIDJSON=OFF
             cmake --build Release
             cd -
-	elif [ $(lsb_release -r | awk '{print $2}') == '20.04' ]; then
-	    sudo apt-get install clang libclang-10-dev
-	    cd ccls
-	    cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release \
-		  -DCMAKE_PREFIX_PATH=/usr/lib/llvm-10 \
-		  -DLLVM_INCLUDE_DIR=/usr/lib/llvm-10/include \
-		  -DLLVM_BUILD_INCLUDE_DIR=/usr/include/llvm-10/
+	      elif [ $(lsb_release -r | awk '{print $2}') == '20.04' ]; then
+	          sudo apt-get install clang libclang-10-dev
+	          cd ccls
+	          cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release \
+		              -DCMAKE_PREFIX_PATH=/usr/lib/llvm-10 \
+		              -DLLVM_INCLUDE_DIR=/usr/lib/llvm-10/include \
+		              -DLLVM_BUILD_INCLUDE_DIR=/usr/include/llvm-10/
+            cmake --build Release
         fi
     fi
     cd $ppwd
