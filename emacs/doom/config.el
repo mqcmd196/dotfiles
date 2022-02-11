@@ -62,6 +62,7 @@
 (map! "\C-x\C-b" 'buffer-menu)
 (global-set-key (kbd "M-%") 'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
+(global-set-key (kbd "C->") 'helm-ag-project-root)
 
 ;; History settings
 (setq backup-directory-alist '((".*" . "~/.ehist")))

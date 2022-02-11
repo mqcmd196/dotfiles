@@ -34,7 +34,7 @@ copy_emacs_config(){
 
 install_doom_emacs(){
     echo "Installing sysdeps for Doom Emacs..."
-    sudo apt install cmigemo ripgrep fd-find
+    sudo apt install cmigemo ripgrep fd-find silversearcher-ag
     echo "Installing Doom Emacs..."
     git clone --depth 1 https://github.com/hlissner/doom-emacs.git ~/.emacs.d/
     ~/.emacs.d/bin/doom doctor
