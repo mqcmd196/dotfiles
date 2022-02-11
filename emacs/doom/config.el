@@ -60,6 +60,7 @@
 ;; Key bindings
 (map! "\C-h" 'backward-delete-char)
 (map! "\C-x\C-b" 'buffer-menu)
+(global-set-key (kbd "C-M-g") 'google-this)
 (global-set-key (kbd "M-%") 'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 (global-set-key (kbd "C->") 'helm-ag-project-root)

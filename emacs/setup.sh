@@ -44,6 +44,7 @@ install_doom_emacs(){
 
 copy_doom_config(){
     echo "Copying the doom emacs config files"
+    mkdir $DOOM_HOME_CONFIGDIR
     for file in `\find ${EMACS_SETUP_CONFIGDIR}/doom -maxdepth 1 -type f`; do
         ln -sf $file $DOOM_HOME_CONFIGDIR
     done
