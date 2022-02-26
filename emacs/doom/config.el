@@ -72,3 +72,35 @@
  ;; Show emacs-shell on the same window
 (add-to-list 'display-buffer-alist
              '("^\\*shell\\*$" . (display-buffer-same-window)))
+
+;; use ccls as default
+(after! ccls
+  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
+  (set-lsp-priority! 'ccls 2)) ; optional as ccls is the default in Doom
+
+;; python version
+(after! python
+  (setq python-shell-interpreter "python"))
+
+;; disable file watchers because sometimes it is so heavy
+(after! lsp-mode
+  (setq lsp-lens-enable nil)
+  (setq! lsp-enable-file-watchers nil)
+  (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil))
+
+;; flycheck after saved
+(setq flycheck-check-syntax-automatically '(save mode-enable))
+
+;; for ROS
+(when (string= (getenv "ROS_DISTRO") "melodic")
+  (setq rosdistro (getenv "ROS_DISTRO"))
+  (add-to-list 'load-path (format "/opt/ros/%s/share/emacs/site-lisp" (or rosdistro "melodic")))
+  (require 'rosemacs)
+  (invoke-rosemacs)
+  (global-set-key "\C-x\C-r" ros-keymap)
+
+  (add-to-list 'load-path "/opt/ros/melodic/share/euslime")
+  (require 'euslime-config)
+  (setq inferior-euslisp-program "roseus")
+  (slime-setup '(slime-fancy slime-banner slime-repl-ansi-color))
+)
