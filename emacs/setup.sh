@@ -1,6 +1,7 @@
 #!/bin/bash
 EMACS_SETUP_CONFIGDIR=$(cd $(dirname $0);pwd)
 EMACS_HOME_CONFIGDIR=$HOME/.emacs.d
+DOOM_HOME_CONFIGDIR=$HOME/.doom.d
 EMACS=emacs27
 
 # install emacs
@@ -31,15 +32,33 @@ copy_emacs_config(){
     ln -sf $EMACS_SETUP_CONFIGDIR/conf $EMACS_HOME_CONFIGDIR
 }
 
+install_doom_emacs(){
+    echo "Installing sysdeps for Doom Emacs..."
+    sudo apt install cmigemo ripgrep fd-find silversearcher-ag
+    echo "Installing Doom Emacs..."
+    git clone --depth 1 https://github.com/hlissner/doom-emacs.git ~/.emacs.d/
+    ~/.emacs.d/bin/doom doctor
+    ~/.emacs.d/bin/doom install
+    ~/.emacs.d/bin/doom sync
+}
+
+copy_doom_config(){
+    echo "Copying the doom emacs config files"
+    mkdir $DOOM_HOME_CONFIGDIR
+    for file in `\find ${EMACS_SETUP_CONFIGDIR}/doom -maxdepth 1 -type f`; do
+        ln -sf $file $DOOM_HOME_CONFIGDIR
+    done
+}
+
 install_ccls(){
     echo "Installing the ccls..."
     ppwd=$(pwd)
     echo "Go to ccls path..."
     cd $EMACS_SETUP_CONFIGDIR
     git submodule update --init --recursive
-    echo "Building the ccls..."
     if [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
         if [ $(lsb_release -r | awk '{print $2}') == '18.04' ]; then
+            echo "Building the ccls..."
             wget -c http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
             tar xf clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
             cd ccls
@@ -47,13 +66,7 @@ install_ccls(){
             cmake --build Release
             cd -
 	      elif [ $(lsb_release -r | awk '{print $2}') == '20.04' ]; then
-	          sudo apt-get install clang libclang-10-dev
-	          cd ccls
-	          cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release \
-		              -DCMAKE_PREFIX_PATH=/usr/lib/llvm-10 \
-		              -DLLVM_INCLUDE_DIR=/usr/lib/llvm-10/include \
-		              -DLLVM_BUILD_INCLUDE_DIR=/usr/include/llvm-10/
-            cmake --build Release
+	          sudo apt-get install clang libclang-10-dev ccls
         fi
     fi
     cd $ppwd
@@ -63,9 +76,9 @@ main(){
     if !(type emacs27 > /dev/null 2>&1); then
         install_emacs
     fi
-    install_yaml_mode
     install_ccls
-    copy_emacs_config
+    install_doom_emacs
+    copy_doom_config
 }
 
 main
