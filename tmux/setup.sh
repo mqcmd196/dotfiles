@@ -1,18 +1,11 @@
 #!/bin/bash
 TMUX_SETUP_CONFIGDIR=$(cd $(dirname $0);pwd)
+DOTFILES_ROOTDIR=../$TMUX_SETUP_CONFIGDIR
 TMUX_HOME_CONFIGDIR=$HOME
 
 # install tmux
 install_tmux(){
-    echo "Installing the tmux..."
-    if [ "$(uname)" == 'Darwin' ]; then
-        brew install tmux
-    elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
-        sudo apt install tmux
-    else
-        echo "Not supported OS"
-        exit 1
-    fi
+    sudo $DOTFILES_ROOTDIR/install_sysdeps -p tmux -y $DOTFILES_ROOTDIR/packages.yaml
 }
 
 copy_tmux_config(){
@@ -21,9 +14,7 @@ copy_tmux_config(){
 }
 
 main(){
-    if !(type tmux > /dev/null 2>&1); then
-        install_tmux
-    fi
+    install_tmux
     copy_tmux_config
 }
 
