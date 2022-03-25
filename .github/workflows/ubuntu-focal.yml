@@ -10,4 +10,4 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v2
       - name: build
-        run: ./test/fulltest_docker.sh ./test/docker/Dockerfile.ubuntu:focal
+        run: docker build -f ./test/docker/Dockerfile.ubuntu:focal .
