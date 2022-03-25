@@ -1,6 +1,3 @@
-[submodule "emacs/ccls"]
-	path = emacs/ccls
-	url = https://github.com/MaskRay/ccls.git
 [submodule "bash/oh-my-bash"]
 	path = bash/oh-my-bash
 	url = https://github.com/mqcmd196/oh-my-bash.git
