@@ -1,0 +1,91 @@
+ccls:
+  ubuntu:
+    bionic:
+      snap: ccls
+    focal:
+      apt: ccls
+  debian:
+    bullseye:
+      apt: ccls
+cmigemo:
+  ubuntu:
+    bionic:
+      apt: cmigemo
+    focal:
+      apt: cmigemo
+  debian:
+    bullseye:
+      apt: cmigemo
+emacs27:
+  ubuntu:
+    bionic:
+      apt:
+        name: emacs27
+        add-repository: "ppa:kelleyk/emacs"
+    focal:
+      apt:
+        name: emacs27
+        add-repository: "ppa:kelleyk/emacs"
+  debian:
+    bullseye:
+      apt:
+        name: emacs27
+        add-repository: "ppa:kelleyk/emacs"
+fd-find:
+  ubuntu:
+    focal:
+      apt: fd-find
+  debian:
+    bullseye:
+      apt: fd-find
+fonts-powerline:
+  ubuntu:
+    bionic:
+      apt: fonts-powerline
+    focal:
+      apt: fonts-powerline
+  debian:
+    bullseye:
+      apt: fonts-powerline
+git: # Git 2.23+ for doom emacs dependency
+  ubuntu:
+    bionic:
+      apt:
+        name: git
+        add-repository: "ppa:git-core/ppa"
+percol:
+  ubuntu:
+    bionic:
+      pip3: percol
+    focal:
+      pip3: percol
+  debian:
+    bullseye:
+      pip3: percol
+ripgrep:
+  ubuntu:
+    bionic:
+      snap: ripgrep
+    focal:
+      apt: ripgrep
+  debian:
+    bullseye:
+      apt: ripgrep
+silversearcher-ag:
+  ubuntu:
+    bionic:
+      apt: silversearcher-ag
+    focal:
+      apt: silversearcher-ag
+  debian:
+    bullseye:
+      apt: silversearcher-ag
+tmux:
+  ubuntu:
+    bionic:
+      apt: tmux
+    focal:
+      apt: tmux
+  debian:
+    bullseye:
+      apt: tmux

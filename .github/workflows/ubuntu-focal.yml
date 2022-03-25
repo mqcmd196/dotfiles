@@ -1,0 +1,13 @@
+name: ubuntu-focal
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: build
+
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v2
+      - name: build
+        run: ./test/fulltest_docker.sh ./test/docker/Dockerfile.ubuntu:focal
