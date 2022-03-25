@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt update && apt install sudo -y -qq
+RUN apt update -qq && apt install sudo -y -qq
 
 # Add non root user
 ARG USERNAME=user
@@ -16,4 +16,4 @@ USER $USERNAME
 
 WORKDIR /home/$USERNAME/dotfiles
 COPY ./ .
-RUN ./test/docker/entrypoint_deb.sh
+RUN ./test/docker/run_deb
