@@ -14,11 +14,14 @@ class SysdepsInstaller():
         self.yaml_dic = yaml_dic
         print("Getting distribution and release...")
         if platform.system() == "Linux":
-            self.system_info = tuple(map(lambda x: x.lower(), distro.linux_distribution()))
+            if int(platform.python_version_tuple()[1]) >= 8:
+                self.system_info = tuple(map(lambda x: x.lower(), distro.linux_distribution()))
+            else:
+                self.system_info = tuple(map(lambda x: x.lower(), platform.dist()))
             self.distro = self.system_info[0]
             self.codename = self.system_info[2]
             print(f"{Color.YELLOW}Distribution {self.system_info[0]} {self.system_info[2]}{Color.COLOR_DEFAULT}")
-            # system_info should be the list like ['ubuntu', '20.04', 'focal']
+            # system_info should be the tuple like ['ubuntu', '20.04', 'focal']
         else:
             raise RuntimeError("Not supported platform {}".format(platform.system))
         self.apt_cache = apt.cache.Cache()
