@@ -16,4 +16,4 @@ USER $USERNAME
 
 WORKDIR /home/$USERNAME/dotfiles
 COPY ./ .
-ENTRYPOINT ["./test/docker/entrypoint_deb.sh"]
+RUN ./test/docker/entrypoint_deb.sh
