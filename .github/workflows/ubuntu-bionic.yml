@@ -10,4 +10,4 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v2
       - name: build
-        uses: ./.github/actions/ubuntu-bionic
+        run: ./test/fulltest_docker.sh ./test/docker/Dockerfile.ubuntu:bionic
