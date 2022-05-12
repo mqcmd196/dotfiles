@@ -151,7 +151,7 @@ shopt -s histverify
 # save history with newlines instead of ; where possible
 shopt -s lithist
 # Record each line as it gets issued
-_omb_util_add_prompt_command 'history -a'
+PROMPT_COMMAND='history -a'
 # Huge history. Doesn't appear to slow things down, so why not?
 HISTSIZE=500000
 HISTFILESIZE=100000
