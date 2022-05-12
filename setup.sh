@@ -13,6 +13,8 @@ TMUX_CONFIGDIR="${SETUP_CONFIGDIR}/tmux"
 
 GIT_CONFIGDIR="${SETUP_CONFIGDIR}/git"
 
+GDB_CONFIGDIR="${SETUP_CONFIGDIR}/gdb"
+
 # editor settings
 setup_editor(){
     echo "Setting up the editor configs..."
@@ -50,12 +52,20 @@ setup_git(){
     echo "Finished to set the git configs"
 }
 
+# gdb settings
+setup_gdb(){
+    echo "Setting up the gdb configs..."
+    $GDB_CONFIGDIR/setup.sh
+    echo "Finished to set the gdb configs"
+}
+
 main(){
     setup_editor
     setup_percol
     setup_shell
     setup_tmux
     setup_git
+    setup_gdb
 }
 
 main

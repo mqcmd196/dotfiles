@@ -8,3 +8,6 @@
 [submodule "bash/fonts"]
 	path = bash/fonts
 	url = https://github.com/powerline/fonts
+[submodule "gdb/gdb-dashboard"]
+	path = gdb/gdb-dashboard
+	url = https://github.com/cyrus-and/gdb-dashboard.git
