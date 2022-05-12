@@ -12,13 +12,6 @@ esac
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -139,14 +132,37 @@ _replace_by_history() {
 }
 bind -x '"\C-r": _replace_by_history'
 
-# share history on tmux
-function share_history {
-    history -a
-    history -c
-    history -r
-}
-PROMPT_COMMAND='share_history'
-shopt -u histappend
+# history
+shopt -s histappend # append to bash_history if Terminal.app quits
+## Command history configuration
+if [ -z "$HISTFILE" ]; then
+  HISTFILE=$HOME/.bash_history
+fi
+# some moderate history controls taken from sensible.bash
+## SANE HISTORY DEFAULTS ##
+# Append to the history file, don't overwrite it
+shopt -s histappend
+# Save multi-line commands as one command
+shopt -s cmdhist
+# use readline on history
+shopt -s histreedit
+# load history line onto readline buffer for editing
+shopt -s histverify
+# save history with newlines instead of ; where possible
+shopt -s lithist
+# Record each line as it gets issued
+_omb_util_add_prompt_command 'history -a'
+# Huge history. Doesn't appear to slow things down, so why not?
+HISTSIZE=500000
+HISTFILESIZE=100000
+# Avoid duplicate entries
+HISTCONTROL="erasedups:ignoreboth"
+# Don't record some commands
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+# Use standard ISO 8601 timestamp
+# %F equivalent to %Y-%m-%d
+# %T equivalent to %H:%M:%S (24-hours format)
+HISTTIMEFORMAT='%F %T '
 
 # use emacs27 as default
 if (type emacs27 > /dev/null 2>&1); then
