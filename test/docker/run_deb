@@ -7,7 +7,6 @@ sudo apt install -y -qq --no-install-recommends \
     python3-apt \
     python3-pip \
     python3-distro \
-    snapd \
     && sudo rm -rf /var/lib/apt/lists/*
 sudo pip3 install pyyaml
 

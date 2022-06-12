@@ -1,12 +1,19 @@
 ccls:
   ubuntu:
-    bionic:
-      snap: ccls
     focal:
       apt: ccls
   debian:
     bullseye:
       apt: ccls
+clangd:
+  ubuntu:
+    bionic:
+      apt: clangd-10
+    focal:
+      apt: clangd-11
+  debian:
+    bullseye:
+      apt: clangd-11
 cmigemo:
   ubuntu:
     bionic:
@@ -64,8 +71,6 @@ percol:
       pip3: percol
 ripgrep:
   ubuntu:
-    bionic:
-      snap: ripgrep
     focal:
       apt: ripgrep
   debian:
