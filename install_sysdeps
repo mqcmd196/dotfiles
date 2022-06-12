@@ -24,15 +24,18 @@ class SysdepsInstaller():
             # system_info should be the tuple like ['ubuntu', '20.04', 'focal']
         else:
             raise RuntimeError("Not supported platform {}".format(platform.system))
-        self.apt_cache = apt.cache.Cache()
 
-        print("Initializing apt...")
+        self.apt_cache_update();
+
+    def apt_cache_update(self):
+        self.apt_cache = apt.cache.Cache()
         self.apt_cache.update()
         self.apt_cache.open()
 
     def apt_install(self, body):
         if type(body) is not str:
-            result = subprocess.run(["apt-add-repository", "add_repo", "-y", "-u", body.get('add-repository')])
+            result1 = subprocess.run(["apt-add-repository", "-y", body.get('add-repository')])
+            self.apt_cache_update()
             pkg_name = body.get('name')
         else:
             pkg_name = body
