@@ -5,7 +5,7 @@ TMUX_HOME_CONFIGDIR=$HOME
 
 # install tmux
 install_tmux(){
-    sudo $DOTFILES_ROOTDIR/install_sysdeps -p tmux -y $DOTFILES_ROOTDIR/packages.yaml
+    sudo -E $DOTFILES_ROOTDIR/install_sysdeps -p tmux -y $DOTFILES_ROOTDIR/packages.yaml
 }
 
 copy_tmux_config(){

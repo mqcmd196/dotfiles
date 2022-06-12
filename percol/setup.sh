@@ -6,7 +6,7 @@ PERCOL_HOME_CONFIGDIR=$HOME/.percol.d
 # install percol
 install_percol(){
     echo "Installing the percol..."
-    sudo $DOTFILES_ROOTDIR/install_sysdeps -r $PERCOL_SETUP_CONFIGDIR/required_pkgs.txt -y $DOTFILES_ROOTDIR/packages.yaml
+    sudo -E $DOTFILES_ROOTDIR/install_sysdeps -r $PERCOL_SETUP_CONFIGDIR/required_pkgs.txt -y $DOTFILES_ROOTDIR/packages.yaml
 }
 
 copy_percol_config(){

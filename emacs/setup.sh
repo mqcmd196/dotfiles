@@ -7,7 +7,7 @@ DOOM_HOME_CONFIGDIR=$HOME/.doom.d
 # install emacs
 install_sysdeps(){
     echo "Installing sysdeps for Doom Emacs..."
-    sudo $DOTFILES_ROOTDIR/install_sysdeps -r $EMACS_SETUP_CONFIGDIR/required_pkgs.txt -y $DOTFILES_ROOTDIR/packages.yaml
+    sudo -E $DOTFILES_ROOTDIR/install_sysdeps -r $EMACS_SETUP_CONFIGDIR/required_pkgs.txt -y $DOTFILES_ROOTDIR/packages.yaml
 }
 
 install_doom_emacs(){
