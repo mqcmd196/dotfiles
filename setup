@@ -1,4 +1,5 @@
 #!/bin/bash
+
 SETUP_CONFIGDIR=$(cd $(dirname $0);pwd)
 
 EMACS_CONFIGDIR="${SETUP_CONFIGDIR}/emacs"
