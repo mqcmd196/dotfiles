@@ -1,8 +1,0 @@
-.vscode/
-.dir-locals.el
-.ccls
-.ccls-root
-.DS_Store
-venv*/*
-*~
-'#*#'
