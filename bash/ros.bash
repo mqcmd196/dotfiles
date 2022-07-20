@@ -13,6 +13,7 @@ init_ros_bash(){
     if [ -t 1 ]; then
         bind -x '"\C-\M-r": _ross'
     fi
+    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}'
 }
 
 ros_workspace_init(){
