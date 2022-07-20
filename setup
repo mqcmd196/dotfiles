@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SETUP_CONFIGDIR=$(cd $(dirname $0);pwd)
+SETUP_CONFIGDIR=$(cd $(dirname -- $0);pwd)
 
 EMACS_CONFIGDIR="${SETUP_CONFIGDIR}/emacs"
 VIM_CONFIGDIR="${SETUP_CONFIGDIR}/vim"
@@ -15,6 +15,8 @@ TMUX_CONFIGDIR="${SETUP_CONFIGDIR}/tmux"
 GIT_CONFIGDIR="${SETUP_CONFIGDIR}/git"
 
 GDB_CONFIGDIR="${SETUP_CONFIGDIR}/gdb"
+
+DOCKER_CONFIGDIR="${SETUP_CONFIGDIR}/docker"
 
 # editor settings
 setup_editor(){
@@ -58,6 +60,13 @@ setup_gdb(){
     echo "Setting up the gdb configs..."
     $GDB_CONFIGDIR/setup.sh
     echo "Finished to set the gdb configs"
+}
+
+# docker settings
+setup_docker(){
+    echo "Setting up the docker configs..."
+    ln -sf $DOCKER_CONFIGDIR $HOME/.docker
+    echo "Finished to set the docker configs"
 }
 
 main(){
