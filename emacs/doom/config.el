@@ -73,9 +73,9 @@
 (add-to-list 'display-buffer-alist
              '("^\\*shell\\*$" . (display-buffer-same-window)))
 
-;; use clang as default
+;; use clangd as default
 (setq lsp-clients-clangd-args '("-j=3"
-			        "--background-index"
+				"--background-index"
 				"--clang-tidy"
 				"--completion-style=detailed"
 				"--header-insertion=never"
@@ -85,6 +85,12 @@
 ;; python version
 (after! python
   (setq python-shell-interpreter "python"))
+
+;; company
+(after! company-mode
+  (define-key! company-active-map [tab] 'company-complete-selection)
+  (define-key! company-active-map (kbd "M-n") 'company-select-next)
+  (define-key! company-active-map (kbd "M-p") 'company-select-previous))
 
 ;; disable file watchers because sometimes it is so heavy
 (after! lsp-mode
