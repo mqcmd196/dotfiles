@@ -73,10 +73,14 @@
 (add-to-list 'display-buffer-alist
              '("^\\*shell\\*$" . (display-buffer-same-window)))
 
-;; use ccls as default
-(after! ccls
-  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
-  (set-lsp-priority! 'ccls 2)) ; optional as ccls is the default in Doom
+;; use clang as default
+(setq lsp-clients-clangd-args '("-j=3"
+			        "--background-index"
+				"--clang-tidy"
+				"--completion-style=detailed"
+				"--header-insertion=never"
+				"--header-insertion-decorators=0"))
+(after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;; python version
 (after! python
