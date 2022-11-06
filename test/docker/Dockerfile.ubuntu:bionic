@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 
-RUN apt update -qq && apt install sudo software-properties-common -y -qq
+RUN apt update -qq && apt install sudo software-properties-common -y -qq && apt upgrade -y -qq
 
 # Add non root user
 ARG USERNAME=user

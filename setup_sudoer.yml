@@ -1,0 +1,9 @@
+- hosts: localhost
+  connection: local
+  roles:
+    - role: common # Common configs for sudoer and non-sudoer
+      tags: common
+    - role: emacs
+      tags: emacs
+    - role: bash
+      tags: bash

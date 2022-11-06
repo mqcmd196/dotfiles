@@ -1,0 +1,44 @@
+- name: Install fonts-powerline
+  apt:
+    name: fonts-powerline
+    state: present
+  become: yes
+
+- name: Create directory for bash configs
+  file:
+    path: "{{ ansible_env.HOME }}/.bash.d"
+    state: directory
+
+- name: Copy local.bash if needs
+  copy:
+    src: "{{ role_path }}/config/local.bash"
+    dest: "{{ ansible_env.HOME }}/.bash.d/local.bash"
+    force: no
+
+- name: Create symbolic link for ros bash config
+  file:
+    src: "{{ role_path }}/config/ros.bash"
+    dest: "{{ ansible_env.HOME }}/.bash.d/ros.bash"
+    state: link
+
+- name: Create .bashrc symbolic link
+  file:
+    src: "{{ role_path }}/config/rc.bash"
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    state: link
+
+- name: Create symbolic link for oh-my-bash
+  file:
+    src: "{{ role_path }}/modules/oh-my-bash"
+    dest: "{{ ansible_env.HOME }}/.bash.d/oh-my-bash"
+    state: link
+
+- name: Create symbolic link for bash fonts
+  file:
+    src: "{{ role_path }}/modules/fonts"
+    dest: "{{ ansible_env.HOME }}/.bash.d/fonts"
+    state: link
+
+- name: Setup bash fonts
+  shell:
+    cmd: "{{ ansible_env.HOME }}/.bash.d/fonts/install.sh"

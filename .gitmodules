@@ -1,10 +1,9 @@
-[submodule "bash/oh-my-bash"]
-	path = bash/oh-my-bash
+[submodule "roles/common/gdb/gdb-dashboard"]
+	path = roles/common/gdb/gdb-dashboard
+	url = https://github.com/cyrus-and/gdb-dashboard
+[submodule "roles/bash/modules/oh-my-bash"]
+	path = roles/bash/modules/oh-my-bash
 	url = https://github.com/mqcmd196/oh-my-bash.git
-	branch = prompt_feature
-[submodule "bash/fonts"]
-	path = bash/fonts
+[submodule "roles/bash/modules/fonts"]
+	path = roles/bash/modules/fonts
 	url = https://github.com/powerline/fonts
-[submodule "gdb/gdb-dashboard"]
-	path = gdb/gdb-dashboard
-	url = https://github.com/cyrus-and/gdb-dashboard.git
