@@ -4,8 +4,10 @@
     repo: "ppa:kelleyk/emacs"
     update_cache: yes
   become: yes
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
 
-- name: Add latest git repository when Ubuntu 18.04
+- name: Add latest git repository
   apt_repository:
     repo: "ppa:git-core/ppa"
     update_cache: yes
@@ -15,17 +17,92 @@
     - ansible_facts['distribution_major_version'] == "18"
 
 # Install apt packages
-- name: Install apt packages for doom emacs
+- name: Install emacs27 for Ubuntu
   apt:
-    name: ['emacs27', 'cmigemo', 'ripgrep', 'fd-find', 'silversearcher-ag', 'clangd-11']
+    name: emacs27
     state: present
   become: yes
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+
+- name: Install emacs27 for Debian Bullseye
+  apt:
+    name: emacs
+    state: present
+  become: yes
+  when:
+    - ansible_facts['distribution'] == "Debian"
+
+- name: Install common packages for emacs27
+  apt:
+    name: ['cmigemo', 'silversearcher-ag']
+    state: present
+  become: yes
+
+- name: Install common packages for emacs27 in latest OS
+  apt:
+    name: ['ripgrep', 'fd-find', 'clangd-11']
+    state: present
+  become: yes
+  when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" )
+    or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
+
+- name: Install common packages for emacs27 in old OS
+  apt:
+    name: clangd-10
+    state: present
+  become: yes
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['distribution_major_version'] == "18"
 
 - name: Install latest git with apt
   apt:
     name: git
     state: latest
   become: yes
+
+# Install pip packages
+- name: Install cmake language server
+  pip:
+    executable: pip3
+    name: cmake-language-server
+  become: yes
+
+# Download and install packages not distributed as apt packages
+# ripgrep
+- name: Download ripgrep .deb
+  get_url:
+    url: https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+    dest: "/tmp/ripgrep_11.0.2_amd64.deb"
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['distribution_major_version'] == "18"
+
+- name: Install ripgrep .deb
+  apt:
+    deb: "/tmp/ripgrep_11.0.2_amd64.deb"
+  become: yes
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['distribution_major_version'] == "18"
+
+# fdfind
+- name: Download fd-find .deb
+  get_url:
+    url: https://github.com/sharkdp/fd/releases/download/v7.4.0/fd_7.4.0_amd64.deb
+    dest: "/tmp/fd_7.4.0_amd64.deb"
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['distribution_major_version'] == "18"
+
+- name: Install fd-find .deb
+  apt:
+    deb: "/tmp/fd_7.4.0_amd64.deb"
+  become: yes
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['distribution_major_version'] == "18"
 
 # Setup Doom Emacs
 - name: Git clone Doom Emacs

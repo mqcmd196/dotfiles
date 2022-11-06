@@ -1,6 +1,18 @@
 FROM debian:bullseye
 
-RUN apt update -qq && apt install sudo software-properties-common -y -qq && apt upgrade -y -qq
+# For manage user
+RUN apt update -qq && \
+    apt upgrade -y -qq && \
+    apt install -y -qq --no-install-recommends sudo software-properties-common
+
+# install prerequisites
+RUN apt install -y -qq --no-install-recommends \
+    git \
+    make \
+    ansible \
+    python3-pip \
+    python3-setuptools \
+    gnupg
 
 # Add non root user
 ARG USERNAME=user
