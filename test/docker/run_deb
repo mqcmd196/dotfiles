@@ -2,13 +2,6 @@
 
 set -e
 
-sudo apt update -qq && sudo apt upgrade -y -qq
-sudo apt install -y -qq --no-install-recommends \
-    git \
-    make \
-    ansible \
-    python3-pip
-
 make sudoer
 ./test/test
 
