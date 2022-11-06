@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 sudo apt update -qq && sudo apt upgrade -y -qq
 sudo apt install -y -qq --no-install-recommends \
     git \
