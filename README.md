@@ -1,5 +1,5 @@
 # Debian/Ubuntu Settings for mqcmd196
-![Sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/config.yml/badge.svg?branch=master)
+![sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/sudoer.yml/badge.svg?branch=master) ![non-sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/non-sudoer.yml/badge.svg?branch=master)
 ## Supported OS
 - Debian 11 (bullseye)
 - Ubuntu 18.04 (bionic beaver)
