@@ -17,15 +17,8 @@
 # Install apt packages
 - name: Install apt packages for doom emacs
   apt:
-    name: "{{ item }}"
+    name: ['emacs27', 'cmigemo', 'ripgrep', 'fd-find', 'silversearcher-ag', 'clangd-11']
     state: present
-  with_items:
-    - emacs27
-    - cmigemo
-    - ripgrep
-    - fd-find
-    - silversearcher-ag
-    - clangd-11
   become: yes
 
 - name: Install latest git with apt
@@ -52,4 +45,4 @@
   vars:
     doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
   shell:
-    cmd: "{{ doom }} doctor && {{ doom }} install --force && {{ doom }} sync"
+    cmd: "{{ doom }} install --force && {{ doom }} sync"

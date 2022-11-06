@@ -26,6 +26,7 @@
     src: "{{ role_path }}/config/rc.bash"
     dest: "{{ ansible_env.HOME }}/.bashrc"
     state: link
+    force: yes
 
 - name: Create symbolic link for oh-my-bash
   file:
