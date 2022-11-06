@@ -1,4 +1,4 @@
-name: Sudoer
+name: sudoer
 on:
   push:
     branches:
