@@ -3,11 +3,13 @@
   apt_repository:
     repo: "ppa:kelleyk/emacs"
     update_cache: yes
+  become: yes
 
 - name: Add latest git repository when Ubuntu 18.04
   apt_repository:
     repo: "ppa:git-core/ppa"
     update_cache: yes
+  become: yes
   when:
     - ansible_facts['distribution'] == "Ubuntu"
     - ansible_facts['distribution_major_version'] == "18"
@@ -17,6 +19,7 @@
   apt:
     name: "{{ item }}"
     state: present
+    become: yes
   with_items:
     - emacs27
     - cmigemo
@@ -29,6 +32,7 @@
   apt:
     name: git
     state: latest
+  become: yes
 
 # Setup Doom Emacs
 - name: Git clone Doom Emacs

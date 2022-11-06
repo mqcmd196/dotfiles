@@ -2,6 +2,7 @@
   apt:
     name: fonts-powerline
     state: present
+  become: yes
 
 - name: Create directory for bash configs
   file:

@@ -3,16 +3,19 @@
   apt:
     name: tmux
     state: present
+  become: yes
 
 - name: Install docker
   apt:
     name: docker.io
     state: present
+  become: yes
 
 - name: Install percol
   pip:
     executable: pip3
     name: percol
+  become: yes
 
 # Setup configs
 - name: Create symbolic link for tmux config
