@@ -19,7 +19,6 @@
   apt:
     name: "{{ item }}"
     state: present
-    become: yes
   with_items:
     - emacs27
     - cmigemo
@@ -27,6 +26,7 @@
     - fd-find
     - silversearcher-ag
     - clangd-11
+  become: yes
 
 - name: Install latest git with apt
   apt:
