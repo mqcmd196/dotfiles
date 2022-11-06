@@ -1,0 +1,58 @@
+# Install packages with apt
+- name: Install tmux
+  apt:
+    name: tmux
+    state: present
+
+- name: Install docker
+  apt:
+    name: docker.io
+    state: present
+
+- name: Install percol
+  pip:
+    executable: pip3
+    name: percol
+
+# Setup configs
+- name: Create symbolic link for tmux config
+  file:
+    src: "{{ role_path }}/tmux/tmux.conf"
+    dest: "{{ ansible_env.HOME }}/.tmux.conf"
+    state: link
+
+- name: Create symbolic link for docker config
+  file:
+    src: "{{ role_path }}/docker"
+    dest: "{{ ansible_env.HOME }}/.docker"
+    state: link
+
+- name: Create symbolic link for percol config
+  file:
+    src: "{{ role_path }}/percol"
+    dest: "{{ ansible_env.HOME }}/.percol.d"
+    state: link
+
+- name: Create symbolic link for git config
+  file:
+    src: "{{ role_path }}/git/gitignore_global"
+    dest: "{{ ansible_env.HOME }}/.gitignore_global"
+    state: link
+
+- name: Create symbolic link for gdb-dashboard
+  file:
+    src: "{{ role_path }}/gdb/gdb-dashboard/.gdbinit"
+    dest: "{{ ansible_env.HOME }}/.gdbinit"
+    state: link
+
+- name: Create symbolic link for vim
+  file:
+    src: "{{ role_path }}/vim/vimrc"
+    dest: "{{ ansible_env.HOME }}/.vimrc"
+    state: link
+
+- name: Create symbolic link for zsh
+  file:
+    src: "{{ role_path }}/zsh/rc.zsh"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    state: link

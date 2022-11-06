@@ -1,0 +1,51 @@
+# Add required apt repositories
+- name: Add emacs27 repository
+  apt_repository:
+    repo: "ppa:kelleyk/emacs"
+    update_cache: yes
+
+- name: Add latest git repository when Ubuntu 18.04
+  apt_repository:
+    repo: "ppa:git-core/ppa"
+    update_cache: yes
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+    - ansible_facts['distribution_major_version'] == "18"
+
+# Install apt packages
+- name: Install apt packages for doom emacs
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - emacs27
+    - cmigemo
+    - ripgrep
+    - fd-find
+    - silversearcher-ag
+    - clangd-11
+
+- name: Install latest git with apt
+  apt:
+    name: git
+    state: latest
+
+# Setup Doom Emacs
+- name: Git clone Doom Emacs
+  git:
+    repo: https://github.com/hlissner/doom-emacs.git
+    dest: "{{ ansible_env.HOME }}/.emacs.d/"
+    depth: 1
+    version: 9d4d5b756a8598c4b5c842e9f1f33148af2af8fd
+
+- name: Create symbolic links for Doom Emacs configs
+  file:
+    src: "{{ role_path }}/doom/config"
+    dest: "{{ ansible_env.HOME }}/.doom.d"
+    state: link
+
+- name: Setup Doom Emacs
+  vars:
+    doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
+  shell:
+    cmd: "{{ doom }} doctor && {{ doom }} install --force && {{ doom }} sync"

@@ -1,7 +1,0 @@
-emacs27
-cmigemo
-ripgrep
-fd-find
-silversearcher-ag
-git
-ccls
