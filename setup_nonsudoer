@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 SETUP_CONFIGDIR=$(cd $(dirname -- $0);pwd)/non-sudoer
 SETUP_ROOT_USER_CONFIGDIR=$(cd $(dirname -- $0);pwd)
 
