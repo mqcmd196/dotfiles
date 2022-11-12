@@ -17,15 +17,15 @@
     - ansible_facts['distribution_major_version'] == "18"
 
 # Install apt packages
-- name: Install emacs28 for Ubuntu
+- name: Install emacs27 for Ubuntu
   apt:
-    name: emacs28
+    name: emacs27
     state: present
   become: yes
   when:
     - ansible_facts['distribution'] == "Ubuntu"
 
-- name: Install emacs28 for Debian Bullseye
+- name: Install emacs27 for Debian Bullseye
   apt:
     name: emacs
     state: present
@@ -33,13 +33,13 @@
   when:
     - ansible_facts['distribution'] == "Debian"
 
-- name: Install common packages for emacs28
+- name: Install common packages for emacs27
   apt:
     name: ['cmigemo', 'silversearcher-ag']
     state: present
   become: yes
 
-- name: Install common packages for emacs28 in latest OS
+- name: Install common packages for emacs27 in latest OS
   apt:
     name: ['ripgrep', 'fd-find', 'clangd-11']
     state: present
@@ -47,7 +47,7 @@
   when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" )
     or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
 
-- name: Install common packages for emacs28 in old OS
+- name: Install common packages for emacs27 in old OS
   apt:
     name: clangd-10
     state: present
