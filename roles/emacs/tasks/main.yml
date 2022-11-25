@@ -11,13 +11,13 @@
 # Install apt packages
 - name: Install common packages for emacs28
   apt:
-    name: ['cmigemo', 'silversearcher-ag', 'build-essential', 'texinfo', 'libgntls28-dev', 'libjpeg-dev', 'libpng-dev', 'libtiff5-dev', 'libgif-dev', 'libxpm-dev', 'libncurses-dev', 'libgtk-3-dev', 'libjansson4', 'libjansson-dev', 'libgccjit0']
+    name: ['cmigemo', 'silversearcher-ag', 'build-essential', 'texinfo', 'libgnutls28-dev', 'libjpeg-dev', 'libpng-dev', 'libtiff5-dev', 'libgif-dev', 'libxpm-dev', 'libncurses-dev', 'libgtk-3-dev', 'libjansson4', 'libjansson-dev', 'libgccjit0']
     state: present
   become: yes
 
 - name: Install common packages for emacs28 in latest OS
   apt:
-    name: ['ripgrep', 'fd-find', 'clangd-11', 'libgccjit-10-dev']
+    name: ['ripgrep', 'fd-find', 'clangd-11', 'libgccjit-9-dev']
     state: present
   become: yes
   when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" )
@@ -87,27 +87,29 @@
     - ansible_facts['distribution_major_version'] == "18"
 
 # Install emacs with native-compile
-- name: Setup emacs28.1
+- name: Install emacs28.1
   block:
-  - name: Unarchive emacs source
-    src: http://ftp.gnu.org/gnu/emacs/emacs-28.1.tar.xz
-    dest: "{{ ansible_env.HOME }}"
-  - name: Configure emacs
-    shell: >
-      ./configure
-      --prefix={{ ansible_env.HOME }}/.local
-      --with-native-compilation
-      --with-json
-      --with-gnutls
-      --with-cairo
-      chdir="{{ ansible_env.HOME }}/emacs-28.1"
-  - name: Build emacs
-    make:
-      chdir: "{{ ansible_env.HOME }}/emacs-28.1"
-  - name: Install emacs
-    make:
-      chdir: "{{ ansible_env.HOME }}/emacs-28.1"
-      target: install
+    - name: Unarchive emacs source
+      unarchive:
+        src: http://ftp.gnu.org/gnu/emacs/emacs-28.1.tar.xz
+        dest: "{{ ansible_env.HOME }}"
+        remote_src: true
+    - name: Configure emacs
+      shell: >
+        ./configure
+        --prefix={{ ansible_env.HOME }}/.local
+        --with-native-compilation
+        --with-json
+        --with-gnutls
+        --with-cairo
+        chdir="{{ ansible_env.HOME }}/emacs-28.1"
+    - name: Build emacs
+      make:
+        chdir: "{{ ansible_env.HOME }}/emacs-28.1"
+    - name: Install emacs
+      make:
+        chdir: "{{ ansible_env.HOME }}/emacs-28.1"
+        target: install
  
 # Setup Doom Emacs
 - name: Git clone Doom Emacs
