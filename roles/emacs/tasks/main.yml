@@ -62,6 +62,13 @@
     state: latest
   become: yes
 
+# Install snap packages
+- name: Install latest node(nodejs, npm) for pyright
+  snap:
+    community.general.snap:
+      name: node
+      classic: true
+
 # Install pip packages
 - name: Install cmake language server
   pip:
