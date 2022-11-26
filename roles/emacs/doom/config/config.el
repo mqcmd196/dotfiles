@@ -73,6 +73,11 @@
 (add-to-list 'display-buffer-alist
              '("^\\*shell\\*$" . (display-buffer-same-window)))
 
+
+;; LSP
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
 ;; use clangd as default
 (setq lsp-clients-clangd-args '("-j=3"
 				"--background-index"
@@ -87,16 +92,16 @@
   (setq python-shell-interpreter "python"))
 
 ;; company
-(after! company-mode
-  (define-key! company-active-map [tab] 'company-complete-selection)
-  (define-key! company-active-map (kbd "M-n") 'company-select-next)
-  (define-key! company-active-map (kbd "M-p") 'company-select-previous))
+(define-key! company-active-map [tab] 'company-complete-selection)
+(define-key! company-active-map (kbd "TAB") 'company-complete-selection)
+(define-key! company-active-map (kbd "M-n") 'company-select-next-or-abort)
+(define-key! company-active-map (kbd "M-p") 'company-select-previous-or-abort)
 
 ;; disable file watchers because sometimes it is so heavy
 (after! lsp-mode
-  (setq lsp-lens-enable nil)
+  (setq! lsp-lens-enable nil)
   (setq! lsp-enable-file-watchers nil)
-  (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil))
+  (setq! lsp-log-io nil))
 
 ;; flycheck after saved
 (setq flycheck-check-syntax-automatically '(save mode-enable))
