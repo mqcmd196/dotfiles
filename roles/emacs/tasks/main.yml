@@ -89,10 +89,15 @@
 # Install emacs with native-compile
 - name: Install emacs28.1
   block:
+    - name: Create ~/.local if needs
+      file:
+        path: "{{ ansible_env.HOME }}/.local/src"
+        state: directory
+        recurse: yes
     - name: Unarchive emacs source
       unarchive:
         src: http://ftp.gnu.org/gnu/emacs/emacs-28.1.tar.xz
-        dest: "{{ ansible_env.HOME }}"
+        dest: "{{ ansible_env.HOME }}/.local/src"
         remote_src: true
     - name: Configure emacs
       shell: >
@@ -102,31 +107,30 @@
         --with-json
         --with-gnutls
         --with-cairo
-        chdir="{{ ansible_env.HOME }}/emacs-28.1"
+        chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
     - name: Build emacs
       make:
-        chdir: "{{ ansible_env.HOME }}/emacs-28.1"
+        chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
     - name: Install emacs
       make:
-        chdir: "{{ ansible_env.HOME }}/emacs-28.1"
+        chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
         target: install
  
 # Setup Doom Emacs
-- name: Git clone Doom Emacs
-  git:
-    repo: https://github.com/hlissner/doom-emacs.git
-    dest: "{{ ansible_env.HOME }}/.emacs.d/"
-    depth: 1
-    version: 9d4d5b756a8598c4b5c842e9f1f33148af2af8fd
-
-- name: Create symbolic links for Doom Emacs configs
-  file:
-    src: "{{ role_path }}/doom/config"
-    dest: "{{ ansible_env.HOME }}/.doom.d"
-    state: link
-
 - name: Setup Doom Emacs
-  vars:
-    doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
-  shell:
-    cmd: "{{ doom }} install --force && {{ doom }} sync"
+  block:
+    - name: Git clone Doom Emacs
+      git:
+        repo: https://github.com/hlissner/doom-emacs.git
+        dest: "{{ ansible_env.HOME }}/.emacs.d/"
+        depth: 1
+        version: 9d4d5b756a8598c4b5c842e9f1f33148af2af8fd
+    - name: Create symbolic links for Doom Emacs configs
+      file:
+        src: "{{ role_path }}/doom/config"
+        dest: "{{ ansible_env.HOME }}/.doom.d"
+        state: link
+    - name: Setup Doom Emacs
+      vars:
+        doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
+      shell: /bin/bash -lc "{{ doom }} install --force && {{ doom }} sync"
