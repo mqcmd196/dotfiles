@@ -46,4 +46,6 @@ source ${BASH_PERSONAL_CONFIGDIR}/ros.bash
 source ${BASH_PERSONAL_CONFIGDIR}/local.bash
 
 unset BASH_PERSONAL_CONFIGDIR
+
+export EDITOR="emacs -nw"
 # ################################# END PERSONAL CONFIGS #################################
