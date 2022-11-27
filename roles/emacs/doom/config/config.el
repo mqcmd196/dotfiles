@@ -107,27 +107,14 @@
 (setq flycheck-check-syntax-automatically '(save mode-enable))
 
 ;; for ROS
-(when (string= (getenv "ROS_DISTRO") "melodic")
-  (setq rosdistro (getenv "ROS_DISTRO"))
-  (add-to-list 'load-path (format "/opt/ros/%s/share/emacs/site-lisp" (or rosdistro "melodic")))
-  (require 'rosemacs)
-  (invoke-rosemacs)
-  (global-set-key "\C-x\C-r" ros-keymap)
-
-  (add-to-list 'load-path "/opt/ros/melodic/share/euslime")
-  (require 'euslime-config)
-  (setq inferior-euslisp-program "roseus")
-  (slime-setup '(slime-fancy slime-banner slime-repl-ansi-color))
-  )
-(when (string= (getenv "ROS_DISTRO") "noetic")
-  (setq rosdistro (getenv "ROS_DISTRO"))
-  (add-to-list 'load-path (format "/opt/ros/%s/share/emacs/site-lisp" (or rosdistro "noetic")))
-  (require 'rosemacs)
-  (invoke-rosemacs)
-  (global-set-key "\C-x\C-r" ros-keymap)
-
-  (add-to-list 'load-path "/opt/ros/noetic/share/euslime")
-  (require 'euslime-config)
-  (setq inferior-euslisp-program "roseus")
-  (slime-setup '(slime-fancy slime-banner slime-repl-ansi-color))
-  )
+;; NOTE rosemacs doesn't support emacs28.1 now
+(add-to-list 'auto-mode-alist '("\.launch$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\.test$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("manifest.xml" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.urdf" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.xacro" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.msg\\'" . gdb-script-mode))
+(add-to-list 'auto-mode-alist '("\\.srv\\'" . gdb-script-mode))
+(add-to-list 'auto-mode-alist '("\\.action\\'" . gdb-script-mode))
+(font-lock-add-keywords 'gdb-script-mode
+                        '(("\\<\\(bool\\|byte\\|int8\\|uint8\\|int16\\|uint16\\|int32\\|uint32\\|int64\\|uint64\\|float32\\|float64\\|string\\|time\\|duration\\)\\>" . font-lock-builtin-face)) 'set)
