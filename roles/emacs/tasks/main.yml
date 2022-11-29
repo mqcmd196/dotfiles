@@ -119,7 +119,19 @@
     state: link
 
 - name: Setup Doom Emacs
-  vars:
-    doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
-  shell:
-    cmd: "{{ doom }} install --force && {{ doom }} sync"
+  block:
+    - name: Git clone Doom Emacs
+      git:
+        repo: https://github.com/hlissner/doom-emacs.git
+        dest: "{{ ansible_env.HOME }}/.emacs.d/"
+        depth: 1
+        version: 3f3200f98d4019f78020eeb65e512ce4f5928223
+    - name: Create symbolic links for Doom Emacs configs
+      file:
+        src: "{{ role_path }}/doom/config"
+        dest: "{{ ansible_env.HOME }}/.doom.d"
+        state: link
+    - name: Setup Doom Emacs
+      vars:
+        doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
+      shell: /bin/bash -lc "{{ doom }} install --force && {{ doom }} sync"
