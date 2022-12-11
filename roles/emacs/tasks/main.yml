@@ -1,13 +1,3 @@
-# Add required apt repositories
-- name: Add latest git repository
-  apt_repository:
-    repo: "ppa:git-core/ppa"
-    update_cache: yes
-  become: yes
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
-    - ansible_facts['distribution_major_version'] == "18"
-
 # Install apt packages
 - name: Install common packages for emacs28
   apt:
@@ -30,67 +20,61 @@
   when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20"
 
 - name: Install common packages for emacs28 in Ubuntu bionic
-  apt:
-    name: ['clangd-10', 'libgccjit-8-dev']
-    state: present
-  become: yes
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
-    - ansible_facts['distribution_major_version'] == "18"
-
-- name: Install latest git with apt
-  apt:
-    name: git
-    state: latest
-  become: yes
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
+  block:
+    - name: Add latest git repository
+      apt_repository:
+        repo: "ppa:git-core/ppa"
+        update_cache: yes
+      become: yes
+    - name: Install common packages for emacs28 in Ubuntu bionic
+      apt:
+        name: ['clangd-10', 'git']
+        state: latest
+      become: yes
 
 # Install pip packages
-- name: Install cmake language server
+- name: Install cmake language server and pyright
   pip:
     executable: pip3
-    name: cmake-language-server
-  become: yes
-
-- name: Install pyright
-  pip:
-    executable: pip3
-    name: pyright
+    name: ['cmake-language-server', 'pyright']
   become: yes
 
 # Download and install packages not distributed as apt packages
-# ripgrep
-- name: Download ripgrep .deb
-  get_url:
-    url: https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-    dest: "/tmp/ripgrep_11.0.2_amd64.deb"
+- name: Download and install packages not distributed as apt packages in Ubuntu bionic
   when:
     - ansible_facts['distribution'] == "Ubuntu"
     - ansible_facts['distribution_major_version'] == "18"
-
-- name: Install ripgrep .deb
-  apt:
-    deb: "/tmp/ripgrep_11.0.2_amd64.deb"
-  become: yes
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
-    - ansible_facts['distribution_major_version'] == "18"
-
-# fdfind
-- name: Download fd-find .deb
-  get_url:
-    url: https://github.com/sharkdp/fd/releases/download/v7.4.0/fd_7.4.0_amd64.deb
-    dest: "/tmp/fd_7.4.0_amd64.deb"
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
-    - ansible_facts['distribution_major_version'] == "18"
-
-- name: Install fd-find .deb
-  apt:
-    deb: "/tmp/fd_7.4.0_amd64.deb"
-  become: yes
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
-    - ansible_facts['distribution_major_version'] == "18"
+  block:
+    # ripgrep
+    - name: Download ripgrep .deb
+      get_url:
+        url: https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+        dest: "/tmp/ripgrep_11.0.2_amd64.deb"
+    - name: Install ripgrep .deb
+      apt:
+        deb: "/tmp/ripgrep_11.0.2_amd64.deb"
+      become: yes
+    # fdfind
+    - name: Download fd-find .deb
+      get_url:
+        url: https://github.com/sharkdp/fd/releases/download/v7.4.0/fd_7.4.0_amd64.deb
+        dest: "/tmp/fd_7.4.0_amd64.deb"
+    - name: Install fd-find .deb
+      apt:
+        deb: "/tmp/fd_7.4.0_amd64.deb"
+      become: yes
+    # gcc-9, g++-9
+    - name: Add gcc-9, g++-9 repository
+      apt_repository:
+        repo: "ppa:ubuntu-toolchain-r/test"
+        update_cache: yes
+      become: yes
+    - name: Install gcc-9, g++-9
+      apt:
+        name: ['gcc-9', 'g++-9', 'libgccjit-9-dev']
+        state: present
+      become: yes
 
 # Install emacs with native-compile
 - name: Install emacs28.1
@@ -105,7 +89,21 @@
         src: http://ftp.gnu.org/gnu/emacs/emacs-28.1.tar.xz
         dest: "{{ ansible_env.HOME }}/.local/src"
         remote_src: true
-    - name: Configure emacs
+    - name: Configure emacs in Debian bullseye and Ubuntu focal
+      when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" ) or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
+      shell: >
+        ./configure
+        --prefix={{ ansible_env.HOME }}/.local
+        --with-native-compilation
+        --with-json
+        --with-gnutls
+        --with-cairo
+        chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
+    - name: Configure emacs in Ubuntu bionic
+      when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
+      environment:
+        CC: /usr/bin/gcc-9
+        CXX: /usr/bin/g++-9
       shell: >
         ./configure
         --prefix={{ ansible_env.HOME }}/.local
@@ -117,11 +115,13 @@
     - name: Build emacs
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
+        params:
+          NUM_THREADS: 4
     - name: Install emacs
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
         target: install
- 
+
 # Setup Doom Emacs
 - name: Setup Doom Emacs
   block:
@@ -129,7 +129,6 @@
       git:
         repo: https://github.com/hlissner/doom-emacs.git
         dest: "{{ ansible_env.HOME }}/.emacs.d/"
-        depth: 1
         version: 3f3200f98d4019f78020eeb65e512ce4f5928223
     - name: Create symbolic links for Doom Emacs configs
       file:
