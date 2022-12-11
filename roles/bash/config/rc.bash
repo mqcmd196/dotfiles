@@ -34,9 +34,9 @@ if [ -t 1 ]; then
     bind -x '"\C-r": _replace_by_history'
 fi
 
-# use emacs27 as default
-if (type emacs27 > /dev/null 2>&1); then
-    alias emacs='emacs27'
+# use emacs28 as default
+if (type emacs28 > /dev/null 2>&1); then
+    alias emacs='emacs28'
 fi
 
 alias e='emacs'
