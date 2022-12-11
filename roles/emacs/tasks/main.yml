@@ -15,17 +15,23 @@
     state: present
   become: yes
 
-- name: Install common packages for emacs28 in latest OS
+- name: Install common packages for emacs28 in Debian bullseye
+  apt:
+    name: ['ripgrep', 'fd-find', 'clangd-11', 'libgccjit-10-dev']
+    state: present
+  become: yes
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11"
+
+- name: Install common packages for emacs28 in Ubuntu focal
   apt:
     name: ['ripgrep', 'fd-find', 'clangd-11', 'libgccjit-9-dev']
     state: present
   become: yes
-  when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" )
-    or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20"
 
-- name: Install common packages for emacs28 in old OS
+- name: Install common packages for emacs28 in Ubuntu bionic
   apt:
-    name: clangd-10
+    name: ['clangd-10', 'libgccjit-8-dev']
     state: present
   become: yes
   when:
