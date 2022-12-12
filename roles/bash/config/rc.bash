@@ -34,9 +34,9 @@ if [ -t 1 ]; then
     bind -x '"\C-r": _replace_by_history'
 fi
 
-# use emacs27 as default
-if (type emacs27 > /dev/null 2>&1); then
-    alias emacs='emacs27'
+# use emacs28 as default
+if (type emacs28 > /dev/null 2>&1); then
+    alias emacs='emacs28'
 fi
 
 alias e='emacs'
@@ -46,4 +46,6 @@ source ${BASH_PERSONAL_CONFIGDIR}/ros.bash
 source ${BASH_PERSONAL_CONFIGDIR}/local.bash
 
 unset BASH_PERSONAL_CONFIGDIR
+
+export EDITOR="emacs -nw"
 # ################################# END PERSONAL CONFIGS #################################

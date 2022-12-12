@@ -164,11 +164,6 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
-# use emacs27 as default
-if (type emacs27 > /dev/null 2>&1); then
-    alias emacs='emacs27'
-fi
-
 alias e='emacs'
 
 # sources the files at BASH_PERSONAL_CONFIGDIR

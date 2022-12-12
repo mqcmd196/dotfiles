@@ -73,13 +73,18 @@
 (add-to-list 'display-buffer-alist
              '("^\\*shell\\*$" . (display-buffer-same-window)))
 
+
+;; LSP
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
 ;; use clangd as default
 (setq lsp-clients-clangd-args '("-j=3"
-				"--background-index"
-				"--clang-tidy"
-				"--completion-style=detailed"
-				"--header-insertion=never"
-				"--header-insertion-decorators=0"))
+                                "--background-index"
+                                "--clang-tidy"
+                                "--completion-style=detailed"
+                                "--header-insertion=never"
+                                "--header-insertion-decorators=0"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;; python version
@@ -87,30 +92,29 @@
   (setq python-shell-interpreter "python"))
 
 ;; company
-(after! company-mode
-  (define-key! company-active-map [tab] 'company-complete-selection)
-  (define-key! company-active-map (kbd "M-n") 'company-select-next)
-  (define-key! company-active-map (kbd "M-p") 'company-select-previous))
+(define-key! company-active-map [tab] 'company-complete-selection)
+(define-key! company-active-map (kbd "TAB") 'company-complete-selection)
+(define-key! company-active-map (kbd "M-n") 'company-select-next-or-abort)
+(define-key! company-active-map (kbd "M-p") 'company-select-previous-or-abort)
 
 ;; disable file watchers because sometimes it is so heavy
 (after! lsp-mode
-  (setq lsp-lens-enable nil)
+  (setq! lsp-lens-enable nil)
   (setq! lsp-enable-file-watchers nil)
-  (setq company-transformers nil company-lsp-async t company-lsp-cache-candidates nil))
+  (setq! lsp-log-io nil))
 
 ;; flycheck after saved
 (setq flycheck-check-syntax-automatically '(save mode-enable))
 
 ;; for ROS
-(when (string= (getenv "ROS_DISTRO") "melodic")
-  (setq rosdistro (getenv "ROS_DISTRO"))
-  (add-to-list 'load-path (format "/opt/ros/%s/share/emacs/site-lisp" (or rosdistro "melodic")))
-  (require 'rosemacs)
-  (invoke-rosemacs)
-  (global-set-key "\C-x\C-r" ros-keymap)
-
-  (add-to-list 'load-path "/opt/ros/melodic/share/euslime")
-  (require 'euslime-config)
-  (setq inferior-euslisp-program "roseus")
-  (slime-setup '(slime-fancy slime-banner slime-repl-ansi-color))
-)
+;; NOTE rosemacs doesn't support emacs28.1 now
+(add-to-list 'auto-mode-alist '("\.launch$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\.test$" . nxml-mode))
+(add-to-list 'auto-mode-alist '("manifest.xml" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.urdf" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.xacro" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.msg\\'" . gdb-script-mode))
+(add-to-list 'auto-mode-alist '("\\.srv\\'" . gdb-script-mode))
+(add-to-list 'auto-mode-alist '("\\.action\\'" . gdb-script-mode))
+(font-lock-add-keywords 'gdb-script-mode
+                        '(("\\<\\(bool\\|byte\\|int8\\|uint8\\|int16\\|uint16\\|int32\\|uint32\\|int64\\|uint64\\|float32\\|float64\\|string\\|time\\|duration\\)\\>" . font-lock-builtin-face)) 'set)
