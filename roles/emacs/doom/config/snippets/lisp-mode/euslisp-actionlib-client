@@ -15,5 +15,4 @@
     (send (send goal :goal) :order n)
     (send *client* :send-goal goal)
     (send *client* :wait-for-result)
-    (send *client* :get-result)
-    (send (send *client* :result) :result)))
+    (send *client* :get-result)))

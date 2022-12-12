@@ -166,6 +166,8 @@ HISTTIMEFORMAT='%F %T '
 
 alias e='emacs'
 
+export EDITOR="emacs -nw"
+
 # sources the files at BASH_PERSONAL_CONFIGDIR
 if [ -d $BASH_PERSONAL_CONFIGDIR ]; then
     for file in `\find ${BASH_PERSONAL_CONFIGDIR} -maxdepth 1 -type f,l`; do
