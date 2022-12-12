@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: euslisp-actionlib-client
+# uuid:
+# key: actionlib-client
+# condition: t
+# --
+(ros::roseus-add-msgs "actionlib_tutorial_msgs")
+
+(setq *client* (instance ros::simple-action-client :init
+                         "/fibonacci"
+                         actionlib_tutorial_msgs::FibonacciAction))
+
+(defun simple-action-client (n)
+  (let* ((goal (instance actionlib_tutorial_msgs::FibonacciActionGoal :init)))
+    (send (send goal :goal) :order n)
+    (send *client* :send-goal goal)
+    (send *client* :wait-for-result)
+    (send *client* :get-result)
+    (send (send *client* :result) :result)))
