@@ -91,6 +91,9 @@
 (after! python
   (setq python-shell-interpreter "python"))
 
+;; golang
+(add-to-list 'exec-path (expand-file-name "~/go/bin"))
+
 ;; company
 (define-key! company-active-map [tab] 'company-complete-selection)
 (define-key! company-active-map (kbd "TAB") 'company-complete-selection)
