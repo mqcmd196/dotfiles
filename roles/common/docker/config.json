@@ -1,3 +1,6 @@
 {
-    "detachKeys": "ctrl-\\"
+  "detachKeys": "ctrl-\\",
+  "credHelpers": {
+    "asia-northeast1-docker.pkg.dev": "gcloud"
+  }
 }
