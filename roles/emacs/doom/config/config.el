@@ -59,7 +59,6 @@
 
 ;; Key bindings
 (map! "\C-h" 'backward-delete-char)
-(map! "\C-x\C-b" 'buffer-menu)
 (global-set-key (kbd "C-M-g") 'google-this)
 (global-set-key (kbd "M-%") 'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
@@ -90,6 +89,9 @@
 ;; python version
 (after! python
   (setq python-shell-interpreter "python"))
+
+;; conda
+(setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
 
 ;; golang
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
