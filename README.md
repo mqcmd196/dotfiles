@@ -7,11 +7,28 @@
 
 ## Prerequisite
 ```bash
-sudo apt install ansible make python3-pip python3-setuptools gnupg
+sudo apt install ansible
 ```
 
 ## Setup
-### When you are authorized to install package with sudo
+### When you are authorized to install packages with sudo
 ```bash
-make sudoer
+ansible-playbook setup_sudoer.yml -K 
 ```
+
+#### If you want to execute specific task
+```bash
+ansible-playbook setup_sudoer.yml -K --tags emacs # e.g. emacs 
+```
+
+#### If you want to check full logs
+```bash
+ansible-playbook setup_sudoer.yml -K -vvv 
+```
+
+### When you are not authorized to install packages with sudo
+Limited dotfiles
+``` bash
+./setup_nonsudoer
+```
+

@@ -1,6 +1,8 @@
 - hosts: localhost
   connection: local
   roles:
+    - role: prerequisites # Prerequisites
+      tags: prerequisites
     - role: common # Common configs for sudoer and non-sudoer
       tags: common
     - role: emacs
