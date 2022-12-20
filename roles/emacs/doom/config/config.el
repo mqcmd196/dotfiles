@@ -9,6 +9,8 @@
 (setq user-full-name "Yoshiki Obinata"
       user-mail-address "mqcmd196@hotmail.co.jp")
 
+(setq auth-sources '("~/.netrc.gpg"))
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -33,7 +35,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
@@ -60,7 +62,10 @@
 ;; modeline
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
-  (setq doom-modeline-vcs-max-length 12))
+  (setq doom-modeline-vcs-max-length 12)
+  (setq doom-modeline-github nil)
+  (setq doom-modeline-github-interval (* 30 60))
+  (setq doom-modeline-checker-simple-format t))
 
 ;; Key bindings
 (map! "\C-h" 'backward-delete-char)
