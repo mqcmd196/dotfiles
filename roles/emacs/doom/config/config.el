@@ -57,12 +57,27 @@
 (setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 
+;; modeline
+(after! doom-modeline
+  (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
+  (setq doom-modeline-vcs-max-length 12))
+
 ;; Key bindings
 (map! "\C-h" 'backward-delete-char)
 (global-set-key (kbd "C-M-g") 'google-this)
 (global-set-key (kbd "M-%") 'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
-(global-set-key (kbd "C->") 'helm-ag-project-root)
+(global-set-key (kbd "C-,") 'helm-ag-project-root)
+(global-set-key (kbd "C-.") 'helm-ag)
+(defun delete-word (arg)
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+(defun backward-delete-word (arg)
+  (interactive "p")
+  (delete-word (- arg)))
+(global-set-key (read-kbd-macro "<M-DEL>") 'backward-delete-word) ;; not kill-ring with M-DEL
+(global-set-key [(meta d)] 'delete-word) ;; not kill-ring with M-d
+
 
 ;; History settings
 (setq backup-directory-alist '((".*" . "~/.ehist")))
@@ -76,6 +91,10 @@
 ;; LSP
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+
+;; word wrapping
+(+global-word-wrap-mode +1)
 
 ;; use clangd as default
 (setq lsp-clients-clangd-args '("-j=3"
