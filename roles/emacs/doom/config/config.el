@@ -91,13 +91,16 @@
 ;; LSP
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
+(after! company
+  (setq company-dabbrev-downcase 0)
+  (setq company-idle-delay 0))
 
 
 ;; word wrapping
 (+global-word-wrap-mode +1)
 
 ;; use clangd as default
-(setq lsp-clients-clangd-args '("-j=3"
+(setq lsp-clients-clangd-args '("-j=4"
                                 "--background-index"
                                 "--clang-tidy"
                                 "--completion-style=detailed"
