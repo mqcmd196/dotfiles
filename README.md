@@ -33,7 +33,12 @@ Limited dotfiles
 ```
 
 ## Note
-
 ### Keybinds
 #### emacs
 C-; : completion
+- project
+C-c p f : Find file in project
+- vcs
+C-c v g : Magit status
+- file
+C-c f r : Find recently opened file

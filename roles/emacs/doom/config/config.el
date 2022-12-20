@@ -63,7 +63,7 @@
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
   (setq doom-modeline-vcs-max-length 12)
-  (setq doom-modeline-github nil)
+  (setq doom-modeline-github t)
   (setq doom-modeline-github-interval (* 30 60))
   (setq doom-modeline-checker-simple-format t))
 
