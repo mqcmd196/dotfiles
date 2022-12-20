@@ -119,7 +119,7 @@
 (+global-word-wrap-mode +1)
 
 ;; use clangd as default
-(setq lsp-clients-clangd-args '("-j=4"
+(setq lsp-clients-clangd-args '("-j=3"
                                 "--background-index"
                                 "--clang-tidy"
                                 "--completion-style=detailed"
