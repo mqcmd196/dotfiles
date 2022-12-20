@@ -89,11 +89,25 @@
 
 
 ;; LSP
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq gc-cons-threshold 100000000) ;; 1MB
+(setq read-process-output-max (* 1024 1024))
+;; disable file watchers because sometimes it is so heavy
+(after! lsp-mode
+  (setq! lsp-lens-enable nil)
+  (setq! lsp-enable-file-watchers nil)
+  (setq! lsp-log-io nil))
+
+;; company
 (after! company
   (setq company-dabbrev-downcase 0)
-  (setq company-idle-delay 0))
+  (setq company-idle-delay 0)
+  (define-key! company-active-map [tab] 'company-complete-selection)
+  (define-key! company-active-map (kbd "TAB") 'company-complete-selection)
+  (define-key! company-active-map (kbd "M-n") 'company-select-next-or-abort)
+  (define-key! company-active-map (kbd "M-p") 'company-select-previous-or-abort))
+
+;; flycheck after saved
+(setq flycheck-check-syntax-automatically '(save mode-enable))
 
 
 ;; word wrapping
@@ -117,21 +131,6 @@
 
 ;; golang
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
-
-;; company
-(define-key! company-active-map [tab] 'company-complete-selection)
-(define-key! company-active-map (kbd "TAB") 'company-complete-selection)
-(define-key! company-active-map (kbd "M-n") 'company-select-next-or-abort)
-(define-key! company-active-map (kbd "M-p") 'company-select-previous-or-abort)
-
-;; disable file watchers because sometimes it is so heavy
-(after! lsp-mode
-  (setq! lsp-lens-enable nil)
-  (setq! lsp-enable-file-watchers nil)
-  (setq! lsp-log-io nil))
-
-;; flycheck after saved
-(setq flycheck-check-syntax-automatically '(save mode-enable))
 
 ;; for ROS
 ;; NOTE rosemacs doesn't support emacs28.1 now
