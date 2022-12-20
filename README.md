@@ -32,3 +32,8 @@ Limited dotfiles
 ./setup_nonsudoer
 ```
 
+## Note
+
+### Keybinds
+#### emacs
+C-; : completion
