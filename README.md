@@ -40,6 +40,8 @@ Limited dotfiles
 
 C-; : completion
 
+`lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build 
+
 ##### project
 C-c p f : Find file in project
 
