@@ -100,7 +100,8 @@
 (after! lsp-mode
   (setq! lsp-lens-enable nil)
   (setq! lsp-enable-file-watchers nil)
-  (setq! lsp-log-io nil))
+  (setq! lsp-log-io nil)
+  (setq! lsp-restart 'auto-restart))
 
 ;; company
 (after! company
@@ -136,6 +137,7 @@
 
 ;; golang
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
+
 
 ;; for ROS
 ;; NOTE rosemacs doesn't support emacs28.1 now
