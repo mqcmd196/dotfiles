@@ -6,8 +6,15 @@
 - Ubuntu 20.04 (focal fossa)
 
 ## Prerequisite
+### apt packages
 ```bash
-sudo apt install ansible
+sudo apt install ansible git
+```
+
+### clone
+```bash
+cd ~
+git clone --recursive https://github.com/mqcmd196/dotfiles.git
 ```
 
 ## Setup
