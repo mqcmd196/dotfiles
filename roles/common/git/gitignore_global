@@ -10,3 +10,4 @@ __pycache__/*
 *.pyc
 *.retry
 cmake-build-debug
+.auctex-auto/
