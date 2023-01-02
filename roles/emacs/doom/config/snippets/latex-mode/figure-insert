@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: figure-insert
+# uuid: figure-insert
+# --
+\begin{figure}[tb]
+  \centering
+  \includegraphics{figure.pdf}
+  \caption{Sample figure}
+  \label{figure:system}
+\end{figure}
