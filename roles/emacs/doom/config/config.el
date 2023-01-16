@@ -110,11 +110,11 @@
   (define-key! company-active-map [tab] 'company-complete-selection)
   (define-key! company-active-map (kbd "TAB") 'company-complete-selection)
   (define-key! company-active-map (kbd "M-n") 'company-select-next-or-abort)
-  (define-key! company-active-map (kbd "M-p") 'company-select-previous-or-abort))
+  (define-key! company-active-map (kbd "M-p") 'company-select-previous-or-abort)
+  (setq company-global-modes '(not latex-mode)))
 
 ;; flycheck after saved
 (setq flycheck-check-syntax-automatically '(save mode-enable))
-
 
 ;; word wrapping
 (+global-word-wrap-mode +1)
