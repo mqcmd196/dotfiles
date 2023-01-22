@@ -10,6 +10,7 @@
     name: docker.io
     state: present
   become: yes
+  ignore_errors: yes
 
 - name: Install percol
   pip:
