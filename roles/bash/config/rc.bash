@@ -40,6 +40,7 @@ if (type emacs28 > /dev/null 2>&1); then
 fi
 
 alias e='emacs'
+alias em='emacs'
 alias doom='~/.emacs.d/bin/doom'
 
 source ${BASH_PERSONAL_CONFIGDIR}/ros.bash
