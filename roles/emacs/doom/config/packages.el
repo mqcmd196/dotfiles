@@ -8,7 +8,6 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
-(package! helm-ag)
 (package! google-this)
 
 ;; To install a package directly from a remote git repo, you must specify a
