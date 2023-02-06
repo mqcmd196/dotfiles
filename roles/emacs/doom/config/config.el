@@ -72,8 +72,8 @@
 (global-set-key (kbd "C-M-g") 'google-this)
 (global-set-key (kbd "M-%") 'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
-(global-set-key (kbd "M-,") '+default/search-cwd)
-(global-set-key (kbd "M-.") '+default/search-project)
+(global-set-key (kbd "M-,") '+default/search-project)
+(global-set-key (kbd "M-.") '+default/search-cwd)
 
 (defun delete-word (arg)
   (interactive "p")

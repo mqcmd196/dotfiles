@@ -43,6 +43,11 @@ alias e='emacs'
 alias em='emacs'
 alias doom='~/.emacs.d/bin/doom'
 
+# batcat
+if type "batcat" > /dev/null 2>&1; then
+    alias bat="batcat"
+fi
+
 source ${BASH_PERSONAL_CONFIGDIR}/ros.bash
 source ${BASH_PERSONAL_CONFIGDIR}/local.bash
 
