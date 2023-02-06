@@ -96,14 +96,20 @@ _ross() {
     local mode
     local var
     local com
-    mode=$(echo -e "node\ntopic" | peco)
+    mode=$(echo -e "node\ntopic\nservice\nmsg" | peco --prompt ROS?\>)
     if [ ${mode} ]; then
         if [ ${mode} = "node" ]; then
-            local var=$(rosnode list | peco)
-            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco --prompt ROSNODE?\>)
+            local var=$(rosnode list | peco --prompt ROSNODE?\>)
+            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco --prompt COMMAND?\>)
         elif [ ${mode} = "topic" ]; then
-            local var=$(rostopic list | peco)
-            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype\n" | peco --prompt ROSTOPIC?\>)
+            local var=$(rostopic list | peco --prompt ROSTOPIC?\>)
+            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype" | peco --prompt COMMAND?\>)
+        elif [ ${mode} = "service" ]; then
+            local var=$(rosservice list | peco --prompt ROSSERVICE?\>)
+            local com=$(echo -e "args\ncall\nfind\ninfo\ntype\nuri" | peco --prompt COMMAND?\>)
+        elif [ ${mode} = "msg" ]; then
+            local var=$(rosmsg list | peco --prompt ROSMSG?\>)
+            local com=$(echo -e "show\ninfo\nmd5\npackage\npackages" | peco --prompt COMMAND?\>)
         fi
     fi
     if [ ${var} ] && [ ${com} ]; then
