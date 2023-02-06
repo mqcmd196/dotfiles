@@ -24,9 +24,9 @@ source $OSH/oh-my-bash.sh
 # ################################### PERSONAL CONFIGS ###################################
 BASH_PERSONAL_CONFIGDIR=$HOME/.bash.d
 
-# for using percol on reverse-i-search
+# for using peco on reverse-i-search
 _replace_by_history() {
- local l=$(HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | percol --query "$READLINE_LINE")
+ local l=$(HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | peco --query "$READLINE_LINE")
  READLINE_LINE="$l"
  READLINE_POINT=${#l}
 }

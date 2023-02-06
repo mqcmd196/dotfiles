@@ -96,14 +96,14 @@ _ross() {
     local mode
     local var
     local com
-    mode=$(echo -e "node\ntopic" | percol)
+    mode=$(echo -e "node\ntopic" | peco)
     if [ ${mode} ]; then
         if [ ${mode} = "node" ]; then
-            local var=$(rosnode list | percol)
-            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | percol)
+            local var=$(rosnode list | peco)
+            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco)
         elif [ ${mode} = "topic" ]; then
-            local var=$(rostopic list | percol)
-            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype\n" | percol)
+            local var=$(rostopic list | peco)
+            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype\n" | peco)
         fi
     fi
     if [ ${var} ] && [ ${com} ]; then
