@@ -100,10 +100,10 @@ _ross() {
     if [ ${mode} ]; then
         if [ ${mode} = "node" ]; then
             local var=$(rosnode list | peco)
-            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco)
+            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco --prompt ROSNODE?\>)
         elif [ ${mode} = "topic" ]; then
             local var=$(rostopic list | peco)
-            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype\n" | peco)
+            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype\n" | peco --prompt ROSTOPIC?\>)
         fi
     fi
     if [ ${var} ] && [ ${com} ]; then
