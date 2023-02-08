@@ -131,6 +131,9 @@ _replace_by_history() {
  READLINE_POINT=${#l}
 }
 bind -x '"\C-r": _replace_by_history'
+if ! command -v percol &> /dev/null; then
+    export PATH=~/.local/bin:$PATH
+fi
 
 # history
 shopt -s histappend # append to bash_history if Terminal.app quits
