@@ -11,3 +11,4 @@ __pycache__/*
 *.retry
 cmake-build-debug
 .auctex-auto/
+.idea/
