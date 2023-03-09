@@ -127,9 +127,9 @@
   block:
     - name: Git clone Doom Emacs
       git:
-        repo: https://github.com/hlissner/doom-emacs.git
+        repo: https://github.com/doomemacs/doomemacs.git
         dest: "{{ ansible_env.HOME }}/.emacs.d/"
-        version: 3f3200f98d4019f78020eeb65e512ce4f5928223
+        version: d9f18e6040d5aa96245f93ccd864163c2eab82c0
     - name: Create symbolic links for Doom Emacs configs
       file:
         src: "{{ role_path }}/doom/config"
