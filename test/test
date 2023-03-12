@@ -4,4 +4,4 @@ DOOM=~/.emacs.d/bin/doom
 echo "Running the test..."
 
 echo "doom emacs"
-eval ${DOOM} doctor # check doom emacs config
+eval ${DOOM} doctor --pager cat # check doom emacs config
