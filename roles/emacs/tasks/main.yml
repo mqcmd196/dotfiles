@@ -116,7 +116,8 @@
     - name: Build emacs
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
-        jobs: 6
+        params:
+          NUM_THREADS: 6
     - name: Install emacs
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
@@ -153,7 +154,8 @@
     - name: Build LLVM
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
-        jobs: 6
+        params:
+          NUM_THREADS: 6
     - name: Install LLVM
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
