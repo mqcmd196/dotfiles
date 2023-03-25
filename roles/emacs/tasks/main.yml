@@ -7,14 +7,14 @@
 
 - name: Install common packages for emacs28 in Debian bullseye
   apt:
-    name: ['ripgrep', 'fd-find', 'clangd-11', 'libgccjit-10-dev']
+    name: ['ripgrep', 'fd-find', 'libgccjit-10-dev']
     state: present
   become: yes
   when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11"
 
 - name: Install common packages for emacs28 in Ubuntu focal
   apt:
-    name: ['ripgrep', 'fd-find', 'clangd-11', 'libgccjit-9-dev']
+    name: ['ripgrep', 'fd-find', 'libgccjit-9-dev']
     state: present
   become: yes
   when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20"
@@ -29,7 +29,7 @@
       become: yes
     - name: Install common packages for emacs28 in Ubuntu bionic
       apt:
-        name: ['clangd-10', 'git']
+        name: ['git']
         state: latest
       become: yes
 
@@ -76,14 +76,15 @@
         state: present
       become: yes
 
+- name: Create ~/.local/src for cloning source
+  file:
+    path: "{{ ansible_env.HOME }}/.local/src"
+    state: directory
+    recurse: yes
+
 # Install emacs with native-compile
 - name: Install emacs28.1
   block:
-    - name: Create ~/.local if needs
-      file:
-        path: "{{ ansible_env.HOME }}/.local/src"
-        state: directory
-        recurse: yes
     - name: Unarchive emacs source
       unarchive:
         src: http://ftp.gnu.org/gnu/emacs/emacs-28.1.tar.xz
@@ -115,11 +116,47 @@
     - name: Build emacs
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
-        params:
-          NUM_THREADS: 4
+        jobs: 6
     - name: Install emacs
       make:
         chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
+        target: install
+
+- name: Install LLVM and clangd
+  block:
+    - name: Git clone LLVM project on Ubuntu bionic
+      when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
+      git:
+        repo: https://github.com/llvm/llvm-project
+        dest: "{{ ansible_env.HOME }}/.local/src/llvm-project"
+        version: llvmorg-11.1.0
+    - name: Git clone LLVM project on Debian bullseye and Ubuntu focal
+      when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" ) or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
+      git:
+        repo: https://github.com/llvm/llvm-project
+        dest: "{{ ansible_env.HOME }}/.local/src/llvm-project"
+        version: llvmorg-15.0.7
+    - name: Create build directory
+      file:
+        path: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
+        state: directory
+        recurse: yes
+    - name: Configure with cmake
+      shell: >
+        cmake
+        -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra"
+        -DCMAKE_INSTALL_PREFIX={{ ansible_env.HOME }}/.local/
+        -DCMAKE_BUILD_TYPE=Release
+        -G "Unix Makefiles"
+        ../llvm
+        chdir="{{ ansible_env.HOME }}/.local/src/llvm-project/build"
+    - name: Build LLVM
+      make:
+        chdir: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
+        jobs: 6
+    - name: Install LLVM
+      make:
+        chdir: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
         target: install
 
 # Setup Doom Emacs
