@@ -152,14 +152,9 @@
         ../llvm
         chdir="{{ ansible_env.HOME }}/.local/src/llvm-project/build"
     - name: Build LLVM
-      make:
-        chdir: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
-        params:
-          NUM_THREADS: 6
-    - name: Install LLVM
-      make:
-        chdir: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
-        target: install
+      shell: >
+        make -j8 install
+        chdir="{{ ansible_env.HOME }}/.local/src/llvm-project/build"
 
 # Setup Doom Emacs
 - name: Setup Doom Emacs
