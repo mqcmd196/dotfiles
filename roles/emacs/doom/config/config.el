@@ -139,6 +139,15 @@
 ;; golang
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
 
+;; github copilot
+;; it requires new node to be installed, like sudo snap install node --classic
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
 ;; for ROS
 ;; NOTE rosemacs doesn't support emacs28.1 now
