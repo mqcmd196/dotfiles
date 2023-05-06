@@ -146,8 +146,9 @@
       shell: >
         cmake
         -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra"
+        -DLLVM_TARGETS_TO_BUILD="X86"
         -DCMAKE_INSTALL_PREFIX={{ ansible_env.HOME }}/.local/
-        -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_BUILD_TYPE=MinSizeRel
         -G "Unix Makefiles"
         ../llvm
         chdir="{{ ansible_env.HOME }}/.local/src/llvm-project/build"
