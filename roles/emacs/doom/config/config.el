@@ -126,7 +126,8 @@
                                 "--clang-tidy"
                                 "--completion-style=detailed"
                                 "--header-insertion=never"
-                                "--header-insertion-decorators=0"))
+                                "--header-insertion-decorators=0"
+                                "--query-driver=/usr/bin/c++"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;; python version
