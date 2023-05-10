@@ -37,6 +37,9 @@
     dest: "{{ ansible_env.HOME }}/.gitignore_global"
     state: link
 
+- name: Setup gitignore global
+  shell: git config --global core.excludesfile {{ ansible_env.HOME }}/.gitignore_global
+
 - name: Create symbolic link for gdb-dashboard
   file:
     src: "{{ role_path }}/gdb/gdb-dashboard/.gdbinit"
