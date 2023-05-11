@@ -5,13 +5,6 @@
     state: present
   become: yes
 
-- name: Install docker
-  apt:
-    name: docker.io
-    state: present
-  become: yes
-  ignore_errors: yes
-
 - name: Install peco
   apt:
     name: peco
@@ -57,3 +50,14 @@
     src: "{{ role_path }}/zsh/rc.zsh"
     dest: "{{ ansible_env.HOME }}/.zshrc"
     state: link
+
+- name: Setup Anaconda
+  block:
+    - name: Download Anaconda shell script
+      get_url:
+        url: https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
+        dest: "{{ ansible_env.HOME }}/anaconda.sh"
+    - name: Install Anaconda
+      shell: /bin/bash ./anaconda.sh -b
+      args:
+        chdir: "{{ ansible_env.HOME }}"
