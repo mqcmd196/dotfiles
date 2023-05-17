@@ -140,6 +140,11 @@
 ;; golang
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
 
+;; dart
+(with-eval-after-load 'projectile
+  (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
+  (add-to-list 'projectile-project-root-files-bottom-up "BUILD"))
+
 ;; github copilot
 ;; it requires new node to be installed, like sudo snap install node --classic
 (use-package! copilot
