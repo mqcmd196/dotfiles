@@ -86,5 +86,5 @@
         repo: https://github.com/nvm-sh/nvm
         dest: "{{ ansible_env.HOME }}/.nvm"
         depth: 1
-    - name:
-        shell: /bin/bash -lc nvm install --lts v18.16.0
+    - name: Install Node.js LTS with nvm
+      shell: /bin/bash -lc nvm install --lts v18.16.0
