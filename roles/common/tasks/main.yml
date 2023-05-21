@@ -78,6 +78,7 @@
       shell: /usr/bin/env sh ./miniconda.sh -b
       args:
         chdir: "{{ ansible_env.HOME }}"
+      ignore_errors: true
 
 - name: Setup nvm, nodejs
   block:
@@ -87,4 +88,4 @@
         dest: "{{ ansible_env.HOME }}/.nvm"
         depth: 1
     - name: Install Node.js LTS with nvm
-      shell: /bin/bash -lc nvm install --lts v18.16.0
+      shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm install --lts v18.16.0"
