@@ -114,14 +114,9 @@
         --with-cairo
         chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
     - name: Build emacs
-      make:
-        chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
-        params:
-          NUM_THREADS: 6
-    - name: Install emacs
-      make:
-        chdir: "{{ ansible_env.HOME }}/.local/src/emacs-28.1"
-        target: install
+      shell: >
+        make -j8 install
+        chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
 
 - name: Install LLVM and clangd
   block:
