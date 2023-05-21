@@ -20,6 +20,11 @@ plugins=(
 source $OSH/oh-my-bash.sh
 # ################################# END OH-MY-BASH CONFIGS ###############################
 
+# ###################################### NVM CONFIGS #####################################
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# #################################### END NVM CONFIGS ###################################
 
 # ################################### PERSONAL CONFIGS ###################################
 BASH_PERSONAL_CONFIGDIR=$HOME/.bash.d

@@ -78,3 +78,13 @@
       shell: /bin/bash ./anaconda.sh -b
       args:
         chdir: "{{ ansible_env.HOME }}"
+
+- name: Setup nvm, nodejs
+  block:
+    - name: Git clone NVM
+      git:
+        repo: https://github.com/nvm-sh/nvm
+        dest: "{{ ansible_env.HOME }}/.nvm"
+        depth: 1
+    - name:
+        shell: /bin/bash -lc nvm install --lts v18.16.0
