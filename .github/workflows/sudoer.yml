@@ -18,8 +18,6 @@ jobs:
           - OS: debian
             CODENAME: bullseye
           - OS: ubuntu
-            CODENAME: bionic
-          - OS: ubuntu
             CODENAME: focal
     steps:
       - name: git checkout

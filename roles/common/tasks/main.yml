@@ -1,22 +1,32 @@
 # Install packages with apt
-- name: Install tmux
+- name: Install tmux and peco
   apt:
-    name: tmux
+    name: ['tmux', 'peco', 'xsel']
     state: present
   become: yes
 
-- name: Install docker
-  apt:
-    name: docker.io
-    state: present
-  become: yes
-  ignore_errors: yes
-
-- name: Install peco
-  apt:
-    name: peco
-    state: present
-  become: yes
+- name: Setup latest stable Docker
+  block:
+    - name: Add Docker key
+      apt_key:
+        url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
+        state: present
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable
+        state: present
+        filename: docker
+    - name: Install Docker related packages
+      apt:
+        name: ['docker-ce', 'docker-ce-cli', 'containerd.io', 'docker-buildx-plugin', 'docker-compose-plugin']
+        update_cache: yes
+        state: present
+    - name: Add current user to docker group
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: yes
+  become: true
 
 # Setup configs
 - name: Create symbolic link for tmux config
@@ -57,3 +67,25 @@
     src: "{{ role_path }}/zsh/rc.zsh"
     dest: "{{ ansible_env.HOME }}/.zshrc"
     state: link
+
+- name: Setup Miniconda
+  block:
+    - name: Download Miniconda shell script
+      get_url:
+        url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+        dest: "{{ ansible_env.HOME }}/miniconda.sh"
+    - name: Install Miniconda
+      shell: /usr/bin/env sh ./miniconda.sh -b
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+      ignore_errors: true
+
+- name: Setup nvm, nodejs
+  block:
+    - name: Git clone NVM
+      git:
+        repo: https://github.com/nvm-sh/nvm
+        dest: "{{ ansible_env.HOME }}/.nvm"
+        depth: 1
+    - name: Install Node.js LTS with nvm
+      shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm install --lts v18.16.0"
