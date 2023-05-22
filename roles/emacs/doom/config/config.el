@@ -135,7 +135,7 @@
   (setq python-shell-interpreter "python"))
 
 ;; conda
-(setq conda-env-home-directory (expand-file-name "~/anaconda3/"))
+(setq conda-env-home-directory (expand-file-name "~/miniconda3/"))
 
 ;; golang
 (add-to-list 'exec-path (expand-file-name "~/go/bin"))
