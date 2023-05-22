@@ -2,7 +2,6 @@
 ![sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/sudoer.yml/badge.svg?branch=master) ![non-sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/non-sudoer.yml/badge.svg?branch=master)
 ## Supported OS
 - Debian 11 (bullseye)
-- Ubuntu 18.04 (bionic beaver)
 - Ubuntu 20.04 (focal fossa)
 
 ## Prerequisite
@@ -40,11 +39,11 @@ Limited dotfiles
 ```
 
 ## Note
+### Initial setup in sudoer emacs
+1. Execute `copilot-login` when `copilot-mode` is enabled
 
 ### Keybinds
-
 #### emacs
-
 C-; : completion
 
 `lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build 
