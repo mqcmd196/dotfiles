@@ -1,7 +1,7 @@
 # Install packages with apt
 - name: Install tmux and peco
   apt:
-    name: ['tmux', 'peco']
+    name: ['tmux', 'peco', 'xsel']
     state: present
   become: yes
 
