@@ -167,7 +167,7 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
-alias e='emacs'
+alias em='emacs'
 
 export EDITOR="emacs -nw"
 
