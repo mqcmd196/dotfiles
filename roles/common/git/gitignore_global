@@ -10,6 +10,9 @@ __pycache__/*
 *.pyc
 *.retry
 cmake-build-debug/
+cmake-build-default/
+cmake-build-minsizerel/
+cmake-build-relwithdebinfo/
 .auctex-auto/
 .idea/
 compile_commands.json
