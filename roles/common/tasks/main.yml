@@ -62,12 +62,6 @@
     dest: "{{ ansible_env.HOME }}/.vimrc"
     state: link
 
-- name: Create symbolic link for zsh
-  file:
-    src: "{{ role_path }}/zsh/rc.zsh"
-    dest: "{{ ansible_env.HOME }}/.zshrc"
-    state: link
-
 - name: Setup Miniconda
   block:
     - name: Download Miniconda shell script
