@@ -151,3 +151,5 @@ zshaddhistory(){
    [[ $1 != ${~HISTORY_IGNORE} ]]
 }
 HIST_STAMPS='yyyy-mm-dd HH:MM:SS'
+
+source /etc/zsh_command_not_found # for command-not-found
