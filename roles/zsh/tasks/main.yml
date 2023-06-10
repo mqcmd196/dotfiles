@@ -1,0 +1,41 @@
+- name: Install fonts-powerline
+  apt:
+    name: fonts-powerline
+    state: present
+  become: yes
+
+- name: Create directory for zsh configs
+  file:
+    path: "{{ ansible_env.HOME }}/.zsh.d"
+    state: directory
+
+- name: Create symbolic link for alias config
+  file:
+    src: "{{ role_path }}/config/alias.zsh"
+    dest: "{{ ansible_env.HOME }}/.zsh.d/alias.zsh"
+    state: link
+
+- name: Create symbolic link for ros zsh config
+  file:
+    src: "{{ role_path }}/config/ros.zsh"
+    dest: "{{ ansible_env.HOME }}/.zsh.d/ros.zsh"
+    state: link
+
+- name: Create .zshrc symbolic link
+  file:
+    src: "{{ role_path }}/config/rc.zsh"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    state: link
+    force: yes
+
+- name: Git clone ohmyzsh
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    version: 50c678687e73d1433f278b7bb7f168e8fa817670
+
+- name: Git clone Powerlevel10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "{{ ansible_env.HOME }}/powerlevel10k"
+    version: v1.18.0
