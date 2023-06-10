@@ -122,13 +122,32 @@ function peco-history-selection() {
 zle -N peco-history-selection
 bindkey '^r' peco-history-selection
 
-alias em='emacs'
-alias doom='~/.emacs.d/bin/doom'
-
-# batcat
-if type "batcat" > /dev/null 2>&1; then
-    alias bat="batcat"
-fi
-
 local zsh_personal_config_dir="$HOME/.zsh.d"
+source ${zsh_personal_config_dir}/alias.zsh
 source ${zsh_personal_config_dir}/ros.zsh
+
+# history
+if [ -z "$HISTFILE" ]; then
+  HISTFILE=$HOME/.zsh_history
+fi
+setopt APPEND_HISTORY
+setopt histverify
+setopt extendedhistory
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+# TODO
+# setopt correct
+# unsetopt correct_all
+PROMPT_COMMAND='history -a'
+HISTSIZE=500000
+SAVEHIST=100000
+HISTORY_IGNORE="(exit|l[sal]|bg|fg|history|clear|pwd)"
+zshaddhistory(){
+  emulate -L zsh
+   [[ $1 != ${~HISTORY_IGNORE} ]]
+}
+HIST_STAMPS='yyyy-mm-dd HH:MM:SS'

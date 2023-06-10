@@ -9,3 +9,5 @@
       tags: emacs
     - role: bash
       tags: bash
+    - role: zsh
+      tags: zsh
