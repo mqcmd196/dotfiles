@@ -1,6 +1,6 @@
-- name: Install fonts-powerline
+- name: Install required packages for setting zsh
   apt:
-    name: fonts-powerline
+    name: ['zsh', 'fonts-powerline', 'dconf-cli']
     state: present
   become: yes
 
