@@ -74,6 +74,12 @@
         chdir: "{{ ansible_env.HOME }}"
       ignore_errors: true
 
+- name: Create symbolic link for condarc
+  file:
+    src: "{{ role_path }}/conda/condarc"
+    dest: "{{ ansible_env.HOME }}/.condarc"
+    state: link
+
 - name: Setup nvm, nodejs
   block:
     - name: Git clone NVM

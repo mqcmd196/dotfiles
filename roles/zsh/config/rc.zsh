@@ -153,3 +153,18 @@ zshaddhistory(){
 HIST_STAMPS='yyyy-mm-dd HH:MM:SS'
 
 source /etc/zsh_command_not_found # for command-not-found
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/obinata/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/obinata/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/obinata/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/obinata/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
