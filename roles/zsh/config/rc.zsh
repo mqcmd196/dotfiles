@@ -145,7 +145,7 @@ setopt HIST_SAVE_NO_DUPS
 PROMPT_COMMAND='history -a'
 HISTSIZE=500000
 SAVEHIST=100000
-HISTORY_IGNORE="(exit|l[sal]|bg|fg|history|clear|pwd)"
+HISTORY_IGNORE="(exit|l[sal]|bg|fg|history|clear|pwd|l)"
 zshaddhistory(){
   emulate -L zsh
    [[ $1 != ${~HISTORY_IGNORE} ]]
