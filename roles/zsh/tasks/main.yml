@@ -51,4 +51,4 @@
 
 - name: Change gnome terminal settings
   shell:
-    cmd: "dconf load /org/gnome/terminal/legacy/profiles:/ < {{ role_path }}"
+    cmd: "dconf load /org/gnome/terminal/legacy/profiles:/ < {{ role_path }}/config/gnome-terminal-profiles.dconf"
