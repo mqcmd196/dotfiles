@@ -104,6 +104,7 @@
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
     # cpu_arch              # CPU architecture
     # time                  # current time
+    ros_workspace
     # =========================[ Line #2 ]=========================
     newline
     # ip                    # ip address and bandwidth usage for a specified network interface
@@ -1594,6 +1595,11 @@
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
   }
 
+  function prompt_ros_workspace() {
+    if [[ -n "$ROS_WORKSPACE_DISPLAY" ]]; then
+      p10k segment -f green -i '🤖' -t "${ROS_WORKSPACE_DISPLAY}"
+    fi
+  }
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job
   # is to generate the prompt segment for display in instant prompt. See
   # https://github.com/romkatv/powerlevel10k/blob/master/README.md#instant-prompt.
