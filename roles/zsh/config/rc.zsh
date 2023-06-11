@@ -168,3 +168,7 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+# conda-zsh-completion
+fpath+=~/.conda-zsh-completion
+zstyle ":conda_zsh_completion:*" sort-envs-by-time true
+autoload -U compinit && compinit
