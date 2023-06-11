@@ -40,6 +40,12 @@
     dest: "{{ ansible_env.HOME }}/powerlevel10k"
     version: v1.18.0
 
+- name: Git clone conda-zsh-completion
+  git:
+    repo: https://github.com/conda-incubator/conda-zsh-completion.git
+    dest: "{{ ansible_env.HOME }}/.conda-zsh-completion"
+    version: 306e16f57356e352a5244ad6fbe9bc26b6247358
+
 - name: Download MesloLGS NF Regular font
   get_url:
     url: https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
