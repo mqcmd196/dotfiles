@@ -1,6 +1,6 @@
 - name: Install required packages for setting zsh
   apt:
-    name: ['zsh', 'fonts-powerline', 'dconf-cli']
+    name: ['zsh', 'fonts-powerline', 'dconf-cli', 'grc']
     state: present
   become: yes
 
