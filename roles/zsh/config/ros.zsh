@@ -109,8 +109,8 @@ _ross() {
     fi
     if [ ${var} ] && [ ${com} ]; then
         local fullcmd="ros${mode} ${com} ${var}"
-        READLINE_LINE="$fullcmd"
-        READLINE_POINT=${#fullcmd}
+        RBUFFER="${fullcmd}"
+        CURSOR=${#RBUFFER}
     fi
 }
 
