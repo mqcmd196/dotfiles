@@ -1,6 +1,6 @@
 - name: Install required packages for setting zsh
   apt:
-    name: ['zsh', 'fonts-powerline', 'dconf-cli', 'grc', 'dbus-x11']
+    name: ['zsh', 'fonts-powerline', 'dconf-cli', 'grc', 'dbus-x11', 'zsh-syntax-highlighting', 'zsh-autosuggestions']
     state: present
   become: yes
 
@@ -35,23 +35,23 @@
     state: link
     force: yes
 
-- name: Git clone ohmyzsh
-  git:
-    repo: https://github.com/ohmyzsh/ohmyzsh.git
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
-    version: 50c678687e73d1433f278b7bb7f168e8fa817670
-
 - name: Git clone Powerlevel10k
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: "{{ ansible_env.HOME }}/.powerlevel10k"
-    version: v1.18.0
+    version: v1.19.0
 
 - name: Git clone conda-zsh-completion
   git:
     repo: https://github.com/conda-incubator/conda-zsh-completion.git
     dest: "{{ ansible_env.HOME }}/.conda-zsh-completion"
     version: 306e16f57356e352a5244ad6fbe9bc26b6247358
+
+- name: Git clone zsh-completions
+  git:
+    repo: https://github.com/zsh-users/zsh-completions
+    dest: "{{ ansible_env.HOME }}/.zsh-completions"
+    version: 83f09c461535e2372242c6282b66dbbbef6d508a
 
 - name: Download MesloLGS NF Regular font
   get_url:
