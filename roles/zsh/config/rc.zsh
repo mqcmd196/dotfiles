@@ -131,15 +131,16 @@ source ${zsh_personal_config_dir}/ros.zsh
 if [ -z "$HISTFILE" ]; then
   HISTFILE=$HOME/.zsh_history
 fi
-setopt APPEND_HISTORY
-setopt histverify
-setopt extendedhistory
+setopt HISTVERIFY
+setopt EXTENDED_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
+setopt HIST_NO_STORE
+unsetopt SHARE_HISTORY
 # TODO
 # setopt correct
 # unsetopt correct_all
