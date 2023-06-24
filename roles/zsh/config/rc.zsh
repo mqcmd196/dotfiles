@@ -24,7 +24,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-### CONFIGS FROM BASHRC
+### KEYBINDINGS
 # for using peco on reverse-i-search
 function peco-history-selection() {
     local tac
@@ -42,6 +42,9 @@ function peco-history-selection() {
 }
 zle -N peco-history-selection
 bindkey '^r' peco-history-selection
+
+bindkey -e # emacs like keybinding
+WORDCHARS='*?[]~&;!#$%^(){}<>' # for word jumping
 
 local zsh_personal_config_dir="$HOME/.zsh.d"
 source ${zsh_personal_config_dir}/alias.zsh
@@ -97,7 +100,5 @@ autoload -U compinit && compinit
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zsh autosuggestions
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# zsh completions
-fpath=($HOME/.zsh-completions/src $fpath)
