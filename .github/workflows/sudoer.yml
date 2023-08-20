@@ -19,6 +19,8 @@ jobs:
             CODENAME: bullseye
           - OS: ubuntu
             CODENAME: focal
+          - OS: ubuntu
+            CODENAME: jammy
     steps:
       - name: Free disk space
         run: |
