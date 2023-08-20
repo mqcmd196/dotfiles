@@ -5,6 +5,13 @@
     state: present
   become: yes
 
+- name: Install common packages for emacs28 in Ubuntu jammy
+  apt:
+    name: ['ripgrep', 'fd-find', 'libgccjit-11-dev']
+    state: present
+  become: yes
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22"
+
 - name: Install common packages for emacs28 in Debian bullseye
   apt:
     name: ['ripgrep', 'fd-find', 'libgccjit-10-dev']
@@ -91,7 +98,7 @@
         dest: "{{ ansible_env.HOME }}/.local/src"
         remote_src: true
     - name: Configure emacs in Debian bullseye and Ubuntu focal
-      when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" ) or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
+      when: ( ansible_facts['distribution'] == "Ubuntu" and ( ansible_facts['distribution_major_version'] == "22" or ansible_facts['distribution_major_version'] == "20" ) ) or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
       shell: >
         ./configure
         --prefix={{ ansible_env.HOME }}/.local
@@ -119,6 +126,7 @@
         chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
 
 - name: Install LLVM and clangd
+  when: not ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22"
   block:
     - name: Git clone LLVM project on Ubuntu bionic
       when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
@@ -151,6 +159,13 @@
       shell: >
         make -j8 install
         chdir="{{ ansible_env.HOME }}/.local/src/llvm-project/build"
+
+- name: Install clangd-15 on Ubuntu jammy
+  apt:
+    name: clangd-15
+    state: present
+  become: yes
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22"
 
 # Setup Doom Emacs
 - name: Setup Doom Emacs
