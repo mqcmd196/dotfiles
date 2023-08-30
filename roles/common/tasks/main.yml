@@ -89,3 +89,5 @@
         depth: 1
     - name: Install Node.js LTS with nvm
       shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm install --lts v18.16.0"
+    - name: Set default Node.js LTS
+      shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm alias default v18.16.0"
