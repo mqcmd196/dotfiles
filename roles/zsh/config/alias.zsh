@@ -23,3 +23,8 @@ alias traceroute='grc traceroute'
 alias netstat='grc netstat'
 alias ps='grc ps'
 alias df='grc df'
+
+source /etc/lsb-release
+if [[ $DISTRIB_RELEASE == 22.04 ]] then
+   alias clangd='clangd-15'
+fi
