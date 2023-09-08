@@ -99,6 +99,8 @@ unset __conda_setup
 # conda-zsh-completion
 fpath+=~/.conda-zsh-completion
 zstyle ":conda_zsh_completion:*" sort-envs-by-time true
+
+# init completions
 autoload -U compinit && compinit
 
 # zsh syntax highlighting
