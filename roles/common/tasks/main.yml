@@ -1,7 +1,7 @@
 # Install packages with apt
-- name: Install tmux and peco
+- name: Install convinient apt packages
   apt:
-    name: ['tmux', 'peco', 'xsel']
+    name: ['bat', 'dnsutils', 'grc', 'net-tools', 'tmux', 'traceroute', 'peco', 'xsel']
     state: present
   become: yes
 
