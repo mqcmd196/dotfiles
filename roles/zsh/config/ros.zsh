@@ -83,7 +83,6 @@ catkin_generate_compile_commands_json(){
 catkin_after_build(){
     catkin_generate_compile_commands_json
     local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
-    touch $catkin_ws/.ccls-root
     ros_workspace_set $catkin_ws
 }
 
@@ -113,6 +112,9 @@ _ross() {
         CURSOR=${#RBUFFER}
     fi
 }
+
+# ros2 completion
+complete -o nospace -o default -F _python_argcomplete "ros2"
 
 if [ -d /opt/ros ]; then
     init_ros_zsh
