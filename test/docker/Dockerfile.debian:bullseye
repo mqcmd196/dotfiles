@@ -1,5 +1,7 @@
 FROM debian:bullseye
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # For manage user
 RUN apt update -qq && \
     apt upgrade -y -qq && \
