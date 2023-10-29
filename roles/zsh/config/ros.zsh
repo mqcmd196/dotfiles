@@ -116,6 +116,12 @@ _ross() {
 # ros2 completion
 complete -o nospace -o default -F _python_argcomplete "ros2"
 
+# colcon completion
+if type colcon &> /dev/null; then
+    source /usr/share/colcon_cd/function/colcon_cd.sh
+    source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+fi
+
 if [ -d /opt/ros ]; then
     init_ros_zsh
 fi
