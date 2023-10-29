@@ -59,16 +59,14 @@ source ${zsh_personal_config_dir}/ros.zsh
 if [ -z "$HISTFILE" ]; then
   HISTFILE=$HOME/.zsh_history
 fi
-setopt HISTVERIFY
-setopt EXTENDED_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_FIND_NO_DUPS
-setopt HIST_SAVE_NO_DUPS
-setopt HIST_NO_STORE
-unsetopt SHARE_HISTORY
+
+setopt histappend
+setopt inc_append_history
+setopt hist_verify
+setopt extended_history
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
 
 PROMPT_COMMAND='history -a'
 HISTSIZE=500000
