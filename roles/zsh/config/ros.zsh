@@ -3,8 +3,8 @@
 init_ros_zsh(){
     local cpu_cores=$(python3 -c 'import multiprocessing as m; print(m.cpu_count());')
     local jobs=$(($cpu_cores / 2))
-    alias catkinb="catkin b -j$jobs -p$jobs -c"
-    alias catkinbt="catkin bt -j$jobs -p$jobs -c"
+    alias catkinb="catkin b -j$jobs -p$jobs -c -s"
+    alias catkinbt="catkin bt -j$jobs -p$jobs -c -s"
     # I want to set Ctrl + Alt + r to _ross, but it doesn't work.
     zle -N _ross
     bindkey '^[^r' _ross
