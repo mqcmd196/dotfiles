@@ -11,6 +11,16 @@ init_ros_zsh(){
     export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}'
 }
 
+ros_set_debug_console(){
+    echo "Set debug style ROSCONSOLE_FORMAT"
+    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}][${file}:L${line}]: ${message}'
+}
+
+ros_set_default_console(){
+    echo "Set default ROSCONSOLE_FORMAT"
+    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}'
+}
+
 ros_workspace_init(){
     if [ -e "/opt/ros/melodic/setup.zsh" ]; then
         source /opt/ros/melodic/setup.zsh # melodic only
