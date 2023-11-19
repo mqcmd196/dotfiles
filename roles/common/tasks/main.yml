@@ -28,6 +28,29 @@
         append: yes
   become: true
 
+- name: Setup VSCode
+  block:
+    - name: Add VSCode key
+      apt_key:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
+    - name: Add VSCode repository
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+        filename: vscode
+    - name: Install VSCode
+      apt:
+        name: code
+        state: present
+        update_cache: yes
+    - name: Download and install JetBrainsMono
+      unarchive:
+        src: https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
+        dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+        remote_src: yes
+  become: true
+
 - name: Setup GitHub CLI
   block:
     - name: Add gh key
