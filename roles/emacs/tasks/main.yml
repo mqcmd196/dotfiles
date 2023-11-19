@@ -44,7 +44,7 @@
 - name: Install cmake language server and pyright
   pip:
     executable: pip3
-    name: ['cmake-language-server', 'pyright', 'black']
+    name: ['cmake-language-server', 'pyright', 'black', 'debugpy']
   become: yes
 
 # Download and install packages not distributed as apt packages
