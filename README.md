@@ -44,9 +44,15 @@ Limited dotfiles
 
 ### Keybinds
 #### emacs
-C-; : completion
+C-; : Completion
 
-C-u C-SPC : back to the initial position when search
+C-u C-SPC : Back to the initial position when search
+
+M-[ : Return to the beginning of the paragraph that precedes the point
+
+M-] : Move to the end of the paragraph behind the point
+
+M-h : Place a point and mark before or after the paragraph with the point or the paragraph following the point
 
 `lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build 
 
