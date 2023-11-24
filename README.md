@@ -46,6 +46,8 @@ Limited dotfiles
 #### emacs
 C-; : completion
 
+C-u C-SPC : back to the initial position when search
+
 `lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build 
 
 ##### project
