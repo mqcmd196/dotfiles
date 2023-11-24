@@ -1,3 +1,10 @@
+# Copy light version of emacs config
+- name: Create symbolic link for light version of Emacs config
+  file:
+    src: "{{ role_path }}/../../non-sudoer/emacs.el"
+    dest: "{{ ansible_env.HOME }}/.emacs-light.el"
+    state: link
+
 # Install apt packages
 - name: Install common packages for emacs28
   apt:
