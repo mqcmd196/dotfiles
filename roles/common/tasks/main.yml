@@ -44,6 +44,10 @@
         name: code
         state: present
         update_cache: yes
+    - name: Ensure font directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+        state: directory
     - name: Download and install JetBrainsMono
       unarchive:
         src: https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
