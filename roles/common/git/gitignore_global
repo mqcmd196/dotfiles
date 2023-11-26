@@ -9,6 +9,7 @@ venv*/*
 __pycache__/*
 *.pyc
 *.retry
+build/
 cmake-build-debug/
 cmake-build-default/
 cmake-build-minsizerel/
