@@ -1,9 +1,26 @@
 # Install packages with apt
-- name: Install convinient apt packages
+- name: Install convenient apt packages
   apt:
     name: ['bat', 'dnsutils', 'grc', 'net-tools', 'tmux', 'traceroute', 'peco', 'xsel', 'zsh']
     state: present
   become: yes
+
+- name: Install fonts
+  block:
+  - name: Ensure font directory exists
+    file:
+      path: "{{ ansible_env.HOME }}/.local/share/fonts"
+      state: directory
+  - name: Download and install JetBrainsMono
+    unarchive:
+      src: https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
+      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+      remote_src: yes
+  - name: Download and install CascadiaCode
+    unarchive:
+      src: https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip
+      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+      remote_src: yes
 
 - name: Setup latest stable Docker
   block:
@@ -44,15 +61,6 @@
         name: code
         state: present
         update_cache: yes
-    - name: Ensure font directory exists
-      file:
-        path: "{{ ansible_env.HOME }}/.local/share/fonts"
-        state: directory
-    - name: Download and install JetBrainsMono
-      unarchive:
-        src: https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
-        dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-        remote_src: yes
   become: true
 
 - name: Setup GitHub CLI
