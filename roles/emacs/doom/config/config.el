@@ -21,7 +21,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "JetBrains Mono" :size 15 :weight 'normal))
+(setq doom-font (font-spec :family "Cascadia Code" :size 15 :weight 'normal))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -128,6 +128,8 @@
                                 "--header-insertion-decorators=0"
                                 "--query-driver=/usr/bin/c++"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
+;; clangd path
+(setq lsp-clients-clangd-executable "clangd-15")
 
 ;; python version
 (after! python
