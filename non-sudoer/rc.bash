@@ -131,7 +131,7 @@ _replace_by_history() {
  READLINE_POINT=${#l}
 }
 
-if [ command -v percol &> /dev/null ]; then
+if command -v percol &> /dev/null; then
     bind -x '"\C-r": _replace_by_history'
 fi
 
