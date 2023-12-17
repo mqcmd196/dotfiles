@@ -6,6 +6,11 @@
 
 (load-theme 'deeper-blue t)
 
+;; Use Cascadia Code by default if exists
+(cond
+ ((find-font (font-spec :name "Cascadia Code"))
+  (set-frame-font "Cascadia Code-12")))
+
 (setq whitespace-space-regexp "\\(\u3000+\\)")
 
 (show-paren-mode 1)
@@ -14,6 +19,9 @@
 
 ;; Insert parenthesis/brackets by pair
 (electric-pair-mode 1)
+
+;; yes -> y, no -> n
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; yaml-mode, nxml in ros
 (when (require 'yaml-mode nil t)
