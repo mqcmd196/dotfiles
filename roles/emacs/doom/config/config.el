@@ -129,7 +129,10 @@
                                 "--query-driver=/usr/bin/c++"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 ;; clangd path
-(setq lsp-clients-clangd-executable "clangd-15")
+(if (executable-find "clangd")
+    (setq lsp-clients-clangd-executable "clangd")
+  (setq lsp-clients-clangd-executable "clangd-15")
+ )
 
 ;; python version
 (after! python
