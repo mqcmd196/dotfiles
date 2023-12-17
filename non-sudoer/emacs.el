@@ -2,6 +2,9 @@
 (global-set-key "\C-h" 'delete-backward-char)
 
 (setq initial-scratch-message 'nil)
+(setq inhibit-startup-message 't)
+
+(load-theme 'deeper-blue t)
 
 (setq whitespace-space-regexp "\\(\u3000+\\)")
 
