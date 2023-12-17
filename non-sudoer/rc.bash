@@ -130,9 +130,9 @@ _replace_by_history() {
  READLINE_LINE="$l"
  READLINE_POINT=${#l}
 }
-bind -x '"\C-r": _replace_by_history'
-if ! command -v percol &> /dev/null; then
-    export PATH=~/.local/bin:$PATH
+
+if [ command -v percol &> /dev/null ]; then
+    bind -x '"\C-r": _replace_by_history'
 fi
 
 # history
@@ -166,6 +166,10 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
 # %F equivalent to %Y-%m-%d
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
+
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
 alias em='emacs'
 
