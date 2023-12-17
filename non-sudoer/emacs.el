@@ -4,7 +4,7 @@
 (setq initial-scratch-message 'nil)
 (setq inhibit-startup-message 't)
 
-(load-theme 'deeper-blue t)
+(load-theme 'wombat t)
 
 ;; Use Cascadia Code by default if exists
 (cond
