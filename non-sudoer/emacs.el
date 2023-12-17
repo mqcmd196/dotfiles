@@ -4,7 +4,18 @@
 (setq initial-scratch-message 'nil)
 (setq inhibit-startup-message 't)
 
-(load-theme 'wombat t)
+(add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes")
+(setq custom-theme-directory "~/dotfiles/non-sudoer/themes")
+(load-theme 'obinata-deeper-blue t)
+
+;; black background
+(set-background-color "black")
+
+;; black background in terminal
+(defun on-after-init ()
+  (unless (display-graphic-p (selected-frame))
+    (set-face-background 'default "unspecified-bg" (selected-frame))))
+(add-hook 'window-setup-hook 'on-after-init)
 
 ;; Use Cascadia Code by default if exists
 (cond
