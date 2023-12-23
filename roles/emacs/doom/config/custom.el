@@ -6,7 +6,8 @@
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(safe-local-variable-values '((encoding . utf-8)))
  '(warning-suppress-log-types
-   '((emacs)
+   '(((copilot copilot-no-mode-indent))
+     (emacs)
      ((copilot copilot-no-mode-indent))
      (doom-first-input-hook)
      (defvaralias))))
