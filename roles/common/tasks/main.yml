@@ -99,11 +99,8 @@
 - name: Create symbolic link for git config
   file:
     src: "{{ role_path }}/git/gitignore_global"
-    dest: "{{ ansible_env.HOME }}/.gitignore_global"
+    dest: "{{ ansible_env.HOME }}/.config/git/ignore"
     state: link
-
-- name: Setup gitignore global
-  shell: git config --global core.excludesfile {{ ansible_env.HOME }}/.gitignore_global
 
 - name: Create symbolic link for gdb-dashboard
   file:
@@ -124,10 +121,9 @@
         url: https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
         dest: "{{ ansible_env.HOME }}/miniconda.sh"
     - name: Install Miniconda
-      shell: /usr/bin/env sh ./miniconda.sh -b
+      shell: /usr/bin/env sh ./miniconda.sh -b -u
       args:
         chdir: "{{ ansible_env.HOME }}"
-      ignore_errors: true
 
 - name: Create symbolic link for condarc
   file:
@@ -142,6 +138,7 @@
         repo: https://github.com/nvm-sh/nvm
         dest: "{{ ansible_env.HOME }}/.nvm"
         depth: 1
+        version: v0.39.7
     - name: Install Node.js LTS with nvm
       shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm install --lts v18.16.0"
       ignore_errors: true
