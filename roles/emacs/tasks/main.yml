@@ -33,62 +33,12 @@
   become: yes
   when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20"
 
-- name: Install common packages for emacs28 in Ubuntu bionic
-  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
-  block:
-    - name: Add latest git repository
-      apt_repository:
-        repo: "ppa:git-core/ppa"
-        update_cache: yes
-      become: yes
-    - name: Install common packages for emacs28 in Ubuntu bionic
-      apt:
-        name: ['git']
-        state: latest
-      become: yes
-
 # Install pip packages
 - name: Install cmake language server and pyright
   pip:
     executable: pip3
     name: ['cmake-language-server', 'pyright', 'black', 'debugpy']
   become: yes
-
-# Download and install packages not distributed as apt packages
-- name: Download and install packages not distributed as apt packages in Ubuntu bionic
-  when:
-    - ansible_facts['distribution'] == "Ubuntu"
-    - ansible_facts['distribution_major_version'] == "18"
-  block:
-    # ripgrep
-    - name: Download ripgrep .deb
-      get_url:
-        url: https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-        dest: "/tmp/ripgrep_11.0.2_amd64.deb"
-    - name: Install ripgrep .deb
-      apt:
-        deb: "/tmp/ripgrep_11.0.2_amd64.deb"
-      become: yes
-    # fdfind
-    - name: Download fd-find .deb
-      get_url:
-        url: https://github.com/sharkdp/fd/releases/download/v7.4.0/fd_7.4.0_amd64.deb
-        dest: "/tmp/fd_7.4.0_amd64.deb"
-    - name: Install fd-find .deb
-      apt:
-        deb: "/tmp/fd_7.4.0_amd64.deb"
-      become: yes
-    # gcc-9, g++-9
-    - name: Add gcc-9, g++-9 repository
-      apt_repository:
-        repo: "ppa:ubuntu-toolchain-r/test"
-        update_cache: yes
-      become: yes
-    - name: Install gcc-9, g++-9
-      apt:
-        name: ['gcc-9', 'g++-9', 'libgccjit-9-dev']
-        state: present
-      become: yes
 
 - name: Create ~/.local/src for cloning source
   file:
@@ -114,19 +64,6 @@
         --with-gnutls
         --with-cairo
         chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
-    - name: Configure emacs in Ubuntu bionic
-      when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
-      environment:
-        CC: /usr/bin/gcc-9
-        CXX: /usr/bin/g++-9
-      shell: >
-        ./configure
-        --prefix={{ ansible_env.HOME }}/.local
-        --with-native-compilation
-        --with-json
-        --with-gnutls
-        --with-cairo
-        chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
     - name: Build emacs
       shell: >
         make -j8 install
@@ -135,12 +72,6 @@
 - name: Install LLVM and clangd
   when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22")
   block:
-    - name: Git clone LLVM project on Ubuntu bionic
-      when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
-      git:
-        repo: https://github.com/llvm/llvm-project
-        dest: "{{ ansible_env.HOME }}/.local/src/llvm-project"
-        version: llvmorg-11.1.0
     - name: Git clone LLVM project on Debian bullseye and Ubuntu focal
       when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" ) or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
       git:
