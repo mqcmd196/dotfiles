@@ -12,6 +12,13 @@
     state: present
   become: yes
 
+# Install pip packages
+- name: Install cmake language server and pyright
+  pip:
+    executable: pip3
+    name: ['cmake-language-server', 'pyright', 'black', 'debugpy']
+  become: yes
+
 - name: Install common packages for emacs28 in Ubuntu jammy
   apt:
     name: ['ripgrep', 'fd-find', 'libgccjit-11-dev']
@@ -32,13 +39,6 @@
     state: present
   become: yes
   when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20"
-
-# Install pip packages
-- name: Install cmake language server and pyright
-  pip:
-    executable: pip3
-    name: ['cmake-language-server', 'pyright', 'black', 'debugpy']
-  become: yes
 
 - name: Create ~/.local/src for cloning source
   file:
@@ -66,44 +66,29 @@
         chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
     - name: Build emacs
       shell: >
-        make -j8 install
+        make -j$(nproc) install
         chdir="{{ ansible_env.HOME }}/.local/src/emacs-28.1"
 
-- name: Install LLVM and clangd
+# Install clangd
+- name: Add clangd apt repository for Debian bullseye and Ubuntu focal
   when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22")
   block:
-    - name: Git clone LLVM project on Debian bullseye and Ubuntu focal
-      when: ( ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20" ) or ( ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11" )
-      git:
-        repo: https://github.com/llvm/llvm-project
-        dest: "{{ ansible_env.HOME }}/.local/src/llvm-project"
-        version: llvmorg-15.0.7
-    - name: Create build directory
-      file:
-        path: "{{ ansible_env.HOME }}/.local/src/llvm-project/build"
-        state: directory
-        recurse: yes
-    - name: Configure with cmake
-      shell: >
-        cmake
-        -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra"
-        -DLLVM_TARGETS_TO_BUILD="X86"
-        -DCMAKE_INSTALL_PREFIX={{ ansible_env.HOME }}/.local/
-        -DCMAKE_BUILD_TYPE=MinSizeRel
-        -G "Unix Makefiles"
-        ../llvm
-        chdir="{{ ansible_env.HOME }}/.local/src/llvm-project/build"
-    - name: Build LLVM
-      shell: >
-        make -j8 install
-        chdir="{{ ansible_env.HOME }}/.local/src/llvm-project/build"
+    - name: Add LLVM key
+      apt_key:
+        url: https://apt.llvm.org/llvm-snapshot.gpg.key
+        state: present
+    - name: Add LLVM repository
+      apt_repository:
+        repo: deb [arch=amd64] http://apt.llvm.org/{{ ansible_distribution_release|lower }}/ llvm-toolchain-{{ ansible_distribution_release|lower }}-15 main
+        state: present
+        filename: llvm-toolchain
+  become: true
 
-- name: Install clangd-15 on Ubuntu jammy
+- name: Install clangd-15
   apt:
     name: clangd-15
     state: present
   become: yes
-  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22"
 
 # Setup Doom Emacs
 - name: Setup Doom Emacs
