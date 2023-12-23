@@ -43,9 +43,9 @@
 
 - name: Git clone conda-zsh-completion
   git:
-    repo: https://github.com/conda-incubator/conda-zsh-completion.git
+    repo: https://github.com/mqcmd196/conda-zsh-completion.git
     dest: "{{ ansible_env.HOME }}/.conda-zsh-completion"
-    version: 306e16f57356e352a5244ad6fbe9bc26b6247358
+    version: 691163b4dbb9583c0316160e13241d249fd4b456
 
 - name: Git clone zsh-completions
   git:
