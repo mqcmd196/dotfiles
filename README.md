@@ -3,6 +3,7 @@
 ## Supported OS
 - Debian 11 (bullseye)
 - Ubuntu 20.04 (focal fossa)
+- Ubuntu 22.04 (Jammy Jellyfish)
 
 ## Prerequisite
 ### apt packages
