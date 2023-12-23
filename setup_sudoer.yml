@@ -7,7 +7,5 @@
       tags: common
     - role: emacs
       tags: emacs
-    - role: bash
-      tags: bash
     - role: zsh
       tags: zsh
