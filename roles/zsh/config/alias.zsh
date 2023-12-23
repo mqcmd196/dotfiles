@@ -40,6 +40,4 @@ alias gst='git status'
 alias gd='git diff'
 
 source /etc/lsb-release
-if [[ $DISTRIB_RELEASE == 22.04 ]] then
-   alias clangd='clangd-15'
-fi
+alias clangd='clangd-15'
