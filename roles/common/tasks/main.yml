@@ -96,6 +96,12 @@
     dest: "{{ ansible_env.HOME }}/.docker"
     state: link
 
+- name: Create ~/.config/git for creating git config
+  file:
+    path: "{{ ansible_env.HOME }}/.config/git"
+    state: directory
+    recurse: yes
+
 - name: Create symbolic link for git config
   file:
     src: "{{ role_path }}/git/gitignore_global"
