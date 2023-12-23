@@ -5,7 +5,10 @@
       tags: prerequisites
     - role: common # Common configs for sudoer and non-sudoer
       tags: common
+      poll: 0
     - role: emacs
       tags: emacs
+      poll: 0
     - role: zsh
       tags: zsh
+      poll: 0
