@@ -10,21 +10,21 @@ if [ ! -e $HOME/.local/src ]; then
 fi
 
 if ! command -v percol &> /dev/null; then
-    echo "percol command not found"
+    echo "percol command not found. Installing..."
     pip3 install --user percol
 fi
 
 if ! command -v xsel &> /dev/null; then
-    echo "xsel command not found"
+    echo "xsel command not found. Installing..."
     git clone --branch 1.2.1 --depth 1 https://github.com/kfish/xsel.git $HOME/.local/src/xsel
-    cd $HOME/.local/src/xsel && ./autogen.sh && ./configure --prefix=$HOME/.local && make -j8 install
+    cd $HOME/.local/src/xsel && ./autogen.sh && ./configure --prefix=$HOME/.local && make -j$(nproc) install
 fi
 
 ln -sf $SETUP_CONFIGDIR/rc.bash $HOME/.bashrc
 ln -sf $SETUP_CONFIGDIR/emacs.el $HOME/.emacs
 ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/tmux/tmux.conf $HOME/.tmux.conf
-ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/git/gitignore_global $HOME/.gitignore_global
-git config --global core.excludesFile $HOME/.gitignore_global
+mkdir -p $HOME/.config/git
+ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/git/gitignore_global $HOME/.config/git/ignore
 mkdir -p $HOME/.percol.d
 ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/percol/rc.py $HOME/.percol.d/rc.py
 ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/docker $HOME/.docker
