@@ -22,6 +22,24 @@
       dest: "{{ ansible_env.HOME }}/.local/share/fonts"
       remote_src: yes
 
+- name: Setup Google Chrome
+  block:
+    - name: Add Chrome key
+      apt_key:
+        url: https://dl.google.com/linux/linux_signing_key.pub
+        state: present
+    - name: Add Chrome repository
+      apt_repository:
+        repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb stable main
+        state: present
+        filename: google-chrome
+    - name: Install Google Chrome
+      apt:
+        name: google-chrome-stable
+        update_cache: yes
+        state: present
+  become: true
+
 - name: Setup latest stable Docker
   block:
     - name: Add Docker key
