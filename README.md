@@ -43,7 +43,7 @@ Limited dotfiles
 ### Initial setup in sudoer emacs
 1. Execute `copilot-login` when `copilot-mode` is enabled
 
-### Keybinds
+### Manuals of functions and keybinds
 #### emacs
 C-; : Completion
 
@@ -56,6 +56,8 @@ M-] : Move to the end of the paragraph behind the point
 M-h : Place a point and mark before or after the paragraph with the point or the paragraph following the point
 
 `lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build 
+
+`reftex-toc` : Show the table of contents for the current tex document 
 
 ##### project
 C-c p f : Find file in project
