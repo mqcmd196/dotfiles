@@ -110,6 +110,15 @@
 
 ;; flycheck after saved
 (setq flycheck-check-syntax-automatically '(save mode-enable))
+;; make flycheck popup smaller
+(after! flycheck
+  (set-popup-rules!
+    '(("^\\*Flycheck errors\\*$"
+       :size 0.07
+       :side bottom
+       :select t
+       :quit t
+       :ttl nil))))
 
 ;; word wrapping
 (+global-word-wrap-mode +1)
