@@ -1,6 +1,6 @@
 # In wsl-22.04 sometimes .profile is not loaded
-if [[ $WSL_DISTRO_NAME == "Ubuntu-22.04" ]] then
-   source /home/obinata/.profile
+if [ -v WSLENV ]; then
+   source $HOME/.profile
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
