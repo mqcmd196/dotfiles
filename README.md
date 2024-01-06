@@ -42,6 +42,7 @@ Limited dotfiles
 ## Note
 ### Initial setup in sudoer emacs
 1. Execute `copilot-login` when `copilot-mode` is enabled
+1. On emacs, execute `all-the-icons-install-fonts` and `nerd-icons-install-fonts`
 
 ### Manuals of functions and keybinds
 #### emacs
