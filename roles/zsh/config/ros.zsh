@@ -12,21 +12,15 @@ init_ros_zsh(){
 
 ros_console_set_debug(){
     echo "Set debug style ROS CONSOLE"
-    if [ $ROS_VERSION = 1 ]; then
-        export ROSCONSOLE_FORMAT='[${severity}][${time}][${time:format string}][${node}:${logger}][${file}:L${line}]: ${message}' # TODO check time format
-    elif [ $ROS_VERSION = 2 ]; then
-        export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}][{time}][{name}][{file_name}:{function_name}:L{line_number}]: {message}'
-    fi
+    export ROSCONSOLE_FORMAT='[${severity}][${time}][${time:format string}][${node}:${logger}][${file}:L${line}]: ${message}' # TODO check time format
+    export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}][{time}][{name}][{file_name}:{function_name}:L{line_number}]: {message}' # ROS2
 }
 
 ros_console_set_default(){
     echo "Set default ROS CONSOLE"
-    if [ $ROS_VERSION = 1 ]; then
-        export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}'
-    elif [ $ROS_VERSION = 2 ]; then
-        export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}][{time}][{name}]: {message}'
-        export RCUTILS_COLORIZED_OUTPUT=1
-    fi
+    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}' # ROS1
+    export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}][{time}][{name}]: {message}' # ROS2
+    export RCUTILS_COLORIZED_OUTPUT=1
 }
 
 ros_workspace_init(){
