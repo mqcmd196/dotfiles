@@ -19,6 +19,10 @@
  ((find-font (font-spec :name "Cascadia Code"))
   (set-frame-font "Cascadia Code-12")))
 
+;; backup directory
+(setq backup-directory-alist '((".*" . "~/tmp")))
+(setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
+
 (setq whitespace-space-regexp "\\(\u3000+\\)")
 
 (show-paren-mode 1)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -7,6 +7,10 @@ SETUP_ROOT_USER_CONFIGDIR=$(cd $(dirname -- $0);pwd)
 
 if [ ! -e $HOME/.local/src ]; then
     mkdir -p $HOME/.local/src
+fi
+
+if [ ! -e $HOME/tmp ]; then
+    mkdir -p $HOME/tmp
 fi
 
 if ! command -v percol &> /dev/null; then
