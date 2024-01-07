@@ -5,20 +5,28 @@ init_ros_zsh(){
     local jobs=$(($cpu_cores / 2))
     alias catkinb="catkin b -j$jobs -p$jobs -c -s"
     alias catkinbt="catkin bt -j$jobs -p$jobs -c -s"
-    # I want to set Ctrl + Alt + r to _ross, but it doesn't work.
-    zle -N _ross
-    bindkey '^[^r' _ross
-    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}'
+    zle -N rospeco
+    bindkey '^[^r' rospeco
+    ros_console_set_default > /dev/null
 }
 
-ros_set_debug_console(){
-    echo "Set debug style ROSCONSOLE_FORMAT"
-    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}][${file}:L${line}]: ${message}'
+ros_console_set_debug(){
+    echo "Set debug style ROS CONSOLE"
+    if [ $ROS_VERSION = 1 ]; then
+        export ROSCONSOLE_FORMAT='[${severity}][${time}][${time:format string}][${node}:${logger}][${file}:L${line}]: ${message}' # TODO check time format
+    elif [ $ROS_VERSION = 2 ]; then
+        export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}][{time}][{name}][{file_name}:{function_name}:L{line_number}]: {message}'
+    fi
 }
 
-ros_set_default_console(){
-    echo "Set default ROSCONSOLE_FORMAT"
-    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}'
+ros_console_set_default(){
+    echo "Set default ROS CONSOLE"
+    if [ $ROS_VERSION = 1 ]; then
+        export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}]: ${message}'
+    elif [ $ROS_VERSION = 2 ]; then
+        export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}][{time}][{name}]: {message}'
+        export RCUTILS_COLORIZED_OUTPUT=1
+    fi
 }
 
 ros_workspace_init(){
@@ -96,12 +104,12 @@ catkin_after_build(){
     ros_workspace_set $catkin_ws
 }
 
-_ross() {
+rospeco() {
     local mode
     local var
     local com
     mode=$(echo -e "node\ntopic\nservice\nmsg" | peco --prompt ROS\?\>)
-    if [ ${mode} ]; then
+    if [ ${mode} ] && [ $ROS_VERSION = 1 ]; then
         if [ ${mode} = "node" ]; then
             local var=$(rosnode list | peco --prompt ROSNODE\?\>)
             local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco --prompt COMMAND\?\>)
@@ -115,9 +123,24 @@ _ross() {
             local var=$(rosmsg list | peco --prompt ROSMSG\?\>)
             local com=$(echo -e "show\ninfo\nmd5\npackage\npackages" | peco --prompt COMMAND\?\>)
         fi
+    elif [ ${mode} ] && [ $ROS_VERSION = 2 ]; then
+        if [ ${mode} = "node" ]; then
+            local var=$(ros2 node list | peco --prompt ROSNODE\?\>)
+            local com=$(echo -e "info\nlog\nping\npub\nsub\nfind\nkill\ncleanup" | peco --prompt COMMAND\?\>)
+        elif [ ${mode} = "topic" ]; then
+            local var=$(ros2 topic list | peco --prompt ROSTOPIC\?\>)
+            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype" | peco --prompt COMMAND\?\>)
+        elif [ ${mode} = "service" ]; then
+            local var=$(ros2 service list | peco --prompt ROSSERVICE\?\>)
+            local com=$(echo -e "call\ntype\n" | peco --prompt COMMAND\?\>)
+        fi
     fi
-    if [ ${var} ] && [ ${com} ]; then
-        local fullcmd="ros${mode} ${com} ${var}"
+    if [ -n "${var}" ] && [ -n "${com}" ]; then
+        if [ $ROS_VERSION = 1 ]; then
+            local fullcmd="ros${mode} ${com} ${var}"
+        elif [ $ROS_VERSION = 2 ]; then
+            local fullcmd="ros2 ${mode} ${com} ${var}"
+        fi
         RBUFFER="${fullcmd}"
         CURSOR=${#RBUFFER}
     fi
