@@ -12,7 +12,7 @@ init_ros_zsh(){
 
 ros_console_set_debug(){
     echo "Set debug style ROS CONSOLE"
-    export ROSCONSOLE_FORMAT='[${severity}][${time}][${time:format string}][${node}:${logger}][${file}:L${line}]: ${message}' # TODO check time format
+    export ROSCONSOLE_FORMAT='[${severity}][${time}][${node}:${logger}][${file}:L${line}]: ${message}' # ROS 1
     export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}][{time}][{name}][{file_name}:{function_name}:L{line_number}]: {message}' # ROS2
 }
 
