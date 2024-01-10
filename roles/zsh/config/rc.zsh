@@ -109,5 +109,6 @@ source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_STYLES[comment]=fg=245 # make comment out color lighter
 
 # zsh autosuggestions
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=1 # avoid too slow completion
