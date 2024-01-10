@@ -80,6 +80,9 @@ HIST_STAMPS='yyyy-mm-dd HH:MM:SS'
 
 source /etc/zsh_command_not_found # for command-not-found
 
+# enable comment out in command line
+setopt interactivecomments
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('$HOME/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -103,6 +106,7 @@ autoload -U compinit && compinit
 
 # zsh syntax highlighting
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_STYLES[comment]=fg=245 # make comment out color lighter
 
 # zsh autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
