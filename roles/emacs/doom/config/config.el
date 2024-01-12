@@ -141,8 +141,6 @@
 ;; C/C++ paren settings
 (add-hook 'c++-mode-hook #'(lambda ()
                              (sp-local-pair 'c++-mode "<" nil :actions nil)))
-(add-hook 'c-mode-hook #'(lambda ()
-                           (sp-local-pair 'c-mode "<" nil :actions nil)))
 
 ;; python version
 (after! python
