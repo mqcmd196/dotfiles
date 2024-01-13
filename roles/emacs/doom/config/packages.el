@@ -11,7 +11,8 @@
 (package! google-this)
 
 (package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist"))
+  :pin "c5d822c98f047376cfd6dd95515a609c30157522")
 
 
 ;; To install a package directly from a remote git repo, you must specify a
