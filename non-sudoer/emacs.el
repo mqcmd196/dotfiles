@@ -6,7 +6,7 @@
 (load-theme 'obinata-deeper-blue t)
 
 ;; black background
-(set-background-color "black")
+(set-background-color "#2E3436")
 
 ;; black background in terminal
 (defun on-after-init ()
