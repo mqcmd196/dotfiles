@@ -108,8 +108,6 @@
   (define-key! company-active-map (kbd "M-p") 'company-select-previous-or-abort)
   (setq company-global-modes '(not latex-mode)))
 
-;; flycheck after saved
-(setq flycheck-check-syntax-automatically '(save mode-enable))
 ;; make flycheck popup smaller
 (after! flycheck
   (set-popup-rules!
@@ -135,8 +133,7 @@
 ;; clangd path
 (if (executable-find "clangd")
     (setq lsp-clients-clangd-executable "clangd")
-  (setq lsp-clients-clangd-executable "clangd-15")
- )
+  (setq lsp-clients-clangd-executable "clangd-15"))
 
 ;; C/C++ paren settings
 (add-hook 'c++-mode-hook #'(lambda ()
