@@ -28,6 +28,7 @@
 (show-paren-mode 1)
 
 (setq-default tab-width 4 indent-tabs-mode nil)
+(setq-default c-basic-offset 4)
 
 ;; Insert parenthesis/brackets by pair
 (electric-pair-mode 1)
