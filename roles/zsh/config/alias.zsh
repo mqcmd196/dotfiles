@@ -41,3 +41,10 @@ alias gd='git diff'
 
 source /etc/lsb-release
 alias clangd='clangd-15'
+
+# explorer
+if [ -v WSLENV ]; then
+    alias e='explorer.exe'
+else
+    alias e='xdg-open'
+fi
