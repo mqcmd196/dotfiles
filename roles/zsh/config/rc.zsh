@@ -104,6 +104,22 @@ zstyle ":conda_zsh_completion:*" sort-envs-by-time true
 # init completions
 autoload -U compinit && compinit
 
+# set environment variable the OS theme color is dark or light
+# gnome
+if [[ $(gsettings get org.gnome.desktop.interface gtk-theme) == *"dark"* ]]; then
+  export OS_COLOR_SCHEME="dark"
+else
+  export OS_COLOR_SCHEME="light"
+fi
+# wsl
+if [ -v WSLENV ]; then
+  if [[ $(reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" | grep 1) ]]; then
+    export OS_COLOR_SCHEME="light"
+  else
+    export OS_COLOR_SCHEME="dark"
+  fi
+fi
+
 # zsh syntax highlighting
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_STYLES[comment]=fg=245 # make comment out color lighter

@@ -11,7 +11,10 @@
 
 (setq auth-sources '("~/.netrc.gpg"))
 
-(setq doom-theme 'doom-one)
+(let* ((os-color-scheme (getenv "OS_COLOR_SCHEME")))
+  (if (string= os-color-scheme "light")
+      (setq doom-theme 'doom-one-light)
+    (setq doom-theme 'doom-one)))
 
 ;; font settings
 ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
