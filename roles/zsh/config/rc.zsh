@@ -113,11 +113,11 @@ else
 fi
 # wsl
 if [ -v WSLENV ]; then
-  if [[ $(reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" | grep 1) ]]; then
-    export OS_COLOR_SCHEME="light"
-  else
-    export OS_COLOR_SCHEME="dark"
-  fi
+    if [[ $(powershell.exe Get-ItemProperty -Path "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize" -Name AppsUseLightTheme | grep AppsUse | awk '{ print $3 }' | grep 1) ]]; then
+        export OS_COLOR_SCHEME="light"
+    else
+        export OS_COLOR_SCHEME="dark"
+    fi
 fi
 
 # zsh syntax highlighting
