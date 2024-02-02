@@ -99,7 +99,16 @@
   (setq! lsp-lens-enable nil)
   (setq! lsp-enable-file-watchers nil)
   (setq! lsp-log-io nil)
-  (setq! lsp-restart 'auto-restart))
+  (setq! lsp-restart 'auto-restart)
+  ;; make lsp-documentation popup smaller
+  (set-popup-rules!
+    '(("^\\*lsp-documentation\\*$"
+       :size 0.2
+       :side bottom
+       :select t
+       :quit t
+       :ttl nil))))
+;; make lsp-signature-render-documentation popup smaller
 
 ;; company
 (after! company
