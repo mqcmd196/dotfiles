@@ -1,18 +1,26 @@
 (setq initial-scratch-message 'nil)
 (setq inhibit-startup-message 't)
 
-(add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes")
-(setq custom-theme-directory "~/dotfiles/non-sudoer/themes")
-(load-theme 'obinata-deeper-blue t)
+;; loading themes
+(add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
+(add-to-list 'load-path "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
+(setq custom-theme-directory "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
+(add-to-list 'load-path "/tmp/emacs-one-themes")
+(add-to-list 'custom-theme-load-path "/tmp/emacs-one-themes")
 
-;; black background
-(set-background-color "#2E3436")
-
-;; black background in terminal
-(defun on-after-init ()
-  (unless (display-graphic-p (selected-frame))
-    (set-face-background 'default "unspecified-bg" (selected-frame))))
-(add-hook 'window-setup-hook 'on-after-init)
+;; when light mode, use one-light. else use deeper-blue
+(let* ((os-color-scheme (getenv "OS_COLOR_SCHEME")))
+  (if (string= os-color-scheme "light")
+      (load-theme 'one-light t)
+    ;; use obinata-deeper-blue
+    (load-theme 'obinata-deeper-blue t)
+    ;; black background
+    (set-background-color "#2E3436")
+    ;; black background in terminal
+    (defun on-after-init ()
+      (unless (display-graphic-p (selected-frame))
+        (set-face-background 'default "unspecified-bg" (selected-frame))))
+    (add-hook 'window-setup-hook 'on-after-init)))
 
 ;; Use Cascadia Code by default if exists
 (cond
