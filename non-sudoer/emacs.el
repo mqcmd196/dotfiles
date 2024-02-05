@@ -5,8 +5,8 @@
 (add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
 (add-to-list 'load-path "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
 (setq custom-theme-directory "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
-(add-to-list 'load-path "/tmp/emacs-one-themes")
-(add-to-list 'custom-theme-load-path "/tmp/emacs-one-themes")
+(add-to-list 'load-path "~/dotfiles/non-sudoer/themes/emacs-one-themes")
+(add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes/emacs-one-themes")
 
 ;; when light mode, use one-light. else use deeper-blue
 (let* ((os-color-scheme (getenv "OS_COLOR_SCHEME")))
