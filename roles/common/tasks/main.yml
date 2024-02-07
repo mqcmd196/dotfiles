@@ -102,6 +102,12 @@
   become: true
 
 # Setup configs
+- name: Create symbolic link for bashrc
+  file:
+    src: "{{ role_path }}/../../non-sudoer/rc.bash"
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    state: link
+
 - name: Create symbolic link for tmux config
   file:
     src: "{{ role_path }}/tmux/tmux.conf"
