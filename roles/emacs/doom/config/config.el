@@ -71,6 +71,7 @@
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 (global-set-key (kbd "M-,") '+default/search-project)
 (global-set-key (kbd "M-.") '+default/search-cwd)
+(global-set-key (kbd "C-c d") '+lookup/definition)
 
 (defun delete-word (arg)
   (interactive "p")
@@ -86,7 +87,7 @@
 (setq backup-directory-alist '((".*" . "~/.ehist")))
 (setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
 
- ;; Show emacs-shell on the same window
+;; Show emacs-shell on the same window
 (add-to-list 'display-buffer-alist
              '("^\\*shell\\*$" . (display-buffer-same-window)))
 
