@@ -1,8 +1,16 @@
 #!/usr/bin/env zsh
 
+# editor
 alias em='emacs'
-alias doom='~/.emacs.d/bin/doom'
 alias eml='emacs -q --load ~/.emacs-light.el'
+alias emll="OS_COLOR_SCHEME='light' emacs -q --load ~/.emacs-light.el"
+alias emld="OS_COLOR_SCHEME='dark' emacs -q --load ~/.emacs-light.el"
+
+alias doom='~/.emacs.d/bin/doom'
+
+# build
+alias m='make'
+alias n='ninja'
 
 if type "batcat" > /dev/null 2>&1; then
     alias bat="batcat"
@@ -35,6 +43,7 @@ alias gfa='git fetch --all'
 alias gco='git checkout'
 alias ga='git add'
 alias gcm='git commit -m'
+alias gca='git commit --amend'
 alias gp='git push'
 alias gst='git status'
 alias gd='git diff'
