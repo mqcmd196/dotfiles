@@ -172,6 +172,9 @@ if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
 fi
 
 alias em='emacs'
+alias eml='emacs'
+alias emll="OS_COLOR_SCHEME='light' emacs"
+alias emld="OS_COLOR_SCHEME='dark' emacs"
 
 export EDITOR="emacs -nw"
 
