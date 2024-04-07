@@ -74,8 +74,7 @@
         chdir="{{ ansible_env.HOME }}/.local/src/emacs"
 
 # Install clangd
-- name: Add clangd apt repository for Debian bullseye and Ubuntu focal
-  when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22")
+- name: Add clangd apt repository
   block:
     - name: Add LLVM key
       apt_key:
@@ -83,14 +82,14 @@
         state: present
     - name: Add LLVM repository
       apt_repository:
-        repo: deb [arch=amd64] http://apt.llvm.org/{{ ansible_distribution_release|lower }}/ llvm-toolchain-{{ ansible_distribution_release|lower }}-15 main
+        repo: deb [arch=amd64] http://apt.llvm.org/{{ ansible_distribution_release|lower }}/ llvm-toolchain-{{ ansible_distribution_release|lower }}-18 main
         state: present
         filename: llvm-toolchain
   become: true
 
-- name: Install clangd-15
+- name: Install clangd-18
   apt:
-    name: clangd-15
+    name: clangd-18
     state: present
   become: yes
 

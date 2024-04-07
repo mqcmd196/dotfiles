@@ -146,7 +146,7 @@
 ;; clangd path
 (if (executable-find "clangd")
     (setq lsp-clients-clangd-executable "clangd")
-  (setq lsp-clients-clangd-executable "clangd-15"))
+  (setq lsp-clients-clangd-executable "clangd-18"))
 
 ;; C/C++ paren settings
 (add-hook 'c++-mode-hook #'(lambda ()

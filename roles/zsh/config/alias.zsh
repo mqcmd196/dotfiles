@@ -49,7 +49,7 @@ alias gst='git status'
 alias gd='git diff'
 
 source /etc/lsb-release
-alias clangd='clangd-15'
+alias clangd='clangd-18'
 
 # explorer
 if [ -v WSLENV ]; then
