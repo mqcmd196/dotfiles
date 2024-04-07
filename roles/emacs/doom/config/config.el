@@ -101,6 +101,7 @@
   (setq! lsp-enable-file-watchers nil)
   (setq! lsp-log-io nil)
   (setq! lsp-restart 'auto-restart)
+  (setq! lsp-idle-delay 0.500)
   ;; make lsp-documentation popup smaller
   (set-popup-rules!
     '(("^\\*lsp-documentation\\*$"
