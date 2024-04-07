@@ -50,6 +50,7 @@ alias gd='git diff'
 
 source /etc/lsb-release
 alias clangd='clangd-18'
+alias clang-format='clang-format-18'
 
 # explorer
 if [ -v WSLENV ]; then
