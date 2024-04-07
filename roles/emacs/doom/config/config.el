@@ -149,8 +149,12 @@
   (setq lsp-clients-clangd-executable "clangd-18"))
 
 ;; C/C++ paren settings
-(add-hook 'c++-mode-hook #'(lambda ()
-                             (sp-local-pair 'c++-mode "<" nil :actions nil)))
+(after! cc-mode
+  (add-hook 'c++-mode-hook #'(lambda ()
+                               ;; disable auto-insertion of angle brackets)
+                               (sp-local-pair 'c++-mode "<" nil :actions nil)
+                               (c-set-offset 'innamespace 0)
+                               (setq c-basic-offset 4))))
 
 ;; python version
 (after! python
