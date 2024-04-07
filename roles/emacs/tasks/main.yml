@@ -87,9 +87,9 @@
         filename: llvm-toolchain
   become: true
 
-- name: Install clangd-18
+- name: Install clang tools
   apt:
-    name: clangd-18
+    name: ["clangd-18", "clang-format-18"]
     state: present
   become: yes
 
