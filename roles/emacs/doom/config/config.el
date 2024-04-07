@@ -144,9 +144,10 @@
                                 "--query-driver=/usr/bin/g++,/usr/bin/gcc,/usr/bin/c++"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 ;; clangd path
-(if (executable-find "clangd")
-    (setq lsp-clients-clangd-executable "clangd")
-  (setq lsp-clients-clangd-executable "clangd-18"))
+(setq lsp-clients-clangd-executable "clangd-18")
+
+;; clang-format path
+(setq clang-format-executable "clang-format-18")
 
 ;; C/C++ paren settings
 (after! cc-mode
