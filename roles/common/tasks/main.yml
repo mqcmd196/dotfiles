@@ -169,3 +169,27 @@
     - name: Set default Node.js LTS
       shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm alias default v18.16.0"
       ignore_errors: true
+
+- name: Setup try
+  block:
+    - name: Create ~/.local/src for cloning src
+      file:
+        path: "{{ ansible_env.HOME }}/.local/src"
+        state: directory
+        recurse: yes
+    - name: Create ~/.local/bin
+      file:
+        path: "{{ ansible_env.HOME }}/.local/bin"
+        state: directory
+        recurse: yes
+    - name: Git clone try
+      git:
+        repo: https://github.com/binpash/try
+        dest: "{{ ansible_env.HOME }}/.local/src/try"
+        depth: 1
+        version: v0.2.0
+    - name: Install try executable
+      file:
+        src: "{{ ansible_env.HOME }}/.local/src/try/try"
+        dest: "{{ ansible_env.HOME }}/.local/bin/try"
+        state: link
