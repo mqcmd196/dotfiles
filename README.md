@@ -48,6 +48,8 @@ Limited dotfiles
 #### emacs
 C-; : Completion
 
+C-u \<n\> : Repeat the next command `n` times. (n=4 by default)
+
 C-u C-SPC : Back to the initial position when search
 
 M-[ : Return to the beginning of the paragraph that precedes the point
