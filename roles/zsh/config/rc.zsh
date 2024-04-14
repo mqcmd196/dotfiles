@@ -101,6 +101,9 @@ unset __conda_setup
 fpath+=~/.conda-zsh-completion
 zstyle ":conda_zsh_completion:*" sort-envs-by-time true
 
+# try zsh completion
+source ~/.local/src/try/completions/try.bash
+
 # init completions
 autoload -U compinit && compinit
 
