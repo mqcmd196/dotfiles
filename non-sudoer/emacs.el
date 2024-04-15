@@ -1,5 +1,7 @@
 (setq initial-scratch-message 'nil)
 (setq inhibit-startup-message 't)
+(menu-bar-mode -1)
+(tool-bar-mode 0)
 
 ;; loading themes
 (add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
