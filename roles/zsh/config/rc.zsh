@@ -54,6 +54,9 @@ WORDCHARS='*?[]~&;!#$%^(){}<>' # for word jumping
 local zsh_personal_config_dir="$HOME/.zsh.d"
 source ${zsh_personal_config_dir}/alias.zsh
 source ${zsh_personal_config_dir}/ros.zsh
+if [ -f ${zsh_personal_config_dir}/local.zsh ]; then
+  source ${zsh_personal_config_dir}/local.zsh
+fi
 
 # history
 if [ -z "$HISTFILE" ]; then
