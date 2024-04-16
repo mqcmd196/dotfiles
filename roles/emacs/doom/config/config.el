@@ -16,6 +16,21 @@
       (setq doom-theme 'doom-one-light)
     (setq doom-theme 'doom-one)))
 
+;; window name
+(let ((title-format "Emacs")
+      (cmake-prefix-path (getenv "CMAKE_PREFIX_PATH"))
+      (conda-envname (getenv "CONDA_DEFAULT_ENV")))
+  ;; Check if CMAKE_PREFIX_PATH is set
+  (when cmake-prefix-path
+    (setq title-format (concat title-format " | CMake:" cmake-prefix-path))
+    (message "CMAKE_PREFIX_PATH is set to: %s" cmake-prefix-path))  ; Debug message
+  ;; Check if CONDA_DEFAULT_ENV is set
+  (when conda-envname
+    (setq title-format (concat title-format " | CONDA:" conda-envname))
+    (message "CONDA_DEFAULT_ENV is set to: %s" conda-envname))  ; Debug message
+  ;; Set the frame title
+  (setq frame-title-format title-format))
+
 ;; font settings
 ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
@@ -163,9 +178,6 @@
 
 ;; conda
 (setq conda-env-home-directory (expand-file-name "~/miniconda3/"))
-
-;; golang
-(add-to-list 'exec-path (expand-file-name "~/go/bin"))
 
 ;; dart
 (with-eval-after-load 'projectile
