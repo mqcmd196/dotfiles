@@ -32,22 +32,27 @@ ros_workspace_init(){
     catkin config -a --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 }
 
-ros_workspace_set(){
-    ROS_WORKSPACE_DIR=$1
-    ROS_WORKSPACE_DEVEL_SETUP=${ROS_WORKSPACE_DIR}/devel/setup.zsh
-    if [ -e $ROS_WORKSPACE_DEVEL_SETUP ]; then
-        source $ROS_WORKSPACE_DEVEL_SETUP
-        local catkin_ws=$(cd $(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/.. && pwd)
-        ROS_WORKSPACE_DISPLAY=$(basename $catkin_ws)
-        echo sourced $ROS_WORKSPACE_DISPLAY
+ros_workspace_basename(){
+    local workspaces workspace_name
+    if [[ -n $CMAKE_PREFIX_PATH ]]; then
+        # Split CMAKE_PREFIX_PATH by ':' and iterate over each path
+        workspaces=("${(s/:/)CMAKE_PREFIX_PATH}")
+        # Iterate over workspaces to find a .catkin file indicating a ROS workspace
+        for workspace in "${workspaces[@]}"; do
+            if [[ -f $workspace/.catkin ]]; then
+                # Get the directory containing the 'devel' directory, which is the workspace root
+                workspace_name="${workspace:h}"
+                workspace_name="${workspace_name:t}"
+                echo $workspace_name
+                return 0
+            fi
+        done
+        echo "No active ROS workspace found."
+        return 1
     else
-        echo No such ROS workspace
+        echo "CMAKE_PREFIX_PATH is not set."
+        return 1
     fi
-}
-
-ros_workspace_show(){
-    local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
-    cd $catkin_ws && pwd
 }
 
 catkin_before_build(){

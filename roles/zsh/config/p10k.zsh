@@ -104,7 +104,7 @@
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
     # cpu_arch              # CPU architecture
     # time                  # current time
-    ros_workspace
+    ros1_workspace
     colcon_workspace
     # =========================[ Line #2 ]=========================
     newline
@@ -114,6 +114,7 @@
     # battery               # internal battery
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
+    ros1_network
   )
 
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
@@ -1597,9 +1598,22 @@
   }
 
   # For ROS 1
-  function prompt_ros_workspace() {
-    if [[ -n "$ROS_WORKSPACE_DISPLAY" ]]; then
-      p10k segment -f green -i '🤖' -t "${ROS_WORKSPACE_DISPLAY}"
+  function prompt_ros1_workspace() {
+    if [[ -n "$ROS_PACKAGE_PATH" ]]; then
+      local ws_name=$(ros_workspace_basename)
+      p10k segment -f green -i '🤖' -t "${ws_name}"
+    fi
+  }
+
+  function prompt_ros1_network(){
+    if [[ -n "$ROS_MASTER_URI" ]]; then
+      p10k segment -f 202 -i '🤖 MASTER:' -t $ROS_MASTER_URI
+    fi
+    if [[ -n "$ROS_IP" ]]; then
+      p10k segment -f green -i '🤖 IP:' -t $ROS_IP
+    fi
+    if [[ -n "$ROS_HOSTNAME" ]]; then
+      p10k segment -f green -i '🤖 HOSTNAME:' -t $ROS_HOSTNAME
     fi
   }
 
