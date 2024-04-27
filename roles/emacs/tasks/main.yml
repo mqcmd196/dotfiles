@@ -5,6 +5,13 @@
     dest: "{{ ansible_env.HOME }}/.emacs-light.el"
     state: link
 
+# Install system emacs for light version of emacs
+- name: Install system emacs
+  apt:
+    name: emacs
+    state: present
+  become: yes
+
 # Install apt packages
 - name: Install common packages for emacs29
   apt:
