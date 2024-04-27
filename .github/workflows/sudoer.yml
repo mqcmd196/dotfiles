@@ -17,6 +17,8 @@ jobs:
         include:
           - OS: debian
             CODENAME: bullseye
+          - OS: debian
+            CODENAME: bookworm
           - OS: ubuntu
             CODENAME: focal
           - OS: ubuntu
