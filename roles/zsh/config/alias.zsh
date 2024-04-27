@@ -8,6 +8,9 @@ alias emld="OS_COLOR_SCHEME='dark' /usr/bin/emacs --load ~/.emacs-light.el"
 
 alias doom='~/.emacs.d/bin/doom'
 
+# tmux
+alias t='tmux'
+
 # build
 alias m='make'
 alias n='ninja'
