@@ -139,12 +139,6 @@
     dest: "{{ ansible_env.HOME }}/.gdbinit"
     state: link
 
-- name: Create symbolic link for vim
-  file:
-    src: "{{ role_path }}/vim/vimrc"
-    dest: "{{ ansible_env.HOME }}/.vimrc"
-    state: link
-
 - name: Setup Miniconda
   block:
     - name: Download Miniconda shell script
