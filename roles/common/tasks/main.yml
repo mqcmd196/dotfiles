@@ -1,7 +1,7 @@
 # Install packages with apt
 - name: Install convenient apt packages
   apt:
-    name: ['bat', 'dnsutils', 'grc', 'net-tools', 'tmux', 'traceroute', 'peco', 'xsel', 'zsh', 'tig']
+    name: ['bat', 'command-not-found', 'dnsutils', 'grc', 'lsb-release', 'net-tools', 'tig', 'tmux', 'traceroute', 'peco', 'xsel', 'zsh']
     state: present
   become: yes
 
