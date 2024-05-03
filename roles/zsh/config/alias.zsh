@@ -51,7 +51,6 @@ alias gp='git push'
 alias gst='git status'
 alias gd='git diff'
 
-source /etc/lsb-release
 alias clangd='clangd-18'
 alias clang-format='clang-format-18'
 
