@@ -171,10 +171,18 @@ if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
+# emacs
 alias em='emacs'
 alias eml='emacs'
 alias emll="OS_COLOR_SCHEME='light' emacs"
 alias emld="OS_COLOR_SCHEME='dark' emacs"
+
+# tmux
+alias t='tmux'
+
+# build
+alias m='make'
+alias n='ninja'
 
 export EDITOR="emacs -nw"
 
