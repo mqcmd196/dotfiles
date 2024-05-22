@@ -70,7 +70,7 @@
         repo: https://github.com/emacs-mirror/emacs
         dest: "{{ ansible_env.HOME }}/.local/src/emacs"
         depth: 1
-        version: emacs-29.1
+        version: emacs-29.3
     - name: Autogen emacs
       shell: >
         ./autogen.sh
@@ -116,7 +116,7 @@
       git:
         repo: https://github.com/doomemacs/doomemacs.git
         dest: "{{ ansible_env.HOME }}/.emacs.d/"
-        version: 03d692f129633e3bf0bd100d91b3ebf3f77db6d1
+        version: d166d754d630479664c76b73323531897aa52095
         depth: 1
     - name: Create symbolic links for Doom Emacs configs
       file:
