@@ -131,6 +131,7 @@
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
   (setq company-global-modes '(not latex-mode))
+  (define-key company-active-map [tab] 'company-complete-selection)
   (define-key company-active-map (kbd "TAB") 'company-complete-selection)
   (define-key company-active-map (kbd "M-n") 'company-select-next)
   (define-key company-active-map (kbd "M-p") 'company-select-previous))
