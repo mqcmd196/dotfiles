@@ -1,6 +1,6 @@
-# In wsl-22.04 sometimes .profile is not loaded
 if [ -v WSLENV ]; then
-   source $HOME/.profile
+  source $HOME/.profile # In wsl-22.04 sometimes .profile is not loaded
+  export LIBGL_ALWAYS_SOFTWARE=1 # For showing robot model in rviz in WSL2
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
