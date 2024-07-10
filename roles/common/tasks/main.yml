@@ -22,13 +22,13 @@
       dest: "{{ ansible_env.HOME }}/.local/share/fonts"
       remote_src: yes
 
-- name: Setup Google Chrome
+- name: Setup GUI Applications
   block:
-    - name: Add Chrome key
+    - name: Add Google Chrome key
       apt_key:
         url: https://dl.google.com/linux/linux_signing_key.pub
         state: present
-    - name: Add Chrome repository
+    - name: Add Google Chrome repository
       apt_repository:
         repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb stable main
         state: present
@@ -38,7 +38,22 @@
         name: google-chrome-stable
         update_cache: yes
         state: present
+    - name: Add VSCode key
+      apt_key:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
+    - name: Add VSCode repository
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+        filename: vscode
+    - name: Install VSCode
+      apt:
+        name: code
+        state: present
+        update_cache: yes
   become: true
+  when: not ('WSLENV' in ansible_env)
 
 - name: Setup latest stable Docker
   block:
@@ -61,24 +76,6 @@
         name: "{{ ansible_user_id }}"
         groups: docker
         append: yes
-  become: true
-
-- name: Setup VSCode
-  block:
-    - name: Add VSCode key
-      apt_key:
-        url: https://packages.microsoft.com/keys/microsoft.asc
-        state: present
-    - name: Add VSCode repository
-      apt_repository:
-        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
-        state: present
-        filename: vscode
-    - name: Install VSCode
-      apt:
-        name: code
-        state: present
-        update_cache: yes
   become: true
 
 - name: Setup GitHub CLI
