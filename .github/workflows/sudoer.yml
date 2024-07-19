@@ -72,4 +72,4 @@ jobs:
         with:
           submodules: recursive
       - name: build
-        run: docker build -f ./test/docker/Dockerfile.${{ matrix.OS }}:${{ matrix.CODENAME }} .
+        run: docker build -f ./test/docker/${{ matrix.OS }}-${{ matrix.CODENAME }}.Dockerfile .
