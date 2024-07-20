@@ -28,6 +28,13 @@
   environment:
     PIP_BREAK_SYSTEM_PACKAGES: 1
 
+- name: Install common packages for emacs29 in Ubuntu noble
+  apt:
+    name: ['libgccjit-13-dev']
+    state: present
+  become: yes
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24"
+
 - name: Install common packages for emacs29 in Debian bookworm
   apt:
     name: ['libgccjit-12-dev']
@@ -102,6 +109,7 @@
         state: present
         filename: llvm-toolchain
   become: true
+  when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24")
 
 - name: Install clang tools
   apt:
