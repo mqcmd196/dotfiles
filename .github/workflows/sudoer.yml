@@ -23,6 +23,8 @@ jobs:
             CODENAME: focal
           - OS: ubuntu
             CODENAME: jammy
+          - OS: ubuntu
+            CODENAME: noble
     steps:
       - name: Free disk space
         run: |
