@@ -1619,7 +1619,7 @@
 
   # For ROS 2
   function prompt_colcon_workspace(){
-    if [[ -n "$COLCON_PREFIX_PATH" ]]; then
+    if [[ "$ROS_VERSION" == "2" && -n "$COLCON_PREFIX_PATH" ]]; then
       local ws_name=$(basename ${COLCON_PREFIX_PATH%/*})
       p10k segment -f green -i '🤖' -t "${ws_name}"
     fi
