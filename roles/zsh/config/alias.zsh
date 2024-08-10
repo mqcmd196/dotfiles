@@ -30,17 +30,6 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-# colorize some commands output
-if type "grc" > /dev/null 2>&1; then
-    alias ip='grc ip'
-    alias ifconfig='grc ifconfig'
-    alias ping='grc ping'
-    alias traceroute='grc traceroute'
-    alias netstat='grc netstat'
-    alias ps='grc ps'
-    alias df='grc df'
-fi
-
 # git
 alias gfa='git fetch --all'
 alias gco='git checkout'

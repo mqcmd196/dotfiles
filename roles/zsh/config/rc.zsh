@@ -83,6 +83,8 @@ HIST_STAMPS='yyyy-mm-dd HH:MM:SS'
 
 source /etc/zsh_command_not_found # for command-not-found
 
+source /etc/grc.zsh # for grc command. TODO: Ubuntu 20.04's apt grc has the trouble with completion
+
 # enable comment out in command line
 setopt interactivecomments
 
