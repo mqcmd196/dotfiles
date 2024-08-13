@@ -124,7 +124,7 @@
       git:
         repo: https://github.com/doomemacs/doomemacs.git
         dest: "{{ ansible_env.HOME }}/.emacs.d/"
-        version: 36e7aaa619342eff61b1daf3ac664f94d5272db7
+        version: cf7098528d2a21c29d497cd810faa0a77ecaf4cc
         depth: 1
     - name: Create symbolic links for Doom Emacs configs
       file:
