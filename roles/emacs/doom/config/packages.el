@@ -14,6 +14,9 @@
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist"))
   :pin "3af3a5f8877fd5c6c55454f5c5bf076a56608939")
 
+(package! window-stool
+  :recipe (:host github :repo "jaszhe/window-stool" :files ("*.el")))
+
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
