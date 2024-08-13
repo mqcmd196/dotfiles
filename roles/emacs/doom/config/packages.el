@@ -12,7 +12,7 @@
 
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist"))
-  :pin "c5d822c98f047376cfd6dd95515a609c30157522")
+  :pin "3af3a5f8877fd5c6c55454f5c5bf076a56608939")
 
 
 ;; To install a package directly from a remote git repo, you must specify a
