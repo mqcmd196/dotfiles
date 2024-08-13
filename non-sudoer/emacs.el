@@ -43,6 +43,9 @@
 ;; Insert parenthesis/brackets by pair
 (electric-pair-mode 1)
 
+;; always show which function
+(which-function-mode 1)
+
 ;; yes -> y, no -> n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
