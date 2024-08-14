@@ -5,6 +5,12 @@
     dest: "{{ ansible_env.HOME }}/.emacs-light.el"
     state: link
 
+- name: Create user tmp directory for saving backup
+  file:
+    path: "{{ ansible_env.HOME }}/tmp"
+    state: directory
+    recurse: yes
+
 # Install system emacs for light version of emacs
 - name: Install system emacs
   apt:
