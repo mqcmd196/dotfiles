@@ -60,6 +60,32 @@
 ;; always show which function
 (which-function-mode 1)
 
+;; folding
+(add-hook 'c++-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+(add-hook 'c-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+(add-hook 'scheme-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+(add-hook 'lisp-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+(add-hook 'python-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+(add-hook 'xml-mode-hook
+          '(lambda ()
+             (hs-minor-mode 1)))
+
 ;; yes -> y, no -> n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -91,3 +117,9 @@
 (global-set-key "\C-h" 'delete-backward-char)
 ;; call ibuffer in current window
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;; folding
+(global-set-key (kbd "C-c C-f C-f") 'hs-toggle-hiding)
+(global-set-key (kbd "C-c C-f C-u") 'hs-show-block)
+(global-set-key (kbd "C-c C-f C-a C-f") 'hs-hide-all)
+(global-set-key (kbd "C-c C-f C-a C-u") 'hs-show-all)
