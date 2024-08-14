@@ -12,19 +12,20 @@
 
 ;; when light mode, use one-light. else use deeper-blue
 (let* ((os-color-scheme
-        (if (getenv "WSLENV")
-            ;; WSL: check Windows theme
-            (if (string-match "1"
-                              (shell-command-to-string
-                               "powershell.exe Get-ItemProperty -Path \"HKCU:\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Themes\\\\Personalize\" -Name AppsUseLightTheme | grep AppsUseLightTheme | awk '{ print $3 }' | grep 1"))
-                "light"
-              "dark")
-          ;; GNOME: check GTK theme
-          (if (string-match "dark"
-                            (shell-command-to-string
-                             "gsettings get org.gnome.desktop.interface gtk-theme"))
-              "dark"
-            "light"))))
+        (or (getenv "OS_COLOR_SCHEME")
+            (if (getenv "WSLENV")
+                ;; WSL: check Windows theme
+                (if (string-match "1"
+                                  (shell-command-to-string
+                                   "powershell.exe Get-ItemProperty -Path \"HKCU:\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Themes\\\\Personalize\" -Name AppsUseLightTheme | grep AppsUseLightTheme | awk '{ print $3 }' | grep 1"))
+                    "light"
+                  "dark")
+              ;; GNOME: check GTK theme
+              (if (string-match "dark"
+                                (shell-command-to-string
+                                 "gsettings get org.gnome.desktop.interface gtk-theme"))
+                  "dark"
+                "light")))))
   (if (string= os-color-scheme "light")
       (load-theme 'one-light t)
     ;; use obinata-deeper-blue
