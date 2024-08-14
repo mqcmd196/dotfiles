@@ -92,11 +92,6 @@
     dest: "{{ ansible_env.HOME }}/.zsh-completions"
     version: 83f09c461535e2372242c6282b66dbbbef6d508a
 
-- name: Download MesloLGS NF Regular font
-  get_url:
-    url: https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
-    dest: "{{ ansible_env.HOME }}/.local/share/fonts/MesloLGS NF Regular.ttf"
-
 - name: Font cache
   shell:
     cmd: fc-cache -v
