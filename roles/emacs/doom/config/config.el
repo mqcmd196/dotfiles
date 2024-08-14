@@ -134,6 +134,9 @@
   (setq! lsp-enable-file-watchers nil)
   (setq! lsp-log-io nil)
   (setq! lsp-restart 'auto-restart)
+  ;; headerline
+  (add-hook! 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode)
+  (setq! lsp-headerline-breadcrumb-segments '(symbols))
   ;; make lsp-documentation popup smaller
   (set-popup-rules!
     '(("^\\*lsp-documentation\\*$"
@@ -142,7 +145,13 @@
        :select t
        :quit t
        :ttl nil))))
-;; make lsp-signature-render-documentation popup smaller
+
+;; make headerline breadcrumb size smaller
+;; FIXME not working...
+(after! lsp-header-line
+  (set-face-attribute 'lsp-headerline-breadcrumb-path-face nil :height 0.5)
+  (set-face-attribute 'lsp-headerline-breadcrumb-symbol-face nil :height 0.5)
+  (set-face-attribute 'lsp-headerline-breadcrumb-separator-face nil :height 0.5))
 
 ;; company
 (after! company
