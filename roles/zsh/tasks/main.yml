@@ -1,9 +1,34 @@
 - name: Install required packages for setting zsh
   apt:
-    name: ['zsh', 'fonts-powerline', 'dconf-cli', 'grc', 'dbus-x11', 'zsh-syntax-highlighting', 'zsh-autosuggestions']
+    name: ['dconf-cli', 'dbus-x11', 'fonts-powerline', 'zsh', 'zsh-autosuggestions', 'zsh-syntax-highlighting']
     state: present
   become: yes
 
+- name: Install grc
+  apt:
+    name: ['grc']
+  become: yes
+  when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20")
+
+- name: Install grc for Ubuntu 20.04
+  block:
+    - name: Create ~/.local/src for cloning source
+      file:
+        path: "{{ ansible_env.HOME }}/.local/src"
+        state: directory
+        recurse: yes
+    - name: Git clone grc source
+      git:
+        repo: https://github.com/garabik/grc.git
+        dest: "{{ ansible_env.HOME }}/.local/src/grc"
+        depth: 1
+        version: v1.13
+    - name: Install grc
+      shell: >
+        ./install.sh
+        chdir="{{ ansible_env.HOME }}/.local/src/grc"
+      become: yes
+  
 - name: Create directory for zsh configs
   file:
     path: "{{ ansible_env.HOME }}/.zsh.d"
