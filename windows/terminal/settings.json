@@ -42,19 +42,22 @@
     {
         "defaults": 
         {
-            "adjustIndistinguishableColors": "indexed",
-            "antialiasingMode": "cleartype",
+            "adjustIndistinguishableColors": "never",
+            "altGrAliasing": true,
+            "antialiasingMode": "grayscale",
             "colorScheme": 
             {
                 "dark": "Campbell",
-                "light": "Tango Light"
+                "light": "Solarized Light"
             },
             "experimental.retroTerminalEffect": false,
             "font": 
             {
                 "face": "Cascadia Code NF",
                 "size": 11.0
-            }
+            },
+            "intenseTextStyle": "none",
+            "useAtlasEngine": true
         },
         "list": 
         [
