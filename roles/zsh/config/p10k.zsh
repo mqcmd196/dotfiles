@@ -115,6 +115,7 @@
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
     ros1_network
+    ros2_visibility
   )
 
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
@@ -1622,6 +1623,15 @@
     if [[ "$ROS_VERSION" == "2" && -n "$COLCON_PREFIX_PATH" ]]; then
       local ws_name=$(basename ${COLCON_PREFIX_PATH%/*})
       p10k segment -f green -i '🤖' -t "${ws_name}"
+    fi
+  }
+
+  function prompt_ros2_visibility(){
+    if [[ -n "$ROS_LOCALHOST_ONLY" ]]; then
+      p10k segment -f 202 -i '🤖 LOCALHOST_ONLY:' -t $ROS_DOMAIN_ID
+    fi
+    if [[ -n "$ROS_DOMAIN_ID" ]]; then
+      p10k segment -f green -i '🤖 DOMAIN_ID:' -t $ROS_DOMAIN_ID
     fi
   }
 
