@@ -60,6 +60,20 @@
     state: link
     force: yes
 
+- name: Setup batcat config
+  block:
+    - name: Create ~/.config/config/bat directory
+      file:
+        path: "{{ ansible_env.HOME }}/.config/bat"
+        state: directory
+        recurse: yes
+    - name: Create batcat config symbolic link
+      file:
+        src: "{{ role_path }}/config/bat.conf"
+        dest: "{{ ansible_env.HOME }}/.config/bat/config"
+        state: link
+        force: yes
+
 - name: Git clone Powerlevel10k
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
