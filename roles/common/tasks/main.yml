@@ -164,6 +164,9 @@
     - name: Install Node.js LTS with nvm
       shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm install --lts v18.16.0"
       ignore_errors: true
+    - name: Use default Node.js LTS
+      shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm use v18.16.0"
+      ignore_errors: true
     - name: Set default Node.js LTS
       shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm alias default v18.16.0"
       ignore_errors: true
