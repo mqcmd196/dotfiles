@@ -49,8 +49,10 @@
 
 (setq whitespace-space-regexp "\\(\u3000+\\)")
 
+;; emphasize paren pair
 (show-paren-mode 1)
 
+;; tab-width default
 (setq-default tab-width 4 indent-tabs-mode nil)
 (setq-default c-basic-offset 4)
 
@@ -59,6 +61,9 @@
 
 ;; always show which function
 (which-function-mode 1)
+
+;; auto add closing tag
+(setq sgml-quick-keys 'close)
 
 ;; folding
 (add-hook 'c++-mode-hook
