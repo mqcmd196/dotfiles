@@ -120,11 +120,6 @@
 (add-to-list 'display-buffer-alist
              '("^\\*shell\\*$" . (display-buffer-same-window)))
 
-;; window stool. Showing function name on the top of the window
-(use-package! window-stool
-  :config
-  (add-hook! 'prog-mode-hook #'window-stool-mode))
-
 ;; LSP
 (setq gc-cons-threshold 100000000) ;; 1MB
 (setq read-process-output-max (* 1024 1024))
