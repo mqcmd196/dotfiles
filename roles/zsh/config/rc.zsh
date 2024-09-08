@@ -54,6 +54,7 @@ WORDCHARS='*?[]~&;!#$%^(){}<>' # for word jumping
 local zsh_personal_config_dir="$HOME/.zsh.d"
 source ${zsh_personal_config_dir}/alias.zsh
 source ${zsh_personal_config_dir}/ros.zsh
+source ${zsh_personal_config_dir}/grc.zsh
 if [ -f ${zsh_personal_config_dir}/local.zsh ]; then
   source ${zsh_personal_config_dir}/local.zsh
 fi
@@ -82,8 +83,6 @@ zshaddhistory(){
 HIST_STAMPS='yyyy-mm-dd HH:MM:SS'
 
 source /etc/zsh_command_not_found # for command-not-found
-
-source /etc/grc.zsh # for grc command
 
 # enable comment out in command line
 setopt interactivecomments
