@@ -119,7 +119,7 @@
 
 - name: Install clang tools
   apt:
-    name: ["clangd-18", "clang-format-18"]
+    name: ["clangd-18", "clang-format-18", "clang-format"] # TODO doomemacs cannot set clang-format-18 as clang-format
     state: present
   become: yes
 
