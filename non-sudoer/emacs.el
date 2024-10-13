@@ -138,3 +138,4 @@
 (global-set-key (kbd "C-c C-f C-u") 'hs-show-block)
 (global-set-key (kbd "C-c C-f C-a C-f") 'hs-hide-all)
 (global-set-key (kbd "C-c C-f C-a C-u") 'hs-show-all)
+(global-set-key (kbd "C-c C-l") 'hs-hide-level)

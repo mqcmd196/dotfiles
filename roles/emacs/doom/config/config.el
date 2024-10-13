@@ -91,7 +91,7 @@
   (setq doom-modeline-vcs-max-length 12)
   (setq doom-modeline-github t)
   (setq doom-modeline-github-interval (* 30 60))
-  (setq doom-modeline-checker-simple-format t))
+  (setq doom-modeline-check-simple-format t))
 
 ;; Key bindings
 (map! "\C-h" 'backward-delete-char)
@@ -225,3 +225,11 @@
 (add-to-list 'auto-mode-alist '("\\.action\\'" . gdb-script-mode))
 (font-lock-add-keywords 'gdb-script-mode
                         '(("\\<\\(bool\\|byte\\|int8\\|uint8\\|int16\\|uint16\\|int32\\|uint32\\|int64\\|uint64\\|float32\\|float64\\|string\\|time\\|duration\\)\\>" . font-lock-builtin-face)) 'set)
+
+;; fold: use hs-minor-mode instead of vimish
+(after! vimish-fold
+  (remove-hook 'prog-mode-hook #'vimish-fold-mode))
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+(use-package! hideshow
+  :bind
+  (("C-c C-l" . hs-hide-level)))
