@@ -50,10 +50,6 @@
 ;;   presentations or streaming.
 (setq doom-font (font-spec :family "Cascadia Code" :size 15 :weight 'normal)
       doom-big-font (font-spec :family "Cascadia Code" :size 20))
-;; copilot suggestions
-;; (setq doom-font (font-spec :family "Cascadia Code" :size 14)
-;;       doom-variable-pitch-font (font-spec :family "Cascadia Code" :size 14)
-;;       doom-big-font (font-spec :family "Cascadia Code" :size 20))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -204,7 +200,6 @@
 ;; github copilot
 ;; it requires new node to be installed, like sudo snap install node --classic
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("C-e" . 'copilot-accept-completion)
               ("M-f" . 'copilot-accept-completion-by-word)))
