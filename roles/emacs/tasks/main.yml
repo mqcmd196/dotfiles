@@ -130,14 +130,16 @@
       git:
         repo: https://github.com/doomemacs/doomemacs.git
         dest: "{{ ansible_env.HOME }}/.emacs.d/"
-        version: cf7098528d2a21c29d497cd810faa0a77ecaf4cc
+        version: ba1dca322f9a07bc2b7bec6a98f2c3c55c0bbd77
         depth: 1
     - name: Create symbolic links for Doom Emacs configs
       file:
         src: "{{ role_path }}/doom/config"
-        dest: "{{ ansible_env.HOME }}/.doom.d"
+        dest: "{{ ansible_env.HOME }}/.config/doom"
         state: link
     - name: Setup Doom Emacs
       vars:
-        doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
+        doom: "{{ ansible_env.HOME }}/.config/emacs/bin/doom"
+      environment:
+        EMACS: "{{ ansible_env.HOME }}/.local/bin/emacs"
       shell: /usr/bin/env bash -lc "{{ doom }} install --force && {{ doom }} sync"
