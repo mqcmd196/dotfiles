@@ -139,7 +139,7 @@
         state: link
     - name: Setup Doom Emacs
       vars:
-        doom: "{{ ansible_env.HOME }}/.config/emacs/bin/doom"
+        doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
       environment:
         EMACS: "{{ ansible_env.HOME }}/.local/bin/emacs"
       shell: /usr/bin/env bash -lc "{{ doom }} install --force && {{ doom }} sync"
