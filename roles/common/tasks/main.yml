@@ -153,6 +153,14 @@
     dest: "{{ ansible_env.HOME }}/.condarc"
     state: link
 
+- name: Create symbolic link for wsl.conf
+  file:
+    src: "{{ role_path }}/wsl/wsl.conf"
+    dest: "/etc/wsl.conf"
+    state: link
+    force: yes
+  become: yes
+
 - name: Setup nvm, nodejs
   block:
     - name: Git clone NVM
