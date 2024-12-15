@@ -28,7 +28,13 @@
         ./install.sh
         chdir="{{ ansible_env.HOME }}/.local/src/grc"
       become: yes
-  
+
+- name: Create symbolic link for .zprofile
+  file:
+    path: "{{ ansible_env.HOME }}/.profile"
+    dest: "{{ ansible_env.HOME }}/.zprofile"
+    state: link
+
 - name: Create directory for zsh configs
   file:
     path: "{{ ansible_env.HOME }}/.zsh.d"
