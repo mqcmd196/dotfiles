@@ -1,7 +1,7 @@
 # Install packages with apt
 - name: Install convenient apt packages
   apt:
-    name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'grc', 'jq', 'lsb-release', 'net-tools', 'pandoc', 'peco', 'python3-ipython', 'rlwrap', 'tig', 'tmux', 'traceroute', 'unionfs-fuse', 'util-linux', 'xsel', 'zsh']
+    name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'grc', 'htop', 'jq', 'lsb-release', 'net-tools', 'pandoc', 'peco', 'python3-ipython', 'rlwrap', 'tig', 'tmux', 'traceroute', 'unionfs-fuse', 'util-linux', 'xsel', 'zsh']
     state: present
   become: yes
 
