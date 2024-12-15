@@ -31,7 +31,7 @@
 
 - name: Create symbolic link for .zprofile
   file:
-    path: "{{ ansible_env.HOME }}/.profile"
+    src: "{{ ansible_env.HOME }}/.profile"
     dest: "{{ ansible_env.HOME }}/.zprofile"
     state: link
 
