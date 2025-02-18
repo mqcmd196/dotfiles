@@ -178,6 +178,7 @@
     - name: Set default Node.js LTS
       shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm alias default v18.16.0"
       ignore_errors: true
+  when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24")
 
 - name: Setup try
   block:
