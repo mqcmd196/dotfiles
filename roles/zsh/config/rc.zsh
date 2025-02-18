@@ -31,6 +31,7 @@ export NVM_DIR="$HOME/.nvm"
 
 ### KEYBINDINGS
 # for using peco on reverse-i-search
+alias peco="TERM=screen peco"
 function peco-history-selection() {
     local tac
     if which tac > /dev/null; then
