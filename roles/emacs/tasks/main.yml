@@ -20,14 +20,14 @@
 
 - name: Install common packages for emacs 28/29
   apt:
-    name: ['black', 'clangd', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-ligature', 'elpa-magit', 'elpa-use-package', 'elpa-yaml-mode', 'elpa-yasnippet', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'shellcheck']
+    name: ['black', 'clangd', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-use-package', 'elpa-yaml-mode', 'elpa-yasnippet', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'shellcheck']
     update_cache: true
   become: yes
   when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
 
 - name: Install common packages for emacs 26/27/28
   apt:
-    name: ['black', 'clangd', 'elpa-anzu', 'elpa-company', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-magit', 'elpa-use-package', 'elpa-yaml-mode', 'elpa-yasnippet', 'isort', 'shellcheck']
+    name: ['black', 'clangd', 'elpa-anzu', 'elpa-company', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-magit', 'elpa-markdown-mode', 'elpa-use-package', 'elpa-yaml-mode', 'elpa-yasnippet', 'isort', 'shellcheck']
     update_cache: true
   become: yes
   when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20") or (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11")
