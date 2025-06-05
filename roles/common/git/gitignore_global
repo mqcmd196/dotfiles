@@ -19,3 +19,4 @@ compile_commands.json
 *.gdb_history
 .mypy_cache/
 .ipynb_checkpoints/
+*.elc

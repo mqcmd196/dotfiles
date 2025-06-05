@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -e
-
-ansible-playbook setup_sudoer.yml -K
-bash -lc ./test/test
-
-sudo rm -rf /var/lib/apt/lists/*
