@@ -39,10 +39,13 @@
 (add-to-list 'auto-mode-alist '("\\.action\\'" . gdb-script-mode))
 (font-lock-add-keywords 'gdb-script-mode '(("\\<\\(bool\\|byte\\|int8\\|uint8\\|int16\\|uint16\\|int32\\|uint32\\|int64\\|uint64\\|float32\\|float64\\|string\\|time\\|duration\\)\\>" . font-lock-builtin-face)) 'set)
 
+;; prog mode config
 (add-hook 'prog-mode-hook ;; pretty symbols
           (lambda ()
-            (setq prettify-symbols-alist '(("lambda" . ?λ)))
-            (prettify-symbols-mode 1)))
+            (setq prettify-symbols-alist '(("lambda" . ?λ))) ;; pretty symbols
+            (prettify-symbols-mode 1)
+            (hs-minor-mode t) ;; enable folding
+            ))
 
 (use-package doom-themes
   :config
@@ -75,7 +78,6 @@
                (t "light")))))
     (if (string= os-color-scheme "light")
         (load-theme 'doom-one-light t)
-      ;; use obinata-deeper-blue
       (load-theme 'doom-one t))))
 
 (use-package ligature ;; ligature. copied from https://github.com/mickeynp/ligature.el/wiki#cascadia--fira-code
@@ -204,24 +206,28 @@
 (use-package magit)
 
 (use-package helm
-  :config
+  :init
   (setq helm-display-buffer-default-height 15)
-  (global-set-key (kbd "M-x") #'helm-M-x)
-  (global-set-key (kbd "C-x C-f") #'helm-find-files)
-  (global-set-key (kbd "C-x b") #'helm-mini)
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ;; rebind tab to run persistent action
+  :bind
+  (("M-x" . helm-M-x)
+   ("C-x C-f" . helm-find-files)
+   ("C-x b" . helm-mini)
+   :map helm-map
+   ("<tab>" . helm-execute-persistent-action) ; GUI
+   ("C-i" . helm-execute-persistent-action) ; TTY
+   ("C-z" . helm-select-action)
+   :map helm-read-file-map ;; for find file
+   ("<tab>" . helm-execute-persistent-action)
+   ("C-i" . helm-execute-persistent-action)
+   ("C-z" . helm-select-action))
+  :config
   (helm-mode 1))
 
-(use-package find-file-in-project) ;; Use helm with (helm-mode 1). Nothing to do here
+(use-package find-file-in-project :after helm) ;; Use helm with (helm-mode 1). Nothing to do here
 
 (use-package helm-ag
-  :config
-  (global-set-key (kbd "C-c p") 'helm-do-ag-project-root))
-
-;; Folding
-(add-hook 'prog-mode-hook
-          '(lambda ()
-             (hs-minor-mode t)))
+  :after helm
+  :bind (("C-c p" . helm-do-ag-project-root)))
 
 ;; Keybinds
 (defun delete-word (arg)
