@@ -214,7 +214,8 @@
   (setq helm-display-buffer-default-height 15
         helm-split-window-inside-p nil
         helm-split-window-default-side 'below
-        helm-split-window-preferred-function #'split-window-below)
+        helm-split-window-preferred-function #'split-window-below
+        helm-ff-initial-sort-method 'newest)
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
@@ -244,14 +245,14 @@
   :bind (("C-c p" . helm-do-ag-project-root)))
 
 (use-package hl-todo
-  :init
+  :custom
   (setq hl-todo-keyword-faces
         '(("TODO"   . "#DAA520")
           ("FIXME"  . "#FF0000")
           ("DEBUG"  . "#A020F0")
           ("GOTCHA" . "#FF4500")
           ("STUB"   . "#1E90FF")))
-  :config (hl-todo-mode 1))
+  :hook (after-init . global-hl-todo-mode))
 
 ;; Keybinds
 (defun delete-word (arg)
