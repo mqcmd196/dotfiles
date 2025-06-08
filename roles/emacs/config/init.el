@@ -97,7 +97,7 @@
                             ;; =:= =!=
                             ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
                             ;; ;; ;;;
-                            (";" (rx (+ ";")))k
+                            (";" (rx (+ ";")))
                             ;; && &&&
                             ("&" (rx (+ "&")))
                             ;; !! !!! !. !: !!. != !== !~
@@ -211,7 +211,10 @@
 
 (use-package helm
   :init
-  (setq helm-display-buffer-default-height 15)
+  (setq helm-display-buffer-default-height 15
+        helm-split-window-inside-p nil
+        helm-split-window-default-side 'below
+        helm-split-window-preferred-function #'split-window-below)
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
@@ -225,6 +228,13 @@
    ("C-i" . helm-execute-persistent-action)
    ("C-z" . helm-select-action))
   :config
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*helm.*?\\*\\'"
+                 (display-buffer-reuse-window display-buffer-in-side-window)
+                 (side . bottom)
+                 (slot . 0)
+                 (window-height . 0.25)
+                 (inhibit-same-window . t))) ;; show helm in buffer
   (helm-mode 1))
 
 (use-package find-file-in-project :after helm) ;; Use helm with (helm-mode 1). Nothing to do here
@@ -232,6 +242,15 @@
 (use-package helm-ag
   :after helm
   :bind (("C-c p" . helm-do-ag-project-root)))
+
+(use-package hl-todo
+  :init
+  (setq hl-todo-keyword-faces
+        '(("TODO"   . "#FF0000")
+          ("FIXME"  . "#FF0000")
+          ("DEBUG"  . "#A020F0")
+          ("GOTCHA" . "#FF4500")
+          ("STUB"   . "#1E90FF"))))
 
 ;; Keybinds
 (defun delete-word (arg)
