@@ -149,10 +149,13 @@ rospeco() {
 complete -o nospace -o default -F _python_argcomplete "ros2"
 
 # colcon completion
-if type colcon &> /dev/null; then
-    source /usr/share/colcon_cd/function/colcon_cd.sh
-    source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-fi
+type colcon &> /dev/null && source /usr/share/colcon_cd/function/colcon_cd.sh \
+  && [[ -f /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash ]] \
+  && source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+
+# Hotfix for completion issue in jazzy. Known bug in https://github.com/ros2/ros2cli/issues/534
+eval "$(register-python-argcomplete ros2)"
+eval "$(register-python-argcomplete colcon)"
 
 if [ -d /opt/ros ]; then
     init_ros_zsh
