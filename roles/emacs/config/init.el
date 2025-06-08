@@ -47,6 +47,10 @@
             (hs-minor-mode t) ;; enable folding
             ))
 
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (company-mode -1)))
+
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t)
