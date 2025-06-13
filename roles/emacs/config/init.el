@@ -25,6 +25,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p) ;; yes -> y, no -> n
 (setq whitespace-space-regexp "\\(\u3000+\\)")
 (setq warning-minimum-level :error) ;; suppress warning buffer
+(setq backup-directory-alist '((".*" . "~/tmp"))) ;; backup directory
+(setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
 
 ;; ROS
 (when (require 'yaml-mode nil t)
@@ -175,7 +177,9 @@
 (use-package eglot ;; LSP client
   :hook ((c-mode . eglot-ensure)
          (c++-mode . eglot-ensure)
-         (python-mode . eglot-ensure))
+         (python-mode . eglot-ensure)
+         (js-mode . eglot-ensure)
+         (typescript-mode . eglot-ensure))
   :init
   (setq gc-cons-threshold (* 10 1024 1024);; 100MB
 	    read-process-output-max (* 2048 2048) ;; 4MB
@@ -199,7 +203,10 @@
 		          "--header-insertion=never"
 		          "--header-insertion-decorators=0"
 		          "--query-driver=/usr/bin/g++,/usr/bin/gcc,/usr/bin/c++"))
-     (python-mode . ("pylsp")))))
+     (python-mode . ("pylsp"))
+     (js-mode . ("typescript-language-server" "--stdio")) ;; npm install -g typescript-language-server typescript
+     (typescript-mode . ("typescript-language-server" "--stdio"))
+     (js-ts-mode . ("typescript-language-server" "--stdio")))))
 
 (use-package anzu
   :config
