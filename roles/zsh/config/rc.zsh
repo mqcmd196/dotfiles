@@ -52,6 +52,7 @@ bindkey '^r' peco-history-selection
 bindkey -e # emacs like keybinding
 WORDCHARS='*?[]~&;!#$%^(){}<>' # for word jumping
 
+autoload -U +X bashcompinit && bashcompinit # enable complete command
 local zsh_personal_config_dir="$HOME/.zsh.d"
 source ${zsh_personal_config_dir}/alias.zsh
 source ${zsh_personal_config_dir}/ros.zsh
