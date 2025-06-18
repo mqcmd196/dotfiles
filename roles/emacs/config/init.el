@@ -25,6 +25,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p) ;; yes -> y, no -> n
 (setq whitespace-space-regexp "\\(\u3000+\\)")
 (setq warning-minimum-level :error) ;; suppress warning buffer
+(setq visible-bell 1) ;; stop bell
 (setq backup-directory-alist '((".*" . "~/tmp"))) ;; backup directory
 (setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
 
