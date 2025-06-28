@@ -5,7 +5,7 @@
     state: present
   become: yes
 
-- name: Install fotns
+- name: Install fonts
   block:
   - name: Ensure font directory exists
     file:
