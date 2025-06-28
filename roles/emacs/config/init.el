@@ -13,9 +13,6 @@
 (tool-bar-mode 0) ;; disable tool bar
 (setq inhibit-startup-message t) ;; Don't show initial screen
 (setq initial-scratch-message nil)
-(cond
- ((find-font (font-spec :name "Cascadia Code")) ;; font
-  (set-frame-font "Cascadia Code-12")))
 (show-paren-mode 1) ;; emphasize paren pair
 (setq-default tab-width 4 indent-tabs-mode nil) ;; tab-width default
 (setq-default c-basic-offset 4)
@@ -85,7 +82,13 @@
                (t "light")))))
     (if (string= os-color-scheme "light")
         (load-theme 'doom-one-light t)
-      (load-theme 'doom-one t))))
+      (load-theme 'doom-one t)))
+  (when (display-graphic-p)
+    (when (find-font (font-spec :name "Cascadia Code"))
+      (set-face-attribute 'default nil :font "Cascadia Code-12"))
+    (when (find-font (font-spec :family "BIZ UDGothic"))
+      (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UDGothic") nil 'prepend)
+      (set-fontset-font t 'katakana-jisx0201 (font-spec :family "BIZ UDGothic") nil 'prepend))))
 
 (use-package ligature ;; ligature. copied from https://github.com/mickeynp/ligature.el/wiki#cascadia--fira-code
   :config
