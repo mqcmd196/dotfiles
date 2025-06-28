@@ -5,20 +5,20 @@
     state: present
   become: yes
 
-- name: Install fonts
+- name: Install fotns
   block:
   - name: Ensure font directory exists
     file:
       path: "{{ ansible_env.HOME }}/.local/share/fonts"
       state: directory
-  - name: Download and install JetBrainsMono
-    unarchive:
-      src: https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
-      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-      remote_src: yes
   - name: Download and install CascadiaCode
     unarchive:
       src: https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip
+      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+      remote_src: yes
+  - name: Download and install MorisawaBizUDGothic
+    unarchive:
+      src: https://github.com/googlefonts/morisawa-biz-ud-gothic/releases/download/v1.051/morisawa-biz-ud-gothic-fonts.zip
       dest: "{{ ansible_env.HOME }}/.local/share/fonts"
       remote_src: yes
 
