@@ -205,26 +205,28 @@
   :config
   (setq
    eglot-autoshutdown t
-   eglot-stay-out-of '(company-backends) ;; don't let eglot overwrite company-backends
-   eglot-server-programs
-   '((c-mode . ("clangd"
-		        "-j=3"
-		        "--background-index"
-		        "--completion-style=detailed"
-		        "--header-insertion=never"
-		        "--header-insertion-decorators=0"
-		        "--query-driver=/usr/bin/g++,/usr/bin/gcc,/usr/bin/c++"))
-     (c++-mode . ("clangd"
-		          "-j=3"
-		          "--background-index"
-		          "--completion-style=detailed"
-		          "--header-insertion=never"
-		          "--header-insertion-decorators=0"
-		          "--query-driver=/usr/bin/g++,/usr/bin/gcc,/usr/bin/c++"))
-     (python-mode . ("pylsp"))
-     (js-mode . ("typescript-language-server" "--stdio")) ;; npm install -g typescript-language-server typescript
-     (typescript-mode . ("typescript-language-server" "--stdio"))
-     (js-ts-mode . ("typescript-language-server" "--stdio")))))
+   eglot-stay-out-of '(company-backends)) ;; don't let eglot overwrite company-backends
+  (let ((clangd-args '("clangd"
+                       "-j=3"
+                       "--background-index"
+                       "--completion-style=detailed"
+                       "--header-insertion=never"
+                       "--header-insertion-decorators=0"
+                       "--query-driver=/usr/bin/g++,/usr/bin/gcc,/usr/bin/c++")))
+    (when (string= (getenv "ROS_VERSION") "1")
+      (let* ((package-path (ignore-errors (string-trim-right (shell-command-to-string "roscd"))))
+             (workspace-path (and package-path (expand-file-name ".." package-path)))
+             (compile-db-path (and workspace-path (expand-file-name "compile_commands.json" workspace-path))))
+        (when (and compile-db-path (file-exists-p compile-db-path))
+          (push (format "--compile-commands-dir=%s" workspace-path) (cdr clangd-args))
+          (message "EGLOT: ROS1 mode - Using compile_commands.json from %s" workspace-path))))
+    (setq eglot-server-programs
+          `((c-mode . ,clangd-args)
+            (c++-mode . ,clangd-args)
+            (python-mode . ("pylsp"))
+            (js-mode . ("typescript-language-server" "--stdio"))
+            (typescript-mode . ("typescript-language-server" "--stdio"))
+            (js-ts-mode . ("typescript-language-server" "--stdio"))))))
 
 (use-package anzu
   :config
