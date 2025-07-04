@@ -220,6 +220,12 @@
 
 (use-package magit)
 
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (unless (window-system) (diff-hl-margin-mode)))
+
 (use-package helm
   :init
   (setq helm-display-buffer-default-height 15
