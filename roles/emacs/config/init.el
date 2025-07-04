@@ -276,13 +276,18 @@
   :bind (("C-c p" . helm-do-ag-project-root)))
 
 (use-package hl-todo
-  :custom
-  (setq hl-todo-keyword-faces
-        '(("TODO"   . "#DAA520")
-          ("FIXME"  . "#FF0000")
-          ("DEBUG"  . "#A020F0")
-          ("GOTCHA" . "#FF4500")
-          ("STUB"   . "#1E90FF")))
+  :config
+  ;; Copied from https://github.com/doomemacs/doomemacs/blob/master/modules/ui/hl-todo/config.el
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        '(("TODO" warning bold)
+          ("FIXME" error bold)
+          ("REVIEW" font-lock-keyword-face bold)
+          ("HACK" font-lock-constant-face bold)
+          ("DEPRECATED" font-lock-doc-face bold)
+          ("NOTE" success bold)
+          ("BUG" error bold)
+          ("XXX" font-lock-constant-face bold)))
   :hook (after-init . global-hl-todo-mode))
 
 (use-package powerline
