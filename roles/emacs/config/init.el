@@ -285,6 +285,10 @@
           ("STUB"   . "#1E90FF")))
   :hook (after-init . global-hl-todo-mode))
 
+(use-package powerline
+  :config
+  (powerline-default-theme))
+
 ;; Keybinds
 (defun delete-word (arg)
   (interactive "p")
