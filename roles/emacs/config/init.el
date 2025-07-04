@@ -23,8 +23,22 @@
 (setq whitespace-space-regexp "\\(\u3000+\\)")
 (setq warning-minimum-level :error) ;; suppress warning buffer
 (setq visible-bell 1) ;; stop bell
-(setq backup-directory-alist '((".*" . "~/tmp"))) ;; backup directory
+(setq backup-directory-alist '((".*" . "~/tmp"))) ;; backup directory(
 (setq auto-save-file-name-transforms   '((".*" "~/tmp/" t)))
+(unless (window-system) ;; share clipboard when -nw. It requires xsel
+  (setq x-select-enable-clipboard t))
+(when (and (not (window-system)) ;; -nw mode
+           (getenv "WSLENV")) ;; WSL environment
+  (message "WSL: Enabling clipboard integration with clip.exe")
+  (defun wsl-copy (text)
+    (with-temp-buffer
+      (insert text)
+      (call-process-region (point-min) (point-max) "clip.exe" t 0)))
+  (defun wsl-paste ()
+    (shell-command-to-string "powershell.exe -NoProfile -Command 'Get-Clipboard' | tr -d '\\r'"))
+  (setq interprogram-cut-function 'wsl-copy)
+  (setq interprogram-paste-function 'wsl-paste)
+  (setq select-active-regions nil))
 
 ;; ROS
 (when (require 'yaml-mode nil t)
