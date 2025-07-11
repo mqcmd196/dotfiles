@@ -248,7 +248,8 @@
         helm-split-window-inside-p nil
         helm-split-window-default-side 'below
         helm-split-window-preferred-function #'split-window-below
-        helm-ff-initial-sort-method 'newest)
+        helm-ff-initial-sort-method 'newest
+        helm-adaptive-mode t)
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
@@ -316,3 +317,17 @@
 ;; Keybinds
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; call ibuffer in current window
+
+;; Non-debian packages
+(use-package package
+  :init
+  (setq package-archives
+        '(("gnu"    . "https://elpa.gnu.org/packages/")
+          ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
+(use-package gptel
+  :after package
+  :ensure t
+  :pin nongnu
+  ;; :init
+  ;; ()
+  )
