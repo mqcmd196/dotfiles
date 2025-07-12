@@ -1,6 +1,15 @@
 if [ -v WSLENV ]; then
   source $HOME/.profile # In wsl-22.04 sometimes .profile is not loaded
   export LIBGL_ALWAYS_SOFTWARE=1 # For showing robot model in rviz in WSL2
+  # Japanese on WSL GUI Apps
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS=@im=fcitx
+  export INPUT_METHOD=fcitx5
+  export DefaultIMModule=fcitx5
+  if [ $SHLVL = 1 ] ; then
+      (fcitx5 --disable=wayland -d --verbose '*'=0 &)
+  fi
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
