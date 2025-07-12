@@ -328,6 +328,13 @@
   :after package
   :ensure t
   :pin nongnu
-  ;; :init
-  ;; ()
-  )
+  :config
+  (setq gptel-model 'o3
+        gptel-backend (gptel-make-azure "obinata-gpt-us2"
+                        :protocol "https"
+                        :host "obinata-gpt-us2.openai.azure.com"
+                        :endpoint "/openai/deployments/o3/chat/completions?api-version=2025-01-01-preview"
+                        :stream t
+                        :key #'gptel-api-key
+                        :models '(o3)))) ;; NOTE o3-pro response is not supported now. ref: https://github.com/karthink/gptel/issues/697
+
