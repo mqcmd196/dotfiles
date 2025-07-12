@@ -15,3 +15,4 @@ COPY setup_sudoer.yml .
 RUN ansible-playbook setup_sudoer.yml -K
 COPY tests ./tests
 RUN ./tests/test_emacs.sh
+RUN ./tests/test_shell.sh

@@ -27,3 +27,4 @@ COPY setup_sudoer.yml .
 RUN ansible-playbook setup_sudoer.yml -K
 COPY tests ./tests
 RUN bash -lc "./tests/test_doom.sh"
+RUN ./tests/test_shell.sh
