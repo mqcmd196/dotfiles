@@ -296,6 +296,14 @@
   :config
   (powerline-default-theme))
 
+;; mozc for Japanese input in emacs
+(when (getenv "WSLENV")
+  (use-package mozc
+    :init
+    (setq default-input-method "japanese-mozc")
+    :config
+    (global-set-key (kbd "M-`") #'toggle-input-method)))
+
 ;; Keybinds
 (defun delete-word (arg)
   (interactive "p")
