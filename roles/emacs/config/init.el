@@ -297,6 +297,7 @@
   (powerline-default-theme))
 
 (use-package format-all
+  :if (locate-library "format-all")
   :commands format-all-mode
   :hook (prog-mode . format-all-mode)
   :config
