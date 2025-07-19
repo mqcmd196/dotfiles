@@ -21,14 +21,14 @@
 # Install apt packages
 - name: Install common packages for building emacs29
   apt:
-    name: ['autoconf', 'build-essential', 'cmake', 'cmigemo', 'fd-find', 'glslang-tools', 'isort', 'libgccjit0', 'libgif-dev', 'libgtk-3-dev', 'libgnutls28-dev', 'libjansson4', 'libjansson-dev', 'libjpeg-dev', 'libncurses-dev', 'libpng-dev', 'librsvg2-dev', 'libtiff5-dev', 'libxpm-dev', 'ripgrep', 'shellcheck', 'texinfo']
+    name: ['autoconf', 'build-essential', 'cmake', 'cmigemo', 'emacs-mozc', 'fd-find', 'glslang-tools', 'isort', 'libgccjit0', 'libgif-dev', 'libgtk-3-dev', 'libgnutls28-dev', 'libjansson4', 'libjansson-dev', 'libjpeg-dev', 'libncurses-dev', 'libpng-dev', 'librsvg2-dev', 'libtiff5-dev', 'libxpm-dev', 'ripgrep', 'shellcheck', 'texinfo']
     state: present
   become: yes
   when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
 
 - name: Install common packages for system emacs
   apt:
-    name: ['black', 'clangd', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-powerline', 'elpa-use-package', 'elpa-yaml-mode', 'elpa-yasnippet', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'shellcheck', 'shfmt']
+    name: ['black', 'clangd', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-powerline', 'elpa-use-package', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'shellcheck']
   become: yes
   when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
 

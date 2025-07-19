@@ -296,6 +296,14 @@
   :config
   (powerline-default-theme))
 
+;; mozc for Japanese input in emacs
+(when (getenv "WSLENV")
+  (use-package mozc
+    :init
+    (setq default-input-method "japanese-mozc")
+    :config
+    (global-set-key (kbd "M-`") #'toggle-input-method)))
+
 (use-package format-all
   :if (locate-library "format-all")
   :commands format-all-mode
