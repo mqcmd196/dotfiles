@@ -304,6 +304,15 @@
     :config
     (global-set-key (kbd "M-`") #'toggle-input-method)))
 
+(use-package format-all
+  :if (locate-library "format-all")
+  :commands format-all-mode
+  :hook (prog-mode . format-all-mode)
+  :config
+  (setq-default format-all-formatters
+                '(("C"     (astyle "--mode=c"))
+                  ("Shell" (shfmt "-i" "4" "-ci")))))
+
 ;; Keybinds
 (defun delete-word (arg)
   (interactive "p")
