@@ -314,13 +314,5 @@
                   ("Shell" (shfmt "-i" "4" "-ci")))))
 
 ;; Keybinds
-(defun delete-word (arg)
-  (interactive "p")
-  (delete-region (point) (progn (forward-word arg) (point))))
-(defun backward-delete-word (arg)
-  (interactive "p")
-  (delete-word (- arg)))
-(global-set-key (read-kbd-macro "<M-DEL>") 'backward-delete-word) ;; not kill-ring with M-DEL
-(global-set-key (read-kbd-macro "<C-backspace>") 'delete-word) ;; not kill-ring with M-d
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; call ibuffer in current window

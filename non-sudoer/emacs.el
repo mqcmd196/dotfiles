@@ -118,16 +118,6 @@
 (font-lock-add-keywords 'gdb-script-mode                        '(("\\<\\(bool\\|byte\\|int8\\|uint8\\|int16\\|uint16\\|int32\\|uint32\\|int64\\|uint64\\|float32\\|float64\\|string\\|time\\|duration\\)\\>" . font-lock-builtin-face)) 'set)
 
 ;; Keybinds
-;; do not copy when M-DEL and C-backspace
-(defun delete-word (arg)
-  (interactive "p")
-  (delete-region (point) (progn (forward-word arg) (point))))
-(defun backward-delete-word (arg)
-  (interactive "p")
-  (delete-word (- arg)))
-(global-set-key (read-kbd-macro "<M-DEL>") 'backward-delete-word) ;; not kill-ring with M-DEL
-(global-set-key (read-kbd-macro "<C-backspace>") 'delete-word) ;; not kill-ring with M-d
-
 ;; C-h to delete
 (global-set-key "\C-h" 'delete-backward-char)
 ;; call ibuffer in current window
