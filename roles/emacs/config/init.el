@@ -248,7 +248,8 @@
         helm-split-window-inside-p nil
         helm-split-window-default-side 'below
         helm-split-window-preferred-function #'split-window-below
-        helm-ff-initial-sort-method 'newest)
+        helm-ff-initial-sort-method 'newest
+        helm-adaptive-mode t)
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
@@ -316,3 +317,24 @@
 ;; Keybinds
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; call ibuffer in current window
+
+;; Non-debian packages
+(use-package package
+  :init
+  (setq package-archives
+        '(("gnu"    . "https://elpa.gnu.org/packages/")
+          ("nongnu" . "https://elpa.nongnu.org/nongnu/"))))
+(use-package gptel
+  :after package
+  :ensure t
+  :pin nongnu
+  :config
+  (setq gptel-model 'o3
+        gptel-backend (gptel-make-azure "obinata-gpt-us2"
+                        :protocol "https"
+                        :host "obinata-gpt-us2.openai.azure.com"
+                        :endpoint "/openai/deployments/o3/chat/completions?api-version=2025-01-01-preview"
+                        :stream t
+                        :key #'gptel-api-key
+                        :models '(o3)))) ;; NOTE o3-pro response is not supported now. ref: https://github.com/karthink/gptel/issues/697
+
