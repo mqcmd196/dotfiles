@@ -42,7 +42,8 @@
 
 ;; ROS
 (when (require 'yaml-mode nil t)
-  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.repos$" . yaml-mode)))
 (add-to-list 'auto-mode-alist '("\.launch$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\.test$" . nxml-mode))
 (add-to-list 'auto-mode-alist '("manifest.xml" . nxml-mode))
