@@ -307,12 +307,7 @@
 
 (use-package format-all
   :if (locate-library "format-all")
-  :commands format-all-mode
-  :hook (prog-mode . format-all-mode)
-  :config
-  (setq-default format-all-formatters
-                '(("C"     (astyle "--mode=c"))
-                  ("Shell" (shfmt "-i" "4" "-ci")))))
+  :commands format-all-mode)
 
 ;; Keybinds
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
