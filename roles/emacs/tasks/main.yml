@@ -24,19 +24,19 @@
     name: ['autoconf', 'build-essential', 'cmake', 'cmigemo', 'emacs-mozc', 'fd-find', 'glslang-tools', 'isort', 'libgccjit0', 'libgif-dev', 'libgtk-3-dev', 'libgnutls28-dev', 'libjansson4', 'libjansson-dev', 'libjpeg-dev', 'libncurses-dev', 'libpng-dev', 'librsvg2-dev', 'libtiff5-dev', 'libxpm-dev', 'ripgrep', 'shellcheck', 'texinfo']
     state: present
   become: yes
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
+  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13"))
 
 - name: Install common packages for system emacs
   apt:
     name: ['black', 'clangd', 'cmake-format', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-powerline', 'elpa-py-isort', 'elpa-use-package', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'shellcheck', 'shfmt', 'tidy']
   become: yes
-  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13")
 
 - name: Install more packages for system emacs
   apt:
     name: ['elpa-format-all']
   become: yes
-  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24"
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13")
 
 # Install pip packages
 - name: Install cmake language server and pyright
@@ -59,7 +59,7 @@
     dest: "{{ ansible_env.HOME }}/.config/emacs/init.el"
     state: link
     force: yes
-  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13")
 
 - name: Create symbolic link for Emacs snippets
   file:
@@ -67,7 +67,7 @@
     dest: "{{ ansible_env.HOME }}/.config/emacs/snippets"
     state: link
     force: yes
-  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13")
 
 - name: Install common packages for emacs29 in Ubuntu jammy
   apt:
@@ -95,7 +95,7 @@
     path: "{{ ansible_env.HOME }}/.local/src"
     state: directory
     recurse: yes
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
+  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13"))
 
 # Install emacs with native-compile
 - name: Build and install emacs29
@@ -123,7 +123,7 @@
       shell: >
         make -j$(nproc) install
         chdir="{{ ansible_env.HOME }}/.local/src/emacs"
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
+  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13"))
 
 # Install clangd
 - name: Add clangd apt repository
@@ -138,11 +138,11 @@
         state: present
         filename: llvm-toolchain
   become: true
-  when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24")
+  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
 
 - name: Install clang tools
   apt:
-    name: ["clangd-18", "clang-format-18", "clang-format"] # TODO doomemacs cannot set clang-format-18 as clang-format
+    name: ["clangd-18", "clang-format-18", "clang-format", "clangd"] # TODO doomemacs cannot set clang-format-18 as clang-format
     state: present
   become: yes
 
@@ -166,4 +166,4 @@
       environment:
         EMACS: "{{ ansible_env.HOME }}/.local/bin/emacs"
       shell: /usr/bin/env bash -lc "{{ doom }} install --force && {{ doom }} sync"
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
+  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13"))

@@ -19,6 +19,8 @@ jobs:
             CODENAME: bullseye
           - OS: debian
             CODENAME: bookworm
+          - OS: debian
+            CODENAME: trixie
           - OS: ubuntu
             CODENAME: focal
           - OS: ubuntu

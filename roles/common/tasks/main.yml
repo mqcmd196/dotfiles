@@ -1,7 +1,10 @@
-# Install packages with apt
+- name: Detect Debian 13
+  set_fact:
+    is_debian13: "{{ ansible_facts['distribution'] == 'Debian' and (ansible_facts['distribution_major_version'] | int) >= 13 }}"
+
 - name: Install convenient apt packages
   apt:
-    name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'jq', 'lsb-release', 'net-tools', 'pandoc', 'peco', 'python3-ipython', 'python3-venv', 'rlwrap', 'tig', 'tmux', 'traceroute', 'unionfs-fuse', 'util-linux', 'xsel', 'zsh']
+    name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'jq', 'lsb-release', 'net-tools', 'pandoc', 'peco', 'python3-ipython', 'python3-venv', 'rlwrap', 'tig', 'tmux', 'traceroute', 'util-linux', 'xsel', 'zsh']
     state: present
   become: yes
 
@@ -24,48 +27,148 @@
 
 - name: Setup GUI Applications
   block:
+    - name: Ensure /etc/apt/keyrings exists (Debian 13)
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+      when: is_debian13
+    - name: Ensure gpg is installed (Debian 13)
+      apt:
+        name: gpg
+        state: present
+        update_cache: yes
+      when: is_debian13
+
     - name: Add Google Chrome key
       apt_key:
         url: https://dl.google.com/linux/linux_signing_key.pub
         state: present
+      when: not is_debian13
     - name: Add Google Chrome repository
       apt_repository:
         repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb stable main
         state: present
         filename: google-chrome
+      when: not is_debian13
+
+    - name: Fetch Google Chrome key (Debian 13)
+      get_url:
+        url: https://dl.google.com/linux/linux_signing_key.pub
+        dest: /etc/apt/keyrings/google-chrome.asc
+        mode: '0644'
+      when: is_debian13
+    - name: Dearmor Google Chrome key (Debian 13)
+      command: gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg /etc/apt/keyrings/google-chrome.asc
+      args:
+        creates: /etc/apt/keyrings/google-chrome.gpg
+      when: is_debian13
+    - name: Add Google Chrome repository (Debian 13)
+      apt_repository:
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg]
+          http://dl.google.com/linux/chrome/deb stable main
+        state: present
+        filename: google-chrome
+      when: is_debian13
+
     - name: Install Google Chrome
       apt:
         name: google-chrome-stable
         update_cache: yes
         state: present
+
     - name: Add VSCode key
       apt_key:
         url: https://packages.microsoft.com/keys/microsoft.asc
         state: present
+      when: not is_debian13
     - name: Add VSCode repository
       apt_repository:
         repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
         state: present
         filename: vscode
+      when: not is_debian13
+
+    - name: Fetch Microsoft key (Debian 13)
+      get_url:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        dest: /etc/apt/keyrings/microsoft.asc
+        mode: '0644'
+      when: is_debian13
+    - name: Dearmor Microsoft key (Debian 13)
+      command: gpg --dearmor -o /etc/apt/keyrings/microsoft.gpg /etc/apt/keyrings/microsoft.asc
+      args:
+        creates: /etc/apt/keyrings/microsoft.gpg
+      when: is_debian13
+    - name: Add VSCode repository (Debian 13)
+      apt_repository:
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/microsoft.gpg]
+          https://packages.microsoft.com/repos/vscode stable main
+        state: present
+        filename: vscode
+      when: is_debian13
+
     - name: Install VSCode
       apt:
         name: code
         state: present
         update_cache: yes
+
+    - name: Add zsh completion
+      shell: gh completion -s zsh > /usr/local/share/zsh/site-functions/_gh
   become: true
   when: not ('WSLENV' in ansible_env)
 
 - name: Setup latest stable Docker
   block:
+    - name: Ensure /etc/apt/keyrings exists (Debian 13)
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+      when: is_debian13
+    - name: Ensure gpg is installed (Debian 13)
+      apt:
+        name: gpg
+        state: present
+        update_cache: yes
+      when: is_debian13
+
     - name: Add Docker key
       apt_key:
         url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
         state: present
+      when: not is_debian13
     - name: Add Docker repository
       apt_repository:
         repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable
         state: present
         filename: docker
+      when: not is_debian13
+
+    - name: Fetch Docker key (Debian 13)
+      get_url:
+        url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: '0644'
+      when: is_debian13
+    - name: Dearmor Docker key (Debian 13)
+      command: gpg --dearmor -o /etc/apt/keyrings/docker.gpg /etc/apt/keyrings/docker.asc
+      args:
+        creates: /etc/apt/keyrings/docker.gpg
+      when: is_debian13
+    - name: Add Docker repository (Debian 13)
+      apt_repository:
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg]
+          https://download.docker.com/linux/{{ ansible_distribution|lower }}
+          {{ ansible_distribution_release }} stable
+        state: present
+        filename: docker
+      when: is_debian13
+
     - name: Install Docker related packages
       apt:
         name: ['docker-ce', 'docker-ce-cli', 'containerd.io', 'docker-buildx-plugin', 'docker-compose-plugin']
@@ -80,15 +183,40 @@
 
 - name: Setup GitHub CLI
   block:
+    - name: Ensure /etc/apt/keyrings exists (Debian 13)
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+      when: is_debian13
+
     - name: Add gh key
       apt_key:
         url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
         state: present
+      when: not is_debian13
     - name: Add gh repository
       apt_repository:
         repo: deb [arch=amd64] https://cli.github.com/packages stable main
         state: present
         filename: github-cli
+      when: not is_debian13
+
+    - name: Fetch GitHub CLI keyring (Debian 13)
+      get_url:
+        url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+        dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+        mode: '0644'
+      when: is_debian13
+    - name: Add gh repository (Debian 13)
+      apt_repository:
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg]
+          https://cli.github.com/packages stable main
+        state: present
+        filename: github-cli
+      when: is_debian13
+
     - name: Install gh related packages
       apt:
         name: gh
@@ -98,7 +226,6 @@
       shell: gh completion -s zsh > /usr/local/share/zsh/site-functions/_gh
   become: true
 
-# Setup configs
 - name: Create symbolic link for bashrc
   file:
     src: "{{ role_path }}/../../non-sudoer/rc.bash"
