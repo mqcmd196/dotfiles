@@ -309,6 +309,10 @@
   :if (locate-library "format-all")
   :commands format-all-mode)
 
+(use-package which-key
+  :init
+  (which-key-mode 1))
+
 ;; Keybinds
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; call ibuffer in current window
