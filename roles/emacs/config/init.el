@@ -249,16 +249,19 @@
         helm-split-window-inside-p nil
         helm-split-window-default-side 'below
         helm-split-window-preferred-function #'split-window-below
-        helm-ff-initial-sort-method 'newest)
+        helm-ff-initial-sort-method 'newest
+        helm-adaptive-history-file (expand-file-name "helm-adaptive-history" user-emacs-directory))
+  :hook
+  ((kill-emacs . helm-adaptive-save-history))
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
    ("C-x b" . helm-mini)
    :map helm-map
-   ("<tab>" . helm-execute-persistent-action) ; GUI
-   ("C-i" . helm-execute-persistent-action) ; TTY
+   ("<tab>" . helm-execute-persistent-action)
+   ("C-i" . helm-execute-persistent-action)
    ("C-z" . helm-select-action)
-   :map helm-read-file-map ;; for find file
+   :map helm-read-file-map
    ("<tab>" . helm-execute-persistent-action)
    ("C-i" . helm-execute-persistent-action)
    ("C-z" . helm-select-action))
@@ -269,8 +272,18 @@
                  (side . bottom)
                  (slot . 0)
                  (window-height . 0.25)
-                 (inhibit-same-window . t))) ;; show helm in buffer
-  (helm-mode 1))
+                 (inhibit-same-window . t)))
+  (helm-mode 1)
+  (helm-adaptive-mode 1))
+
+(use-package savehist
+  :init
+  (setq savehist-file (expand-file-name "history" user-emacs-directory)
+        history-length 2000
+        history-delete-duplicates t
+        savehist-additional-variables '(extended-command-history command-history helm-M-x-input-history)
+        savehist-autosave-interval 60)
+  (savehist-mode 1))
 
 (use-package find-file-in-project :after helm) ;; Use helm with (helm-mode 1). Nothing to do here
 
