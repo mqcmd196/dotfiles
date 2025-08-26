@@ -21,3 +21,4 @@ compile_commands.json
 .ipynb_checkpoints/
 *.elc
 *Zone.Identifier
+**/.claude/settings.local.json
