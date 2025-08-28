@@ -30,14 +30,15 @@
 (when (and (not (window-system)) ;; -nw mode
            (getenv "WSLENV")) ;; WSL environment
   (message "WSL: Enabling clipboard integration with clip.exe")
-  (defun wsl-copy (text)
-    (with-temp-buffer
-      (insert text)
-      (call-process-region (point-min) (point-max) "clip.exe" t 0)))
-  (defun wsl-paste ()
-    (shell-command-to-string "powershell.exe -NoProfile -Command 'Get-Clipboard' | tr -d '\\r'"))
-  (setq interprogram-cut-function 'wsl-copy)
-  (setq interprogram-paste-function 'wsl-paste)
+  (setq interprogram-cut-function
+        (lambda (text)
+          (let ((process-connection-type nil))
+            (let ((proc (start-process "wsl-copy" nil "wl-copy")))
+              (process-send-string proc text)
+              (process-send-eof proc)))))
+  (setq interprogram-paste-function
+        (lambda ()
+          (string-trim-right (shell-command-to-string "wl-paste -n"))))
   (setq select-active-regions nil))
 
 ;; ROS
