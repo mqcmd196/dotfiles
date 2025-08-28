@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: build
+    name: test
     continue-on-error: true
     strategy:
       matrix:
@@ -33,5 +33,4 @@ jobs:
         with:
             tool-cache: false
             docker-images: false
-      - name: build
-        run: docker build -f ./tests/docker/${{ matrix.OS }}-${{ matrix.CODENAME }}.Dockerfile .
+      - run: docker build -f ./tests/docker/${{ matrix.OS }}-${{ matrix.CODENAME }}.Dockerfile .
