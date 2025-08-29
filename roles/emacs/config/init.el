@@ -41,6 +41,8 @@
           (string-trim-right (shell-command-to-string "wl-paste -n"))))
   (setq select-active-regions nil))
 (global-auto-revert-mode 1) ;; always accept external file editing event
+(setq auto-revert-check-vc-info t
+      global-auto-revert-non-file-buffers t) ;; update VC info
 
 ;; ROS
 (when (require 'yaml-mode nil t)
