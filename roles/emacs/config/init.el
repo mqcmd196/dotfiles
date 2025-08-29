@@ -29,7 +29,7 @@
   (setq x-select-enable-clipboard t))
 (when (and (not (window-system)) ;; -nw mode
            (getenv "WSLENV")) ;; WSL environment
-  (message "WSL: Enabling clipboard integration with clip.exe")
+  (message "WSL: Enabling clipboard integration with wl-copy")
   (setq interprogram-cut-function
         (lambda (text)
           (let ((process-connection-type nil))
@@ -40,6 +40,7 @@
         (lambda ()
           (string-trim-right (shell-command-to-string "wl-paste -n"))))
   (setq select-active-regions nil))
+(global-auto-revert-mode 1) ;; always accept external file editing event
 
 ;; ROS
 (when (require 'yaml-mode nil t)
@@ -239,9 +240,12 @@
 (use-package magit)
 
 (use-package diff-hl
+  :hook
+  (magit-post-refresh . diff-hl-magit-post-refresh)
+  (focus-in-hook . diff-hl-update)
+  (dired-mode . diff-hl-dired-mode)
   :config
   (global-diff-hl-mode)
-  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (unless (window-system) (diff-hl-margin-mode)))
 
 (use-package helm
@@ -253,7 +257,7 @@
         helm-ff-initial-sort-method 'newest
         helm-adaptive-history-file (expand-file-name "helm-adaptive-history" user-emacs-directory))
   :hook
-  ((kill-emacs . helm-adaptive-save-history))
+  (kill-emacs . helm-adaptive-save-history)
   :bind
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)
