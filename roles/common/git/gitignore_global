@@ -3,7 +3,7 @@
 .ccls
 .ccls-root
 .DS_Store
-venv*/*
+venv*/
 *~
 ~*
 \#*\#
