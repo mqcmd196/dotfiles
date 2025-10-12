@@ -244,6 +244,10 @@
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (unless (window-system) (diff-hl-margin-mode)))
 
+(use-package migemo
+  :config
+  (migemo-init))
+
 (use-package helm
   :init
   (setq helm-display-buffer-default-height 15
@@ -275,7 +279,8 @@
                  (window-height . 0.25)
                  (inhibit-same-window . t)))
   (helm-mode 1)
-  (helm-adaptive-mode 1))
+  (helm-adaptive-mode 1)
+  (helm-migemo-mode 1))
 
 (use-package savehist
   :init
