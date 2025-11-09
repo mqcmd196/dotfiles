@@ -13,7 +13,8 @@
 (tool-bar-mode 0) ;; disable tool bar
 (setq inhibit-startup-message t) ;; Don't show initial screen
 (setq initial-scratch-message nil)
-(show-paren-mode 1) ;; emphasize paren pair
+(show-paren-mode t) ;; emphasize paren pair
+(setq show-paren-style :mixed) ;; emphasize region when long
 (setq-default tab-width 4 indent-tabs-mode nil) ;; tab-width default
 (electric-pair-mode 1) ;; Insert parenthesis/brackets by pair
 (which-function-mode 1) ;; always show which function
