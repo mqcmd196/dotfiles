@@ -15,7 +15,6 @@
 (setq initial-scratch-message nil)
 (show-paren-mode 1) ;; emphasize paren pair
 (setq-default tab-width 4 indent-tabs-mode nil) ;; tab-width default
-(setq-default c-basic-offset 4)
 (electric-pair-mode 1) ;; Insert parenthesis/brackets by pair
 (which-function-mode 1) ;; always show which function
 (setq sgml-quick-keys 'close) ;; always show which function
