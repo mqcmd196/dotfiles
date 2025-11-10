@@ -40,6 +40,7 @@
         (lambda ()
           (string-trim-right (shell-command-to-string "wl-paste -n"))))
   (setq select-active-regions nil))
+(setq gdb-command-name "gdb -n")
 
 ;; ROS
 (when (require 'yaml-mode nil t)
