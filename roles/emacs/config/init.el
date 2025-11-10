@@ -231,6 +231,25 @@
             (typescript-mode . ("typescript-language-server" "--stdio"))
             (js-ts-mode . ("typescript-language-server" "--stdio"))))))
 
+(use-package eldoc
+  :init
+  (setq eldoc-idle-delay 0
+        eldoc-echo-area-prefer-doc-buffer t
+        eldoc-echo-area-use-multiline-p 4)
+  :config
+  (setq frame-resize-pixelwise nil
+        window-resize-pixelwise nil)
+  (dolist (re '("\\`\\*eldoc\\*\\(?:<[0-9]+>\\)?\\'"
+                "\\`\\*EGLOT Help\\*\\(?:<[0-9]+>\\)?\\'"))
+    (add-to-list 'display-buffer-alist
+                 `(,re
+                   (display-buffer-in-side-window)
+                   (side . bottom)
+                   (slot . 1)
+                   (window-height . 5)
+                   (window-parameters . ((mode-line-format . none)
+                                         (window-size-fixed . height)))))))
+
 (use-package anzu
   :config
   (global-anzu-mode 1)
