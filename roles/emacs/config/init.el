@@ -188,7 +188,7 @@
   (add-hook 'after-init-hook 'global-company-mode)
   :config
   (setq company-minimum-prefix-length 2
-	    company-idle-delay 0.01)
+	    company-idle-delay 0)
   (with-eval-after-load 'company
     (setq company-backends
 	      '((company-capf :separate company-dabbrev-code company-yasnippet)
