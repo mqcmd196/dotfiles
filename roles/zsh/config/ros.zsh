@@ -104,37 +104,37 @@ catkin_after_build(){
 }
 
 rospeco() {
-    # mode=$(echo -e "node\ntopic\nservice\nmsg" | peco --prompt ROS\?\>)
     if [[ $ROS_VERSION = 1 ]]; then
-        IFS=$'\n'
-        local nodes=($(rosnode list))
-        local topics=($(rostopic list))
-        local services=($(rosservice list))
-        local params=($(rosparam list))
-        for i in $nodes; do
-            elements=${elements}"$i (node)\n"
-        done
-        for i in $topics; do
-            elements=${elements}"$i (topic)\n"
-        done
-        for i in $services; do
-            elements=${elements}"$i (service)\n"
-        done
-        for i in $nodes; do
-            elements=${elements}"$i (param)\n"
-        done
-        local select=$(echo -e "${elements}" | peco --prompt ROS\?\>)
-        local mode=$(echo ${select} | awk '{print $2}' | sed "s/(//" | sed "s/)//")
-        local var=$(echo ${select} | awk '{print $1}')
-        if [ ${mode} = "node" ]; then
-            local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco --prompt COMMAND\?\>)
-        elif [ ${mode} = "topic" ]; then
-            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype" | peco --prompt COMMAND\?\>)
-        elif [ ${mode} = "service" ]; then
-            local com=$(echo -e "args\ncall\nfind\ninfo\ntype\nuri" | peco --prompt COMMAND\?\>)
-        elif [ ${mode} = "param" ]; then
-            local com=$(echo -e "delete\ndump\nget\nload\nset" | peco --prompt COMMAND\?\>)
-        fi
+        local tmpd=$(mktemp -d)
+        (
+            setopt nomonitor nonotify
+            rosnode    list >"$tmpd/nodes"    2>/dev/null & p1=$!
+            rostopic   list >"$tmpd/topics"   2>/dev/null & p2=$!
+            rosservice list >"$tmpd/services" 2>/dev/null & p3=$!
+            rosparam   list >"$tmpd/params"   2>/dev/null & p4=$!
+            wait $p1 $p2 $p3 $p4
+        )
+        local -a nodes topics services params
+        nodes=("${(@f)$(<"$tmpd/nodes")}")
+        topics=("${(@f)$(<"$tmpd/topics")}")
+        services=("${(@f)$(<"$tmpd/services")}")
+        params=("${(@f)$(<"$tmpd/params")}")
+        rm -rf -- "$tmpd"
+        local -a elements
+        for i in $nodes;    do elements+="$i (node)";    done
+        for i in $topics;   do elements+="$i (topic)";   done
+        for i in $services; do elements+="$i (service)"; done
+        for i in $params;   do elements+="$i (param)";   done
+        local select mode var com
+        select=$(printf '%s\n' "${elements[@]}" | peco --prompt 'ROS?>')
+        mode=${${select##* }#\(}; mode=${mode%\)}
+        var=${select%% *}
+        case $mode in
+            node)    com=$(printf '%s\n' info ping kill machine cleanup | peco --prompt 'COMMAND?>');;
+            topic)   com=$(printf '%s\n' info echo hz pub bw delay type | peco --prompt 'COMMAND?>');;
+            service) com=$(printf '%s\n' info call args find type uri   | peco --prompt 'COMMAND?>');;
+            param)   com=$(printf '%s\n' get set dump delete load       | peco --prompt 'COMMAND?>');;
+        esac
     elif [ ${mode} ] && [ $ROS_VERSION = 2 ]; then
         if [ ${mode} = "node" ]; then
             local var=$(ros2 node list | peco --prompt ROSNODE\?\>)
