@@ -24,10 +24,11 @@ ros_console_set_default(){
 }
 
 ros_workspace_init(){
-    if [ -e "/opt/ros/melodic/setup.zsh" ]; then
-        source /opt/ros/melodic/setup.zsh # melodic only
-    elif [ -e "/opt/ros/noetic/setup.zsh" ]; then
+    source /opt/ros/**/setup.zsh
+    if [ -e "/opt/ros/noetic/setup.zsh" ]; then
         source /opt/ros/noetic/setup.zsh
+    elif [ -e "/opt/ros/one/setup.zsh" ]; then
+        source /opt/ros/one/setup.zsh
     fi
     catkin config -a --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 }
@@ -100,27 +101,39 @@ catkin_generate_compile_commands_json(){
 catkin_after_build(){
     catkin_generate_compile_commands_json
     local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
-    ros_workspace_set $catkin_ws
 }
 
 rospeco() {
-    local mode
-    local var
-    local com
-    mode=$(echo -e "node\ntopic\nservice\nmsg" | peco --prompt ROS\?\>)
-    if [ ${mode} ] && [ $ROS_VERSION = 1 ]; then
+    # mode=$(echo -e "node\ntopic\nservice\nmsg" | peco --prompt ROS\?\>)
+    if [[ $ROS_VERSION = 1 ]]; then
+        IFS=$'\n'
+        local nodes=($(rosnode list))
+        local topics=($(rostopic list))
+        local services=($(rosservice list))
+        local params=($(rosparam list))
+        for i in $nodes; do
+            elements=${elements}"$i (node)\n"
+        done
+        for i in $topics; do
+            elements=${elements}"$i (topic)\n"
+        done
+        for i in $services; do
+            elements=${elements}"$i (service)\n"
+        done
+        for i in $nodes; do
+            elements=${elements}"$i (param)\n"
+        done
+        local select=$(echo -e "${elements}" | peco --prompt ROS\?\>)
+        local mode=$(echo ${select} | awk '{print $2}' | sed "s/(//" | sed "s/)//")
+        local var=$(echo ${select} | awk '{print $1}')
         if [ ${mode} = "node" ]; then
-            local var=$(rosnode list | peco --prompt ROSNODE\?\>)
             local com=$(echo -e "ping\ninfo\nmachine\nkill\ncleanup" | peco --prompt COMMAND\?\>)
         elif [ ${mode} = "topic" ]; then
-            local var=$(rostopic list | peco --prompt ROSTOPIC\?\>)
             local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype" | peco --prompt COMMAND\?\>)
         elif [ ${mode} = "service" ]; then
-            local var=$(rosservice list | peco --prompt ROSSERVICE\?\>)
             local com=$(echo -e "args\ncall\nfind\ninfo\ntype\nuri" | peco --prompt COMMAND\?\>)
-        elif [ ${mode} = "msg" ]; then
-            local var=$(rosmsg list | peco --prompt ROSMSG\?\>)
-            local com=$(echo -e "show\ninfo\nmd5\npackage\npackages" | peco --prompt COMMAND\?\>)
+        elif [ ${mode} = "param" ]; then
+            local com=$(echo -e "delete\ndump\nget\nload\nset" | peco --prompt COMMAND\?\>)
         fi
     elif [ ${mode} ] && [ $ROS_VERSION = 2 ]; then
         if [ ${mode} = "node" ]; then
