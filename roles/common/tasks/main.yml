@@ -124,10 +124,16 @@
     state: directory
     recurse: yes
 
-- name: Create symbolic link for git config
+- name: Create symbolic link for git ignore
   file:
     src: "{{ role_path }}/git/gitignore_global"
     dest: "{{ ansible_env.HOME }}/.config/git/ignore"
+    state: link
+
+- name: Create symbolic link for git config
+  file:
+    src: "{{ role_path }}/git/config"
+    dest: "{{ ansible_env.HOME }}/.config/git/config"
     state: link
 
 - name: Create symbolic link for gdb-dashboard

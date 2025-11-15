@@ -1,0 +1,8 @@
+[user]
+	email = mqcmd196@hotmail.co.jp
+	name = Yoshiki Obinata
+[alias]
+	fa = fetch --all
+	fap = fetch --all --prune
+	st = status
+	co = checkout
