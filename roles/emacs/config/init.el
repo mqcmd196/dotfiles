@@ -250,6 +250,18 @@
                    (window-parameters . ((mode-line-format . none)
                                          (window-size-fixed . height)))))))
 
+(use-package flymake
+  :commands (flymake-mode flymake-show-diagnostics-buffer)
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Flymake diagnostics.*\\*\\'"
+                 (display-buffer-in-side-window)
+                 (side . bottom)
+                 (slot . 2)
+                 (window-height . 5)
+                 (window-parameters . ((no-other-window . nil)
+                                       (window-size-fixed . height))))))
+
 (use-package anzu
   :config
   (global-anzu-mode 1)
