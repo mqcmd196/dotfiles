@@ -136,6 +136,18 @@
     dest: "{{ ansible_env.HOME }}/.config/git/config"
     state: link
 
+- name: Create ~/.config/peco for creating peco config
+  file:
+    path: "{{ ansible_env.HOME }}/.config/peco"
+    state: directory
+    recurse: yes
+
+- name: Create symbolic link for peco config
+  file:
+    src: "{{ role_path }}/peco/config.json"
+    dest: "{{ ansible_env.HOME }}/.config/peco/config.json"
+    state: link
+
 - name: Create symbolic link for gdb-dashboard
   file:
     src: "{{ role_path }}/gdb/gdb-dashboard/.gdbinit"
