@@ -23,16 +23,6 @@ ros_console_set_default(){
     export RCUTILS_COLORIZED_OUTPUT=1
 }
 
-ros_workspace_init(){
-    source /opt/ros/**/setup.zsh
-    if [ -e "/opt/ros/noetic/setup.zsh" ]; then
-        source /opt/ros/noetic/setup.zsh
-    elif [ -e "/opt/ros/one/setup.zsh" ]; then
-        source /opt/ros/one/setup.zsh
-    fi
-    catkin config -a --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-}
-
 ros_workspace_basename(){
     local workspaces workspace_name
     if [[ -n $CMAKE_PREFIX_PATH ]]; then
@@ -100,7 +90,6 @@ catkin_generate_compile_commands_json(){
 
 catkin_after_build(){
     catkin_generate_compile_commands_json
-    local catkin_ws=$(echo $CMAKE_PREFIX_PATH | cut -d: -f1)/..
 }
 
 rospeco() {
@@ -135,17 +124,41 @@ rospeco() {
             service) com=$(printf '%s\n' info call args find type uri   | peco --prompt 'COMMAND?>');;
             param)   com=$(printf '%s\n' get set dump delete load       | peco --prompt 'COMMAND?>');;
         esac
-    elif [ ${mode} ] && [ $ROS_VERSION = 2 ]; then
-        if [ ${mode} = "node" ]; then
-            local var=$(ros2 node list | peco --prompt ROSNODE\?\>)
-            local com=$(echo -e "info\nlog\nping\npub\nsub\nfind\nkill\ncleanup" | peco --prompt COMMAND\?\>)
-        elif [ ${mode} = "topic" ]; then
-            local var=$(ros2 topic list | peco --prompt ROSTOPIC\?\>)
-            local com=$(echo -e "bw\ndelay\necho\nhz\ninfo\npub\ntype" | peco --prompt COMMAND\?\>)
-        elif [ ${mode} = "service" ]; then
-            local var=$(ros2 service list | peco --prompt ROSSERVICE\?\>)
-            local com=$(echo -e "call\ntype\n" | peco --prompt COMMAND\?\>)
-        fi
+    elif [[ $ROS_VERSION = 2 ]]; then
+        local tmpd=$(mktemp -d)
+        (
+            setopt nomonitor nonotify
+            ros2 node    list >"$tmpd/nodes"    2>/dev/null & p1=$!
+            ros2 topic   list >"$tmpd/topics"   2>/dev/null & p2=$!
+            ros2 service list >"$tmpd/services" 2>/dev/null & p3=$!
+            ros2 action  list >"$tmpd/actions"  2>/dev/null & p4=$!
+            ros2 param   list >"$tmpd/params"   2>/dev/null & p5=$!
+            wait $p1 $p2 $p3 $p4 $p5
+        )
+        local -a nodes topics services actions params
+        nodes=("${(@f)$(<"$tmpd/nodes")}")
+        topics=("${(@f)$(<"$tmpd/topics")}")
+        services=("${(@f)$(<"$tmpd/services")}")
+        actions=("${(@f)$(<"$tmpd/actions")}")
+        params=("${(@f)$(<"$tmpd/params")}")
+        rm -rf -- "$tmpd"
+        local -a elements
+        for i in $nodes;    do elements+="$i (node)";    done
+        for i in $topics;   do elements+="$i (topic)";   done
+        for i in $services; do elements+="$i (service)"; done
+        for i in $actions;  do elements+="$i (action)";   done
+        for i in $params;   do elements+="$i (param)";   done
+        local select mode var com
+        select=$(printf '%s\n' "${elements[@]}" | peco --prompt 'ROS?>')
+        mode=${${select##* }#\(}; mode=${mode%\)}
+        var=${select%% *}
+        case $mode in
+            node)    com=$(printf '%s\n' info | peco --prompt 'COMMAND?>');;
+            topic)   com=$(printf '%s\n' info echo hz pub bw delay type | peco --prompt 'COMMAND?>');;
+            service) com=$(printf '%s\n' info call find type | peco --prompt 'COMMAND?>');;
+            action)  com=$(printf '%s\n' info send_goal type | peco --prompt 'COMMAND?>');;
+            param)   com=$(printf '%s\n' get set describe dump delete load | peco --prompt 'COMMAND?>');;
+        esac
     fi
     if [ -n "${var}" ] && [ -n "${com}" ]; then
         if [ $ROS_VERSION = 1 ]; then
