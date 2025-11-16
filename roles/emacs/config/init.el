@@ -295,6 +295,10 @@
    ("C-z" . helm-select-action))
   :config
   (add-to-list 'display-buffer-alist
+               '("\\*Flymake diagnostics.*\\*"
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 (window-height . 5)))
+  (add-to-list 'display-buffer-alist
                '("\\`\\*helm.*?\\*\\'"
                  (display-buffer-reuse-window display-buffer-in-side-window)
                  (side . bottom)
