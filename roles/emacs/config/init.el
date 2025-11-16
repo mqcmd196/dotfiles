@@ -189,6 +189,10 @@
   :config
   (setq company-minimum-prefix-length 2
 	    company-idle-delay 0)
+  (define-key company-active-map (kbd "<return>") nil)
+  (define-key company-active-map (kbd "RET") nil)
+  (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
+  (define-key company-active-map (kbd "TAB") 'company-complete-selection)
   (with-eval-after-load 'company
     (setq company-backends
 	      '((company-capf :separate company-dabbrev-code company-yasnippet)
