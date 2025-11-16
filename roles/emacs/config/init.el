@@ -210,9 +210,22 @@
 	    read-process-output-max (* 2048 2048) ;; 4MB
 	    eglot-events-buffer-config '(:size 0))
   :config
+  (defun my/format-region-or-buffer ()
+    "Format the selected region with eglot-format if region is active in supported modes."
+    (interactive)
+    (when (and (bound-and-true-p eglot--managed-mode)
+               (or (derived-mode-p 'c-mode 'c++-mode 'python-mode)
+                   (member major-mode '(c-mode c++-mode python-mode))))
+      (if (use-region-p)
+          (eglot-format (region-beginning) (region-end))
+        (indent-for-tab-command))))
+  (define-key eglot-mode-map (kbd "<tab>") 'my/format-region-or-buffer)
+  (define-key eglot-mode-map (kbd "TAB") 'my/format-region-or-buffer)
   (setq
    eglot-autoshutdown t
    eglot-stay-out-of '(company-backends)) ;; don't let eglot overwrite company-backends
+  (add-to-list 'eglot-workspace-configuration
+               '(:pylsp (:plugins (:black (:enabled t)))))
   (let ((clangd-args '("clangd"
                        "-j=3"
                        "--background-index"

@@ -28,7 +28,7 @@
 
 - name: Install common packages for system emacs
   apt:
-    name: ['black', 'clangd', 'cmake-format', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'shellcheck', 'shfmt', 'tidy', 'wl-clipboard']
+    name: ['black', 'clangd', 'cmake-format', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'python3-pylsp-black', 'shellcheck', 'shfmt', 'tidy', 'wl-clipboard']
   become: yes
   when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
 
