@@ -261,6 +261,7 @@
 (use-package diff-hl
   :config
   (global-diff-hl-mode)
+  (diff-hl-flydiff-mode t)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (unless (window-system) (diff-hl-margin-mode)))
 
