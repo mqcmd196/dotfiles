@@ -16,8 +16,6 @@ jobs:
       matrix:
         include:
           - OS: debian
-            CODENAME: bullseye
-          - OS: debian
             CODENAME: bookworm
           - OS: ubuntu
             CODENAME: focal
