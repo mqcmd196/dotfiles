@@ -18,8 +18,6 @@ jobs:
           - OS: debian
             CODENAME: bookworm
           - OS: ubuntu
-            CODENAME: focal
-          - OS: ubuntu
             CODENAME: jammy
           - OS: ubuntu
             CODENAME: noble
