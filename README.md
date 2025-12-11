@@ -48,8 +48,6 @@ Limited dotfiles
 #### emacs
 C-; : Completion
 
-C-u \<n\> : Repeat the next command `n` times. (n=4 by default)
-
 C-u C-SPC : Back to the initial position when search
 
 M-[ : Return to the beginning of the paragraph that precedes the point
@@ -57,6 +55,8 @@ M-[ : Return to the beginning of the paragraph that precedes the point
 M-] : Move to the end of the paragraph behind the point
 
 M-h : Place a point and mark before or after the paragraph with the point or the paragraph following the point
+
+C-x C-M-+, C-x C-M-=, C-x C-M-- or C-x C-M-0, or scroll the mouse wheel with both the Ctrl and Meta modifiers pressed : Change the sizes of the fonts globally
 
 `lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build 
 
