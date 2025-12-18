@@ -102,7 +102,7 @@
       (load-theme 'doom-one t)))
   (when (display-graphic-p)
     (when (find-font (font-spec :name "Cascadia Code"))
-      (set-face-attribute 'default nil :font "Cascadia Code-12"))
+      (set-face-attribute 'default nil :font "Cascadia Code"))
     (when (find-font (font-spec :family "BIZ UDGothic"))
       (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UDGothic") nil 'prepend)
       (set-fontset-font t 'katakana-jisx0201 (font-spec :family "BIZ UDGothic") nil 'prepend))))
