@@ -16,9 +16,9 @@ jobs:
       matrix:
         include:
           - OS: debian
-            CODENAME: bookworm
-          - OS: ubuntu
-            CODENAME: jammy
+            CODENAME: trixie
+          - OS: debian
+            CODENAME: testing
           - OS: ubuntu
             CODENAME: noble
     steps:
