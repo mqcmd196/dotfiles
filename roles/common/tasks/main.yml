@@ -1,7 +1,7 @@
 # Install packages with apt
 - name: Install convenient apt packages
   apt:
-    name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'git-lfs', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'jq', 'kcachegrind', 'lsb-release', 'massif-visualizer', 'net-tools', 'nmap', 'pandoc', 'peco', 'pipx', 'python3-ipython', 'python3-venv', 'rlwrap', 'tig', 'tmux', 'traceroute', 'unionfs-fuse', 'util-linux', 'valgrind', 'xsel', 'zsh']
+    name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'git-lfs', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'jq', 'kcachegrind', 'lsb-release', 'massif-visualizer', 'net-tools', 'nmap', 'pandoc', 'peco', 'pipx', 'python3-ipython', 'python3-venv', 'rlwrap', 'tig', 'tmux', 'traceroute', 'util-linux', 'valgrind', 'xsel', 'zsh']
     state: present
   become: yes
 
@@ -206,4 +206,4 @@
         repo: https://github.com/nvm-sh/nvm
         dest: "{{ ansible_env.HOME }}/.nvm"
         depth: 1
-        version: v0.40.3
+        version: v0.39.7

@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -qq && \
     apt upgrade -y -qq && \
     apt install -y -qq --no-install-recommends \
-    ansible apt git software-properties-common sudo
+    ansible apt git sudo
 
 WORKDIR /home/$USERNAME/dotfiles
 COPY non-sudoer ./non-sudoer
