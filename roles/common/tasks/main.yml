@@ -2,7 +2,6 @@
 - name: Install convenient apt packages
   apt:
     name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'git-lfs', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'jq', 'kcachegrind', 'lsb-release', 'massif-visualizer', 'net-tools', 'nmap', 'pandoc', 'peco', 'pipx', 'python3-ipython', 'python3-venv', 'rlwrap', 'tig', 'tmux', 'traceroute', 'unionfs-fuse', 'util-linux', 'valgrind', 'xsel', 'zsh']
-    
     state: present
   become: yes
 
@@ -23,81 +22,101 @@
       dest: "{{ ansible_env.HOME }}/.local/share/fonts"
       remote_src: yes
 
-- name: Setup GUI Applications
+- name: Ensure keyrings directory exists
+  become: true
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Install 3rdparty GUI repositories
+  become: true
+  when: not ('WSLENV' in ansible_env)
   block:
-    - name: Add Google Chrome key
-      apt_key:
+    - name: Download Google Chrome GPG Key
+      get_url:
         url: https://dl.google.com/linux/linux_signing_key.pub
-        state: present
+        dest: /etc/apt/keyrings/google-chrome.asc
+        mode: '0644'
     - name: Add Google Chrome repository
-      apt_repository:
-        repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb stable main
-        state: present
-        filename: google-chrome
+      deb822_repository:
+        name: google-chrome
+        types: deb
+        uris: http://dl.google.com/linux/chrome/deb/
+        suites: stable
+        components: main
+        signed_by: /etc/apt/keyrings/google-chrome.asc
     - name: Install Google Chrome
       apt:
         name: google-chrome-stable
+        state: present
         update_cache: yes
-        state: present
-    - name: Add VSCode key
-      apt_key:
+
+    - name: Download Microsoft GPG Key
+      get_url:
         url: https://packages.microsoft.com/keys/microsoft.asc
-        state: present
-    - name: Add VSCode repository
-      apt_repository:
-        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
-        state: present
-        filename: vscode
+        dest: /etc/apt/keyrings/microsoft.asc
+        mode: '0644'
+    - name: Add VS Code repository
+      deb822_repository:
+        name: vscode
+        types: deb
+        uris: https://packages.microsoft.com/repos/code
+        suites: stable
+        components: main
+        signed_by: /etc/apt/keyrings/microsoft.asc
     - name: Install VSCode
       apt:
         name: code
         state: present
         update_cache: yes
-  become: true
-  when: not ('WSLENV' in ansible_env)
 
-- name: Setup latest stable Docker
+- name: Install Docker
+  become: true
+  when: not (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] != "14")
   block:
-    - name: Add Docker key
-      apt_key:
+    - name: Download Docker GPG Key
+      get_url:
         url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
-        state: present
+        dest: /etc/apt/keyrings/docker.asc
+        mode: '0644'
     - name: Add Docker repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable
-        state: present
-        filename: docker
-    - name: Install Docker related packages
+      deb822_repository:
+        name: docker
+        types: deb
+        uris: https://download.docker.com/linux/{{ ansible_distribution|lower }}
+        suites: "{{ ansible_distribution_release }}"
+        components: stable
+        signed_by: /etc/apt/keyrings/docker.asc
+    - name: Install Docker
       apt:
         name: ['docker-ce', 'docker-ce-cli', 'containerd.io', 'docker-buildx-plugin', 'docker-compose-plugin']
+        state: present
         update_cache: yes
-        state: present
-    - name: Add current user to docker group
-      user:
-        name: "{{ ansible_user_id }}"
-        groups: docker
-        append: yes
-  become: true
 
-- name: Setup GitHub CLI
+- name: Install GitHub CLI
+  become: true
   block:
-    - name: Add gh key
-      apt_key:
+    - name: Download GitHub CLI GPG Key
+      get_url:
         url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-        state: present
-    - name: Add gh repository
-      apt_repository:
-        repo: deb [arch=amd64] https://cli.github.com/packages stable main
-        state: present
-        filename: github-cli
-    - name: Install gh related packages
+        dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+        mode: '0644'
+    - name: Add GitHub CLI repository
+      deb822_repository:
+        name: github-cli
+        types: deb
+        uris: https://cli.github.com/packages
+        suites: stable
+        components: main
+        signed_by: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    - name: Install GitHub CLI
       apt:
         name: gh
         update_cache: yes
         state: present
-    - name: Add zsh completion
+    - name: Add gh zsh completion
       shell: gh completion -s zsh > /usr/local/share/zsh/site-functions/_gh
-  become: true
 
 # Setup configs
 - name: Create symbolic link for bashrc
@@ -187,38 +206,4 @@
         repo: https://github.com/nvm-sh/nvm
         dest: "{{ ansible_env.HOME }}/.nvm"
         depth: 1
-        version: v0.39.7
-    - name: Install Node.js LTS with nvm
-      shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm install --lts v18.16.0"
-      ignore_errors: true
-    - name: Use default Node.js LTS
-      shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm use v18.16.0"
-      ignore_errors: true
-    - name: Set default Node.js LTS
-      shell: /usr/bin/env bash -lc "source ~/.nvm/nvm.sh && nvm alias default v18.16.0"
-      ignore_errors: true
-  when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24")
-
-- name: Setup try
-  block:
-    - name: Create ~/.local/src for cloning src
-      file:
-        path: "{{ ansible_env.HOME }}/.local/src"
-        state: directory
-        recurse: yes
-    - name: Create ~/.local/bin
-      file:
-        path: "{{ ansible_env.HOME }}/.local/bin"
-        state: directory
-        recurse: yes
-    - name: Git clone try
-      git:
-        repo: https://github.com/binpash/try
-        dest: "{{ ansible_env.HOME }}/.local/src/try"
-        depth: 1
-        version: v0.2.0
-    - name: Install try executable
-      file:
-        src: "{{ ansible_env.HOME }}/.local/src/try/try"
-        dest: "{{ ansible_env.HOME }}/.local/bin/try"
-        state: link
+        version: v0.40.3
