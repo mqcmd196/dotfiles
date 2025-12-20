@@ -4,3 +4,66 @@
     name: ['python3-debian', 'python3-pip', 'python3-setuptools', 'gnupg', 'zip']
     state: present
   become: yes
+
+- name: Add Additional Debian repo in testing
+  become: true
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "14"
+  block:
+    - name: Add Debian unstable deb822 repo (separate .sources file)
+      deb822_repository:
+        name: debian-unstable
+        types: deb
+        uris: "http://ftp.udx.icscoe.jp/Linux/debian"
+        suites: unstable
+        components: [main, contrib, non-free, non-free-firmware]
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+        state: present
+
+    - name: Add apt pinning for testing/unstable
+      ansible.builtin.copy:
+        dest: /etc/apt/preferences.d/00-testing-unstable
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          Package: *
+          Pin: release a=testing
+          Pin-Priority: 900
+
+          Package: *
+          Pin: release a=unstable
+          Pin-Priority: 100
+
+- name: Add Additional Debian repo in trixie
+  become: true
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13"
+  block:
+    - name: Add Debian unstable deb822 repo (separate .sources file)
+      deb822_repository:
+        name: debian-testing
+        types: deb
+        uris: "http://ftp.udx.icscoe.jp/Linux/debian"
+        suites: testing
+        components: [main, contrib, non-free, non-free-firmware]
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+        state: present
+
+    - name: Add apt pinning for testing/unstable
+      ansible.builtin.copy:
+        dest: /etc/apt/preferences.d/00-trixie-testing
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          Package: *
+          Pin: release a=trixie
+          Pin-Priority: 900
+
+          Package: *
+          Pin: release a=testing
+          Pin-Priority: 100
+
+- name: apt update
+  apt:
+    update_cache: true
+  become: yes
