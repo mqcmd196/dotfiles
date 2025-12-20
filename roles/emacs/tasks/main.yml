@@ -18,34 +18,10 @@
     state: present
   become: yes
 
-# Install apt packages
-- name: Install common packages for building emacs29
-  apt:
-    name: ['autoconf', 'build-essential', 'cmake', 'cmigemo', 'emacs-mozc', 'fd-find', 'glslang-tools', 'isort', 'libgccjit0', 'libgif-dev', 'libgtk-3-dev', 'libgnutls28-dev', 'libjansson4', 'libjansson-dev', 'libjpeg-dev', 'libncurses-dev', 'libpng-dev', 'librsvg2-dev', 'libtiff5-dev', 'libxpm-dev', 'ripgrep', 'shellcheck', 'texinfo']
-    state: present
-  become: yes
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
-
 - name: Install common packages for system emacs
   apt:
-    name: ['black', 'clangd', 'cmake-format', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'python3-pylsp-black', 'shellcheck', 'shfmt', 'tidy', 'wl-clipboard']
+    name: ['black', 'clangd', 'clang-format', 'clang-tidy','cmake-format', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-format-all', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'python3-pylsp-black', 'shellcheck', 'shfmt', 'tidy', 'wl-clipboard']
   become: yes
-  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
-
-- name: Install more packages for system emacs
-  apt:
-    name: ['elpa-format-all']
-  become: yes
-  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24"
-
-# Install pip packages
-- name: Install cmake language server and pyright
-  pip:
-    executable: pip3
-    name: ['black', 'debugpy', 'pyright']
-  become: yes
-  environment:
-    PIP_BREAK_SYSTEM_PACKAGES: 1
 
 - name: Create emacs config directory
   file:
@@ -59,7 +35,6 @@
     dest: "{{ ansible_env.HOME }}/.config/emacs/init.el"
     state: link
     force: yes
-  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
 
 - name: Create symbolic link for Emacs snippets
   file:
@@ -67,103 +42,3 @@
     dest: "{{ ansible_env.HOME }}/.config/emacs/snippets"
     state: link
     force: yes
-  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
-
-- name: Install common packages for emacs29 in Ubuntu jammy
-  apt:
-    name: ['libgccjit-11-dev']
-    state: present
-  become: yes
-  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "22"
-
-- name: Install common packages for emacs29 in Debian bullseye
-  apt:
-    name: ['libgccjit-10-dev']
-    state: present
-  become: yes
-  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11"
-
-- name: Install common packages for emacs29 in Ubuntu focal
-  apt:
-    name: ['libgccjit-9-dev']
-    state: present
-  become: yes
-  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20"
-
-- name: Create ~/.local/src for cloning source
-  file:
-    path: "{{ ansible_env.HOME }}/.local/src"
-    state: directory
-    recurse: yes
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
-
-# Install emacs with native-compile
-- name: Build and install emacs29
-  block:
-    - name: Git clone emacs source
-      git:
-        repo: https://github.com/emacs-mirror/emacs
-        dest: "{{ ansible_env.HOME }}/.local/src/emacs"
-        depth: 1
-        version: emacs-29.4
-    - name: Autogen emacs
-      shell: >
-        ./autogen.sh
-        chdir="{{ ansible_env.HOME }}/.local/src/emacs"
-    - name: Configure emacs
-      shell: >
-        ./configure
-        --prefix={{ ansible_env.HOME }}/.local
-        --with-native-compilation
-        --with-json
-        --with-gnutls
-        --with-cairo
-        chdir="{{ ansible_env.HOME }}/.local/src/emacs"
-    - name: Build emacs
-      shell: >
-        make -j$(nproc) install
-        chdir="{{ ansible_env.HOME }}/.local/src/emacs"
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
-
-# Install clangd
-- name: Add clangd apt repository
-  block:
-    - name: Add LLVM key
-      apt_key:
-        url: https://apt.llvm.org/llvm-snapshot.gpg.key
-        state: present
-    - name: Add LLVM repository
-      apt_repository:
-        repo: deb [arch=amd64] http://apt.llvm.org/{{ ansible_distribution_release|lower }}/ llvm-toolchain-{{ ansible_distribution_release|lower }}-18 main
-        state: present
-        filename: llvm-toolchain
-  become: true
-  when: not (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24")
-
-- name: Install clang tools
-  apt:
-    name: ["clangd-18", "clang-format-18", "clang-format"] # TODO doomemacs cannot set clang-format-18 as clang-format
-    state: present
-  become: yes
-
-# Setup Doom Emacs
-- name: Setup Doom Emacs
-  block:
-    - name: Git clone Doom Emacs
-      git:
-        repo: https://github.com/doomemacs/doomemacs.git
-        dest: "{{ ansible_env.HOME }}/.emacs.d/"
-        version: ba1dca322f9a07bc2b7bec6a98f2c3c55c0bbd77
-        depth: 1
-    - name: Create symbolic links for Doom Emacs configs
-      file:
-        src: "{{ role_path }}/doom/config"
-        dest: "{{ ansible_env.HOME }}/.config/doom"
-        state: link
-    - name: Setup Doom Emacs with source compiled emacs
-      vars:
-        doom: "{{ ansible_env.HOME }}/.emacs.d/bin/doom"
-      environment:
-        EMACS: "{{ ansible_env.HOME }}/.local/bin/emacs"
-      shell: /usr/bin/env bash -lc "{{ doom }} install --force && {{ doom }} sync"
-  when: not ((ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24") or (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12"))
