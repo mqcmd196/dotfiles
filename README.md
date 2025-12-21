@@ -67,5 +67,3 @@ C-c v g : Magit status
 ##### file
 C-c f r : Find recently opened file
 
-## LICENSE
-This repository includes emacs-one-themes which is licensed under GPL-3.0. If you don't want to use it, you can use it under the BSD-3-Clause license. 
