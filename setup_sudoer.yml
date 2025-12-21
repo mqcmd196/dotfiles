@@ -1,14 +1,11 @@
 - hosts: localhost
   connection: local
   roles:
-    - role: prerequisites # Prerequisites
+    - role: prerequisites
       tags: prerequisites
-    - role: common # Common configs for sudoer and non-sudoer
+    - role: common
       tags: common
-      poll: 0
     - role: emacs
       tags: emacs
-      poll: 0
     - role: zsh
       tags: zsh
-      poll: 0
