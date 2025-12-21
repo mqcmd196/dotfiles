@@ -3,8 +3,6 @@
 # editor
 alias em='emacs'
 alias eml='/usr/bin/emacs -q --load ~/.emacs-light.el'
-alias emll="OS_COLOR_SCHEME='light' /usr/bin/emacs -q --load ~/.emacs-light.el"
-alias emld="OS_COLOR_SCHEME='dark' /usr/bin/emacs -q --load ~/.emacs-light.el"
 
 alias doom='~/.emacs.d/bin/doom'
 

@@ -2,13 +2,6 @@
 (require 'use-package)
 (setq use-package-always-ensure nil) ;; Don't install packages automatically. Many ones are expected to be installed as apt packages
 
-;; custom themes
-(add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
-(add-to-list 'load-path "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
-(setq custom-theme-directory "~/dotfiles/non-sudoer/themes/obinata-deeper-blue")
-(add-to-list 'load-path "~/dotfiles/non-sudoer/themes/emacs-one-themes")
-(add-to-list 'custom-theme-load-path "~/dotfiles/non-sudoer/themes/emacs-one-themes")
-
 (menu-bar-mode -1) ;; disable menu bar
 (tool-bar-mode 0) ;; disable tool bar
 (setq inhibit-startup-message t) ;; Don't show initial screen

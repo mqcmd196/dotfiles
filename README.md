@@ -16,17 +16,17 @@ git clone --recursive https://github.com/mqcmd196/dotfiles.git
 ## Setup
 ### When you are authorized to install packages with sudo
 ```bash
-ansible-playbook setup_sudoer.yml -K 
+ansible-playbook setup_sudoer.yml -K
 ```
 
 #### If you want to execute specific task
 ```bash
-ansible-playbook setup_sudoer.yml -K --tags emacs # e.g. emacs 
+ansible-playbook setup_sudoer.yml -K --tags emacs # e.g. emacs
 ```
 
 #### If you want to check full logs
 ```bash
-ansible-playbook setup_sudoer.yml -K -vvv 
+ansible-playbook setup_sudoer.yml -K -vvv
 ```
 
 ### When you are not authorized to install packages with sudo
@@ -54,9 +54,9 @@ M-h : Place a point and mark before or after the paragraph with the point or the
 
 C-x C-M-+, C-x C-M-=, C-x C-M-- or C-x C-M-0, or scroll the mouse wheel with both the Ctrl and Meta modifiers pressed : Change the sizes of the fonts globally
 
-`lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build 
+`lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build
 
-`reftex-toc` : Show the table of contents for the current tex document 
+`reftex-toc` : Show the table of contents for the current tex document
 
 ##### project
 C-c p f : Find file in project
@@ -66,4 +66,3 @@ C-c v g : Magit status
 
 ##### file
 C-c f r : Find recently opened file
-
