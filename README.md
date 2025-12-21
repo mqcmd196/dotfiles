@@ -1,9 +1,5 @@
 # Debian/Ubuntu/Windows Settings for mqcmd196
 ![sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/sudoer.yml/badge.svg?branch=master) ![non-sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/non-sudoer.yml/badge.svg?branch=master)
-## Supported OS
-- Debian 11 (bullseye)
-- Ubuntu 20.04 (focal fossa)
-- Ubuntu 22.04 (Jammy Jellyfish)
 
 ## Prerequisite
 ### apt packages
