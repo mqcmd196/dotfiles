@@ -47,3 +47,7 @@ if [ -v WSLENV ]; then
 else
     alias e='xdg-open'
 fi
+
+alias dquilt="quilt --quiltrc=${HOME}/.quiltrc-dpkg"
+. /usr/share/bash-completion/completions/quilt
+complete -F _quilt_completion -o filenames dquilt
