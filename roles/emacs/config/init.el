@@ -61,6 +61,9 @@
           (lambda ()
             (company-mode -1)))
 
+(use-package typescript-ts-mode ;; TypeScript + React
+  :mode (("\\.tsx\\'" . typescript-ts-mode)))
+
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t)
@@ -197,7 +200,8 @@
          (c++-mode . eglot-ensure)
          (python-mode . eglot-ensure)
          (js-mode . eglot-ensure)
-         (typescript-mode . eglot-ensure))
+         (typescript-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure))
   :init
   (setq gc-cons-threshold (* 10 1024 1024);; 100MB
 	    read-process-output-max (* 2048 2048) ;; 4MB
@@ -239,7 +243,8 @@
             (python-mode . ("pylsp"))
             (js-mode . ("typescript-language-server" "--stdio"))
             (typescript-mode . ("typescript-language-server" "--stdio"))
-            (js-ts-mode . ("typescript-language-server" "--stdio"))))))
+            (js-ts-mode . ("typescript-language-server" "--stdio"))
+            (typescript-ts-mode . ("typescript-language-server" "--stdio"))))))
 
 (use-package eldoc
   :init
