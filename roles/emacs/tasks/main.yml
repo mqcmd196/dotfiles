@@ -20,7 +20,7 @@
 
 - name: Install common packages for system emacs
   apt:
-    name: ['black', 'clangd', 'clang-format', 'clang-tidy','cmake-format', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-format-all', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'python3-pylsp-black', 'shellcheck', 'shfmt', 'tidy', 'wl-clipboard']
+    name: ['black', 'clangd', 'clang-format', 'clang-tidy','cmake-format', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-format-all', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-rust-mode', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs-mozc', 'isort', 'npm', 'python3-debugpy', 'python3-pylsp', 'python3-pylsp-black', 'shellcheck', 'shfmt', 'tidy', 'wl-clipboard']
   become: yes
 
 - name: Create emacs config directory
