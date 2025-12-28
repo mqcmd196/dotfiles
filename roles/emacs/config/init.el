@@ -225,14 +225,13 @@
 	    eglot-events-buffer-config '(:size 0))
   :config
   (defun my/format-region-or-buffer ()
-    "Format the selected region with eglot-format if region is active in supported modes."
+    "Format region in selected modes; otherwise indent."
     (interactive)
-    (when (and (bound-and-true-p eglot--managed-mode)
-               (or (derived-mode-p 'c-mode 'c++-mode 'python-mode)
-                   (member major-mode '(c-mode c++-mode python-mode))))
-      (if (use-region-p)
-          (eglot-format (region-beginning) (region-end))
-        (indent-for-tab-command))))
+    (if (and (bound-and-true-p eglot--managed-mode)
+             (use-region-p)
+             (derived-mode-p 'c-mode 'c++-mode 'python-mode))
+        (eglot-format (region-beginning) (region-end))
+      (indent-for-tab-command)))
   (define-key eglot-mode-map (kbd "<tab>") 'my/format-region-or-buffer)
   (define-key eglot-mode-map (kbd "TAB") 'my/format-region-or-buffer)
   (setq
