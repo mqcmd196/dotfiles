@@ -61,6 +61,22 @@
           (lambda ()
             (company-mode -1)))
 
+;; Set cargo.toml directory as the project root in Rust
+(require 'project)
+(require 'cl-lib)
+
+(defun my/project-try-cargo (dir)
+  (when-let ((root (locate-dominating-file dir "Cargo.toml")))
+    (cons 'cargo (expand-file-name root))))
+
+(cl-defmethod project-root ((project (head cargo)))
+  (cdr project))
+
+(add-hook 'rust-mode-hook
+          (lambda ()
+            (setq-local project-find-functions
+                        (cons #'my/project-try-cargo project-find-functions))))
+
 (use-package typescript-ts-mode ;; TypeScript + React
   :mode (("\\.tsx\\'" . typescript-ts-mode)))
 
