@@ -64,14 +64,11 @@
 ;; Set cargo.toml directory as the project root in Rust
 (require 'project)
 (require 'cl-lib)
-
 (defun my/project-try-cargo (dir)
   (when-let ((root (locate-dominating-file dir "Cargo.toml")))
     (cons 'cargo (expand-file-name root))))
-
 (cl-defmethod project-root ((project (head cargo)))
   (cdr project))
-
 (add-hook 'rust-mode-hook
           (lambda ()
             (setq-local project-find-functions
@@ -80,6 +77,15 @@
 (use-package typescript-mode ;; TypeScript + React
   :ensure t
   :mode (("\\.tsx\\'" . typescript-mode)))
+
+(use-package vterm
+  :bind
+  (:map vterm-mode-map
+        ("C-c C-j" . vterm-copy-mode)
+        ("C-c C-t" . nil))
+  :config
+  (define-key vterm-copy-mode-map (kbd "C-c C-j") #'vterm-copy-mode)
+  (define-key vterm-copy-mode-map (kbd "C-c C-t") nil)) ;; avoid colliding with the tmux prefix
 
 (use-package doom-themes
   :config
@@ -393,6 +399,8 @@
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; call ibuffer in current window
 (put 'upcase-region 'disabled nil)
+
+;; System Custom
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
