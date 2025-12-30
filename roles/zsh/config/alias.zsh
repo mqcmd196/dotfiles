@@ -49,5 +49,3 @@ else
 fi
 
 alias dquilt="quilt --quiltrc=${HOME}/.quiltrc-dpkg"
-. /usr/share/bash-completion/completions/quilt
-complete -F _quilt_completion -o filenames dquilt
