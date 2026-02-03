@@ -63,9 +63,9 @@
             (hs-minor-mode t) ;; enable folding
             ))
 
-(add-hook 'shell-mode-hook
-          (lambda ()
-            (company-mode -1)))
+(add-hook 'shell-mode-hook (lambda () (company-mode -1)))
+
+(add-hook 'after-save-hook #'delete-trailing-whitespace)
 
 ;; Set cargo.toml directory as the project root in Rust
 (require 'project)
