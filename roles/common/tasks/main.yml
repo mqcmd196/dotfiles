@@ -1,7 +1,69 @@
-# Install packages with apt
-- name: Install convenient apt packages
+- name: Install prerequisites apt packages
   apt:
-    name: ['attr', 'autoconf', 'bat', 'command-not-found', 'dnsutils', 'expect', 'gdb', 'git-lfs', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'jq', 'kcachegrind', 'lsb-release', 'massif-visualizer', 'net-tools', 'ninja-build', 'nmap', 'pandoc', 'peco', 'pipx', 'python3-ipython', 'python3-venv', 'quilt', 'rlwrap', 'rustup', 'tig', 'tmux', 'traceroute', 'util-linux', 'valgrind', 'xsel', 'zsh']
+    name: ['python3-debian', 'python3-pip', 'python3-setuptools', 'gnupg', 'zip']
+    state: present
+  become: yes
+
+- name: Add Additional Debian repo in testing
+  become: true
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_release'] == "forky"
+  block:
+    - name: Add Debian unstable deb822 repo (separate .sources file)
+      deb822_repository:
+        name: debian-unstable
+        types: deb
+        uris: "http://ftp.udx.icscoe.jp/Linux/debian"
+        suites: unstable
+        components: [main, contrib, non-free, non-free-firmware]
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+        state: present
+    - name: Add apt pinning for testing/unstable
+      ansible.builtin.copy:
+        dest: /etc/apt/preferences.d/00-testing-unstable
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          Package: *
+          Pin: release a=testing
+          Pin-Priority: 900
+
+          Package: *
+          Pin: release a=unstable
+          Pin-Priority: 100
+
+- name: Add Additional Debian repo in trixie
+  become: true
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "13"
+  block:
+    - name: Add Debian unstable deb822 repo (separate .sources file)
+      deb822_repository:
+        name: debian-testing
+        types: deb
+        uris: "http://ftp.udx.icscoe.jp/Linux/debian"
+        suites: testing
+        components: [main, contrib, non-free, non-free-firmware]
+        signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+        state: present
+
+    - name: Add apt pinning for testing/unstable
+      ansible.builtin.copy:
+        dest: /etc/apt/preferences.d/00-trixie-testing
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          Package: *
+          Pin: release a=trixie
+          Pin-Priority: 900
+
+          Package: *
+          Pin: release a=testing
+          Pin-Priority: 100
+
+- name: Install apt packages
+  apt:
+    name: ['attr', 'autoconf', 'bat', 'black', 'clang-format', 'clang-tidy', 'clangd', 'cmake-format', 'command-not-found', 'dnsutils', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-corfu', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-format-all', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-rust-mode', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs', 'emacs-mozc', 'expect', 'gdb', 'git-lfs', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'isort', 'jq', 'kcachegrind', 'lsb-release', 'massif-visualizer', 'net-tools', 'ninja-build', 'nmap', 'npm', 'pandoc', 'peco', 'pipx', 'python3-debugpy', 'python3-ipython', 'python3-pylsp', 'python3-pylsp-black', 'python3-venv', 'quilt', 'rlwrap', 'rustup', 'shellcheck', 'shfmt', 'tig', 'tidy', 'tmux', 'traceroute', 'util-linux', 'valgrind', 'wl-clipboard', 'xsel', 'zsh']
     state: present
   become: yes
 
@@ -46,12 +108,6 @@
         suites: stable
         components: main
         signed_by: /etc/apt/keyrings/google-chrome.asc
-    - name: Install Google Chrome
-      apt:
-        name: google-chrome-stable
-        state: present
-        update_cache: yes
-
     - name: Download Microsoft GPG Key
       get_url:
         url: https://packages.microsoft.com/keys/microsoft.asc
@@ -65,9 +121,9 @@
         suites: stable
         components: main
         signed_by: /etc/apt/keyrings/microsoft.asc
-    - name: Install VSCode
+    - name: Install 3rdparty GUI packages
       apt:
-        name: code
+        name: ['code', 'google-chrome-stable']
         state: present
         update_cache: yes
 
@@ -118,61 +174,94 @@
     - name: Add gh zsh completion
       shell: gh completion -s zsh > /usr/local/share/zsh/site-functions/_gh
 
-# Setup configs
-- name: Create symbolic link for bashrc
+- name: Setup configs
+  block:
+    - name: Create symbolic link for bashrc
+      file:
+        src: "{{ role_path }}/../../non-sudoer/rc.bash"
+        dest: "{{ ansible_env.HOME }}/.bashrc"
+        state: link
+        force: true
+    - name: Create symbolic link for tmux config
+      file:
+        src: "{{ role_path }}/tmux/tmux.conf"
+        dest: "{{ ansible_env.HOME }}/.tmux.conf"
+        state: link
+    - name: Create symbolic link for docker config
+      file:
+        src: "{{ role_path }}/docker"
+        dest: "{{ ansible_env.HOME }}/.docker"
+        state: link
+    - name: Create ~/.config/git for creating git config
+      file:
+        path: "{{ ansible_env.HOME }}/.config/git"
+        state: directory
+        recurse: yes
+    - name: Create symbolic link for git ignore
+      file:
+        src: "{{ role_path }}/git/gitignore_global"
+        dest: "{{ ansible_env.HOME }}/.config/git/ignore"
+        state: link
+    - name: Create symbolic link for git config
+      file:
+        src: "{{ role_path }}/git/config"
+        dest: "{{ ansible_env.HOME }}/.config/git/config"
+        state: link
+    - name: Create ~/.config/peco for creating peco config
+      file:
+        path: "{{ ansible_env.HOME }}/.config/peco"
+        state: directory
+        recurse: yes
+    - name: Create symbolic link for peco config
+      file:
+        src: "{{ role_path }}/peco/config.json"
+        dest: "{{ ansible_env.HOME }}/.config/peco/config.json"
+        state: link
+    - name: Create symbolic link for gdb-dashboard
+      file:
+        src: "{{ role_path }}/gdb/gdb-dashboard/.gdbinit"
+        dest: "{{ ansible_env.HOME }}/.gdbinit"
+        state: link
+    - name: Create symbolic link for condarc
+      file:
+        src: "{{ role_path }}/conda/condarc"
+        dest: "{{ ansible_env.HOME }}/.condarc"
+        state: link
+    - name: Create symbolic link for light version of Emacs config
+      file:
+        src: "{{ role_path }}/../../non-sudoer/emacs.el"
+        dest: "{{ ansible_env.HOME }}/.emacs-light.el"
+        state: link
+    - name: Create user tmp directory for saving backup
+      file:
+        path: "{{ ansible_env.HOME }}/tmp"
+        state: directory
+        recurse: yes
+    - name: Create emacs config directory
+      file:
+        path: "{{ ansible_env.HOME }}/.config/emacs"
+        state: directory
+        recurse: yes
+    - name: Create symbolic link for Emacs config
+      file:
+        src: "{{ role_path }}/emacs/init.el"
+        dest: "{{ ansible_env.HOME }}/.config/emacs/init.el"
+        state: link
+        force: yes
+    - name: Create symbolic link for Emacs snippets
+      file:
+        src: "{{ role_path }}/emacs/snippets"
+        dest: "{{ ansible_env.HOME }}/.config/emacs/snippets"
+        state: link
+        force: yes
+
+- name: Create symbolic link for wsl.conf
   file:
-    src: "{{ role_path }}/../../non-sudoer/rc.bash"
-    dest: "{{ ansible_env.HOME }}/.bashrc"
+    src: "{{ role_path }}/wsl/wsl.conf"
+    dest: "/etc/wsl.conf"
     state: link
-    force: true
-
-- name: Create symbolic link for tmux config
-  file:
-    src: "{{ role_path }}/tmux/tmux.conf"
-    dest: "{{ ansible_env.HOME }}/.tmux.conf"
-    state: link
-
-- name: Create symbolic link for docker config
-  file:
-    src: "{{ role_path }}/docker"
-    dest: "{{ ansible_env.HOME }}/.docker"
-    state: link
-
-- name: Create ~/.config/git for creating git config
-  file:
-    path: "{{ ansible_env.HOME }}/.config/git"
-    state: directory
-    recurse: yes
-
-- name: Create symbolic link for git ignore
-  file:
-    src: "{{ role_path }}/git/gitignore_global"
-    dest: "{{ ansible_env.HOME }}/.config/git/ignore"
-    state: link
-
-- name: Create symbolic link for git config
-  file:
-    src: "{{ role_path }}/git/config"
-    dest: "{{ ansible_env.HOME }}/.config/git/config"
-    state: link
-
-- name: Create ~/.config/peco for creating peco config
-  file:
-    path: "{{ ansible_env.HOME }}/.config/peco"
-    state: directory
-    recurse: yes
-
-- name: Create symbolic link for peco config
-  file:
-    src: "{{ role_path }}/peco/config.json"
-    dest: "{{ ansible_env.HOME }}/.config/peco/config.json"
-    state: link
-
-- name: Create symbolic link for gdb-dashboard
-  file:
-    src: "{{ role_path }}/gdb/gdb-dashboard/.gdbinit"
-    dest: "{{ ansible_env.HOME }}/.gdbinit"
-    state: link
+    force: yes
+  become: yes
 
 - name: Setup Miniconda
   block:
@@ -184,20 +273,6 @@
       shell: /usr/bin/env sh ./miniconda.sh -b -u
       args:
         chdir: "{{ ansible_env.HOME }}"
-
-- name: Create symbolic link for condarc
-  file:
-    src: "{{ role_path }}/conda/condarc"
-    dest: "{{ ansible_env.HOME }}/.condarc"
-    state: link
-
-- name: Create symbolic link for wsl.conf
-  file:
-    src: "{{ role_path }}/wsl/wsl.conf"
-    dest: "/etc/wsl.conf"
-    state: link
-    force: yes
-  become: yes
 
 - name: Setup nvm, nodejs
   block:
