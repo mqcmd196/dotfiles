@@ -1,11 +1,7 @@
 - hosts: localhost
   connection: local
   roles:
-    - role: prerequisites
-      tags: prerequisites
     - role: common
       tags: common
-    - role: emacs
-      tags: emacs
     - role: zsh
       tags: zsh
