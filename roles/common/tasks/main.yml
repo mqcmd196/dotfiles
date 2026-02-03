@@ -45,7 +45,6 @@
         components: [main, contrib, non-free, non-free-firmware]
         signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
         state: present
-
     - name: Add apt pinning for testing/unstable
       ansible.builtin.copy:
         dest: /etc/apt/preferences.d/00-trixie-testing
@@ -63,26 +62,9 @@
 
 - name: Install apt packages
   apt:
-    name: ['attr', 'autoconf', 'bat', 'black', 'clang-format', 'clang-tidy', 'clangd', 'cmake-format', 'command-not-found', 'dnsutils', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-corfu', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-format-all', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-rust-mode', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs', 'emacs-mozc', 'expect', 'gdb', 'git-lfs', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'isort', 'jq', 'kcachegrind', 'lsb-release', 'massif-visualizer', 'net-tools', 'ninja-build', 'nmap', 'npm', 'pandoc', 'peco', 'pipx', 'python3-debugpy', 'python3-ipython', 'python3-pylsp', 'python3-pylsp-black', 'python3-venv', 'quilt', 'rlwrap', 'rustup', 'shellcheck', 'shfmt', 'tig', 'tidy', 'tmux', 'traceroute', 'util-linux', 'valgrind', 'wl-clipboard', 'xsel', 'zsh']
+    name: ['attr', 'autoconf', 'bat', 'black', 'clang-format', 'clang-tidy', 'clangd', 'cmake-format', 'command-not-found', 'dbus-x11', 'dconf-cli', 'dnsutils', 'elpa-anzu', 'elpa-cmake-mode', 'elpa-company', 'elpa-corfu', 'elpa-diff-hl', 'elpa-diminish', 'elpa-dockerfile-mode', 'elpa-doom-themes', 'elpa-eglot', 'elpa-find-file-in-project', 'elpa-format-all', 'elpa-helm', 'elpa-helm-ag', 'elpa-hl-todo', 'elpa-ligature', 'elpa-magit', 'elpa-markdown-mode', 'elpa-migemo', 'elpa-powerline', 'elpa-py-isort', 'elpa-rust-mode', 'elpa-use-package', 'elpa-vterm', 'elpa-which-key', 'elpa-yaml-mode', 'elpa-yasnippet', 'emacs', 'emacs-mozc', 'expect', 'fonts-powerline', 'gdb', 'git-lfs', 'gnome-sushi', 'grc', 'htop', 'ipython3', 'isort', 'jq', 'kcachegrind', 'lsb-release', 'massif-visualizer', 'net-tools', 'ninja-build', 'nmap', 'npm', 'pandoc', 'peco', 'pipx', 'python3-debugpy', 'python3-ipython', 'python3-pylsp', 'python3-pylsp-black', 'python3-venv', 'quilt', 'rlwrap', 'rustup', 'shellcheck', 'shfmt', 'tig', 'tidy', 'tmux', 'traceroute', 'util-linux', 'valgrind', 'wl-clipboard', 'xsel', 'zsh', 'zsh-autosuggestions', 'zsh-syntax-highlighting']
     state: present
   become: yes
-
-- name: Install fonts
-  block:
-  - name: Ensure font directory exists
-    file:
-      path: "{{ ansible_env.HOME }}/.local/share/fonts"
-      state: directory
-  - name: Download and install CascadiaCode
-    unarchive:
-      src: https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip
-      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-      remote_src: yes
-  - name: Download and install MorisawaBizUDGothic
-    unarchive:
-      src: https://github.com/googlefonts/morisawa-biz-ud-gothic/releases/download/v1.051/morisawa-biz-ud-gothic-fonts.zip
-      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
-      remote_src: yes
 
 - name: Ensure keyrings directory exists
   become: true
@@ -254,6 +236,54 @@
         dest: "{{ ansible_env.HOME }}/.config/emacs/snippets"
         state: link
         force: yes
+    - name: Create symbolic link for .zprofile
+      file:
+        src: "{{ ansible_env.HOME }}/.profile"
+        dest: "{{ ansible_env.HOME }}/.zprofile"
+        state: link
+    - name: Create directory for zsh configs
+      file:
+        path: "{{ ansible_env.HOME }}/.zsh.d"
+        state: directory
+    - name: Create symbolic link for zsh alias config
+      file:
+        src: "{{ role_path }}/zsh/alias.zsh"
+        dest: "{{ ansible_env.HOME }}/.zsh.d/alias.zsh"
+        state: link
+    - name: Create symbolic link for ros zsh config
+      file:
+        src: "{{ role_path }}/zsh/ros.zsh"
+        dest: "{{ ansible_env.HOME }}/.zsh.d/ros.zsh"
+        state: link
+    - name: Create symbolic link for grc config
+      file:
+        src: "{{ role_path }}/zsh/grc.zsh"
+        dest: "{{ ansible_env.HOME }}/.zsh.d/grc.zsh"
+        state: link
+        force: yes
+    - name: Create .zshrc symbolic link
+      file:
+        src: "{{ role_path }}/zsh/rc.zsh"
+        dest: "{{ ansible_env.HOME }}/.zshrc"
+        state: link
+        force: yes
+    - name: Create .p10k.zsh symbolic link
+      file:
+        src: "{{ role_path }}/zsh/p10k.zsh"
+        dest: "{{ ansible_env.HOME }}/.p10k.zsh"
+        state: link
+        force: yes
+    - name: Create ~/.config/bat directory
+      file:
+        path: "{{ ansible_env.HOME }}/.config/bat"
+        state: directory
+        recurse: yes
+    - name: Create batcat config symbolic link
+      file:
+        src: "{{ role_path }}/zsh/bat.conf"
+        dest: "{{ ansible_env.HOME }}/.config/bat/config"
+        state: link
+        force: yes
 
 - name: Create symbolic link for wsl.conf
   file:
@@ -262,6 +292,48 @@
     state: link
     force: yes
   become: yes
+
+- name: Install fonts
+  block:
+  - name: Ensure font directory exists
+    file:
+      path: "{{ ansible_env.HOME }}/.local/share/fonts"
+      state: directory
+  - name: Download and install CascadiaCode
+    unarchive:
+      src: https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip
+      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+      remote_src: yes
+  - name: Download and install MorisawaBizUDGothic
+    unarchive:
+      src: https://github.com/googlefonts/morisawa-biz-ud-gothic/releases/download/v1.051/morisawa-biz-ud-gothic-fonts.zip
+      dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+      remote_src: yes
+  - name: Update font cache
+    shell:
+      cmd: fc-cache -v
+
+- name: Setup zsh plugins
+  block:
+    - name: Git clone Powerlevel10k
+      git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: "{{ ansible_env.HOME }}/.powerlevel10k"
+        version: v1.19.0
+    - name: Git clone conda-zsh-completion
+      git:
+        repo: https://github.com/conda-incubator/conda-zsh-completion
+        dest: "{{ ansible_env.HOME }}/.conda-zsh-completion"
+        version: v0.10
+    - name: Git clone zsh-completions
+      git:
+        repo: https://github.com/zsh-users/zsh-completions
+        dest: "{{ ansible_env.HOME }}/.zsh-completions"
+        version: 83f09c461535e2372242c6282b66dbbbef6d508a
+
+- name: Change gnome terminal settings
+  shell:
+    cmd: "dbus-launch dconf load /org/gnome/terminal/legacy/profiles:/ < {{ role_path }}/zsh/gnome-terminal-profiles.dconf"
 
 - name: Setup Miniconda
   block:

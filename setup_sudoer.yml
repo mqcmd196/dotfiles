@@ -3,5 +3,3 @@
   roles:
     - role: common
       tags: common
-    - role: zsh
-      tags: zsh
