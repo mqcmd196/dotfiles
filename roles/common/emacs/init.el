@@ -1,4 +1,10 @@
-;; packages
+;; MELPA packages
+;; For pangu-spacing
+(require 'package)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+;; use package
 (require 'use-package)
 (setq use-package-always-ensure nil) ;; Don't install packages automatically. Many ones are expected to be installed as apt packages
 
@@ -380,7 +386,7 @@
   (powerline-default-theme))
 
 ;; mozc for Japanese input in emacs
-(when (getenv "WSLENV")
+(when (and (getenv "WSLENV") (display-graphic-p))
   (use-package mozc
     :init
     (setq default-input-method "japanese-mozc")
@@ -394,6 +400,18 @@
 (use-package which-key
   :init
   (which-key-mode 1))
+
+(use-package pangu-spacing
+  :ensure t ;; Only available at melpa. TODO remove when migrate to debian
+  :init
+  (setq pangu-spacing-chinese-before-english-regexp
+        "\\(?1:\\cj\\)\\(?2:[0-9A-Za-z]\\)"
+        pangu-spacing-chinese-after-english-regexp
+        "\\(?1:[0-9A-Za-z]\\)\\(?2:\\cj\\)"
+        ;; Always insert `real' space in text-mode including org-mode.
+        pangu-spacing-real-insert-separtor t)
+  :config
+  (add-hook 'latex-mode-hook 'pangu-spacing-mode))
 
 ;; Keybinds
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
