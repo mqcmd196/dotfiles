@@ -54,6 +54,10 @@ M-h : Place a point and mark before or after the paragraph with the point or the
 
 C-x C-M-+, C-x C-M-=, C-x C-M-- or C-x C-M-0, or scroll the mouse wheel with both the Ctrl and Meta modifiers pressed : Change the sizes of the fonts globally
 
+M-g i : imenu
+
+C-x c i : helm-imenu
+
 `lsp-workspace-restart` : Reload lsp at current workspace. It is convenient after the build
 
 `reftex-toc` : Show the table of contents for the current tex document
