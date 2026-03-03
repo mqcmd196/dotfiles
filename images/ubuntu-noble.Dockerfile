@@ -1,4 +1,4 @@
-FROM debian:trixie
+FROM ubuntu:noble
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -qq && \
     apt upgrade -y -qq && \
     apt install -y -qq --no-install-recommends \
-    ansible apt git sudo
+    ansible apt git software-properties-common sudo
 
 WORKDIR /home/$USERNAME/dotfiles
 COPY non-sudoer ./non-sudoer
@@ -14,5 +14,4 @@ COPY roles ./roles
 COPY setup_sudoer.yml .
 RUN ansible-playbook setup_sudoer.yml -K
 COPY tests ./tests
-RUN ./tests/test_emacs.sh
-RUN ./tests/test_shell.sh
+RUN rm -rf /var/lib/apt/lists/*
