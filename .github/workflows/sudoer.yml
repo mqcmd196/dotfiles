@@ -9,10 +9,65 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     permissions:
       packages: write
     continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - OS: debian
+            CODENAME: trixie
+            arch: amd64
+            runner: ubuntu-latest
+          - OS: debian
+            CODENAME: trixie
+            arch: arm64
+            runner: ubuntu-24.04-arm
+          - OS: debian
+            CODENAME: testing
+            arch: amd64
+            runner: ubuntu-latest
+          - OS: debian
+            CODENAME: testing
+            arch: arm64
+            runner: ubuntu-24.04-arm
+          - OS: ubuntu
+            CODENAME: noble
+            arch: amd64
+            runner: ubuntu-latest
+          - OS: ubuntu
+            CODENAME: noble
+            arch: arm64
+            runner: ubuntu-24.04-arm
+    env:
+      IMAGE_NAME: ghcr.io/mqcmd196/${{ matrix.OS }}-${{ matrix.CODENAME }}-ws
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          docker-images: false
+      - run: docker build -f ./images/${{ matrix.OS }}-${{ matrix.CODENAME }}.Dockerfile -t ${{ env.IMAGE_NAME }}:${{ matrix.arch }} .
+      - run: docker run ${{ env.IMAGE_NAME }}:${{ matrix.arch }} sh tests/test.sh
+      - uses: docker/login-action@v3
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker push ${{ env.IMAGE_NAME }}:${{ matrix.arch }}
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+  manifest:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
     strategy:
       matrix:
         include:
@@ -25,20 +80,13 @@ jobs:
     env:
       IMAGE_NAME: ghcr.io/mqcmd196/${{ matrix.OS }}-${{ matrix.CODENAME }}-ws
     steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: false
-          docker-images: false
-      - run: docker build -f ./images/${{ matrix.OS }}-${{ matrix.CODENAME }}.Dockerfile -t ${{ env.IMAGE_NAME }}:latest .
-      - run: docker run ${{ env.IMAGE_NAME }}:latest sh tests/test.sh
       - uses: docker/login-action@v3
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker push ${{ env.IMAGE_NAME }}:latest
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      - run: |
+          docker manifest create ${{ env.IMAGE_NAME }}:latest \
+            ${{ env.IMAGE_NAME }}:amd64 \
+            ${{ env.IMAGE_NAME }}:arm64
+          docker manifest push ${{ env.IMAGE_NAME }}:latest
