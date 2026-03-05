@@ -84,6 +84,7 @@
         url: https://dl.google.com/linux/linux_signing_key.pub
         dest: /etc/apt/keyrings/google-chrome.asc
         mode: '0644'
+      when: ansible_architecture != "aarch64"
     - name: Add Google Chrome repository
       deb822_repository:
         name: google-chrome
@@ -92,6 +93,7 @@
         suites: stable
         components: main
         signed_by: /etc/apt/keyrings/google-chrome.asc
+      when: ansible_architecture != "aarch64"
     - name: Download Microsoft GPG Key
       get_url:
         url: https://packages.microsoft.com/keys/microsoft.asc
@@ -107,7 +109,7 @@
         signed_by: /etc/apt/keyrings/microsoft.asc
     - name: Install 3rdparty GUI packages
       apt:
-        name: ['code', 'google-chrome-stable']
+        name: "{{ ['code', 'google-chrome-stable'] if ansible_architecture != 'aarch64' else ['code'] }}"
         state: present
         update_cache: yes
 
