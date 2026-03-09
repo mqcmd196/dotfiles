@@ -403,6 +403,34 @@
     :config
     (global-set-key (kbd "M-`") #'toggle-input-method)))
 
+;; Source shell scripts and import environment variables into Emacs
+(defvar my/initial-process-environment (copy-sequence process-environment)
+  "Snapshot of `process-environment' at Emacs startup.")
+(defvar my/initial-exec-path (copy-sequence exec-path)
+  "Snapshot of `exec-path' at Emacs startup.")
+
+(defun my/source-shell-script (script)
+  "Source SCRIPT in zsh and import resulting environment variables into Emacs."
+  (interactive "fScript to source: ")
+  (let* ((cmd (format "zsh -c 'source %s && env -0'"
+                       (shell-quote-argument (expand-file-name script))))
+         (env-output (shell-command-to-string cmd)))
+    (dolist (entry (split-string env-output "\0" t))
+      (when (string-match "\\`\\([^=]+\\)=\\(\\(?:.\\|\n\\)*\\)\\'" entry)
+        (let ((key (match-string 1 entry))
+              (val (match-string 2 entry)))
+          (setenv key val)
+          (when (string= key "PATH")
+            (setq exec-path (parse-colon-path val))))))
+    (message "Sourced: %s" script)))
+
+(defun my/reset-env ()
+  "Reset environment variables to initial Emacs startup state."
+  (interactive)
+  (setq process-environment (copy-sequence my/initial-process-environment))
+  (setq exec-path (copy-sequence my/initial-exec-path))
+  (message "Environment reset to initial state."))
+
 (use-package format-all
   :if (locate-library "format-all")
   :commands format-all-mode)
