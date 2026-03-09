@@ -149,12 +149,14 @@
         name: software-properties-common
         state: present
     - name: Get latest ros2-apt-source version
-      shell: curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}'
-      register: ros_apt_source_version
+      uri:
+        url: https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest
+        return_content: true
+      register: ros_apt_source_release
       changed_when: false
     - name: Download ros2-apt-source deb
       get_url:
-        url: "https://github.com/ros-infrastructure/ros-apt-source/releases/download/{{ ros_apt_source_version.stdout }}/ros2-apt-source_{{ ros_apt_source_version.stdout }}.{{ ansible_distribution_release }}_all.deb"
+        url: "https://github.com/ros-infrastructure/ros-apt-source/releases/download/{{ ros_apt_source_release.json.tag_name }}/ros2-apt-source_{{ ros_apt_source_release.json.tag_name }}.{{ ansible_distribution_release }}_all.deb"
         dest: /tmp/ros2-apt-source.deb
     - name: Install ros2-apt-source deb
       apt:
