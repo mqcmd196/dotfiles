@@ -88,10 +88,20 @@
   :bind
   (:map vterm-mode-map
         ("C-c C-j" . vterm-copy-mode)
-        ("C-c C-t" . nil))
+        ("C-c C-t" . nil)
+        ("M-`" . my/vterm-insert-with-mozc))
   :config
   (define-key vterm-copy-mode-map (kbd "C-c C-j") #'vterm-copy-mode)
-  (define-key vterm-copy-mode-map (kbd "C-c C-t") nil)) ;; avoid colliding with the tmux prefix
+  (define-key vterm-copy-mode-map (kbd "C-c C-t") nil) ;; avoid colliding with the tmux prefix
+  (when (display-graphic-p)
+    (defun my/vterm-insert-with-mozc ()
+      "Read text via minibuffer with Mozc and send to vterm."
+      (interactive)
+      (let ((text (minibuffer-with-setup-hook
+                      (lambda () (activate-input-method "japanese-mozc"))
+                    (read-string "Input: "))))
+        (when (> (length text) 0)
+          (vterm-send-string text))))))
 
 (use-package doom-themes
   :config
