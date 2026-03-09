@@ -161,7 +161,7 @@
         deb: /tmp/ros2-apt-source.deb
     - name: Install ROS 2 Jazzy packages
       apt:
-        name: ['python3-rocker', 'python3-vcstool', 'ros-dev-tools', 'ros-jazzy-desktop-full']
+        name: ['python3-rocker', 'python3-vcs2l', 'ros-dev-tools', 'ros-jazzy-desktop-full']
         state: present
         update_cache: yes
 
