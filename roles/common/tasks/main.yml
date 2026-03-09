@@ -136,6 +136,35 @@
         state: present
         update_cache: yes
 
+- name: Install ROS 2 Jazzy
+  become: true
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_release'] == "noble"
+  block:
+    - name: Enable universe repository
+      apt_repository:
+        repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe"
+        state: present
+    - name: Install software-properties-common
+      apt:
+        name: software-properties-common
+        state: present
+    - name: Get latest ros2-apt-source version
+      shell: curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}'
+      register: ros_apt_source_version
+      changed_when: false
+    - name: Download ros2-apt-source deb
+      get_url:
+        url: "https://github.com/ros-infrastructure/ros-apt-source/releases/download/{{ ros_apt_source_version.stdout }}/ros2-apt-source_{{ ros_apt_source_version.stdout }}.{{ ansible_distribution_release }}_all.deb"
+        dest: /tmp/ros2-apt-source.deb
+    - name: Install ros2-apt-source deb
+      apt:
+        deb: /tmp/ros2-apt-source.deb
+    - name: Install ROS 2 Jazzy packages
+      apt:
+        name: ['python3-rocker', 'python3-vcstool', 'ros-dev-tools', 'ros-jazzy-desktop-full']
+        state: present
+        update_cache: yes
+
 - name: Install GitHub CLI
   become: true
   block:
