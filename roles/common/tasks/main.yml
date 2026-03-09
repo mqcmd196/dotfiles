@@ -142,7 +142,7 @@
   block:
     - name: Enable universe repository
       apt_repository:
-        repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe"
+        repo: "deb http://{{ 'ports.ubuntu.com/ubuntu-ports' if ansible_architecture == 'aarch64' else 'archive.ubuntu.com/ubuntu' }} {{ ansible_distribution_release }} universe"
         state: present
     - name: Install software-properties-common
       apt:
