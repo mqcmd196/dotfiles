@@ -6,6 +6,7 @@
 	fap = fetch --all --prune
 	st = status
 	co = checkout
+    pf = push --force-with-lease
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
