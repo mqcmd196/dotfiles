@@ -451,6 +451,12 @@
   :config
   (add-hook 'latex-mode-hook 'pangu-spacing-mode))
 
+(use-package copilot
+  :ensure t
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("C-e" . copilot-accept-completion)))
+
 ;; Keybinds
 (global-set-key "\C-h" 'delete-backward-char) ;; C-h to delete
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; call ibuffer in current window
