@@ -124,3 +124,5 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1 # avoid too slow completion
 
 # CMake options
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
+export CMAKE_C_COMPILER_LAUNCHER=ccache
+export CMAKE_CXX_COMPILER_LAUNCHER=ccache
