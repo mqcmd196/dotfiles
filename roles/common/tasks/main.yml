@@ -194,7 +194,7 @@
 - name: Install Copilot Language Server
   become: true
   community.general.npm:
-    - name: @github/copilot-language-server
+    - name: '@github/copilot-language-server'
       global: true
 
 - name: Setup configs
