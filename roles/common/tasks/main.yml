@@ -394,10 +394,6 @@
         dest: "{{ ansible_env.HOME }}/.zsh-completions"
         version: 83f09c461535e2372242c6282b66dbbbef6d508a
 
-- name: Change gnome terminal settings
-  shell:
-    cmd: "dbus-launch dconf load /org/gnome/terminal/legacy/profiles:/ < {{ role_path }}/zsh/gnome-terminal-profiles.dconf"
-
 - name: Setup Miniconda
   block:
     - name: Download Miniconda shell script
