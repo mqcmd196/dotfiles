@@ -191,6 +191,34 @@
     - name: Add gh zsh completion
       shell: gh completion -s zsh > /usr/local/share/zsh/site-functions/_gh
 
+- name: Install Claude Code
+  become: true
+  block:
+    - name: Download Claude Code ASC Key
+      get_url:
+        url: https://downloads.claude.ai/keys/claude-code.asc
+        dest: /etc/apt/keyrings/claude-code.asc
+        mode: '0644'
+    - name: Add Claude Code repository
+      deb822_repository:
+        name: claude-code
+        types: deb
+        uris: https://downloads.claude.ai/claude-code/apt/stable
+        suites: stable
+        components: main
+        signed_by: /etc/apt/keyrings/claude-code.asc
+    - name: Install Claude Code
+      apt:
+        name: claude-code
+        update_cache: yes
+        state: present
+
+- name: Install Copilot
+  become: true
+  community.general.npm:
+    name: '@github/copilot-language-server'
+    global: true
+
 - name: Setup configs
   block:
     - name: Create symbolic link for bashrc
@@ -389,6 +417,3 @@
         dest: "{{ ansible_env.HOME }}/.nvm"
         depth: 1
         version: v0.39.7
-
-- name: Install Claude Code
-  shell: curl -fsSL https://claude.ai/install.sh | bash
