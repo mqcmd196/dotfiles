@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     permissions:
       packages: write
-    continue-on-error: true
+    continue-on-error: ${{ matrix.OS != 'ubuntu' }}
     strategy:
       fail-fast: false
       matrix:

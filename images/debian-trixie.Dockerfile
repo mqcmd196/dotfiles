@@ -8,10 +8,11 @@ RUN apt update -qq && \
     apt install -y -qq --no-install-recommends \
     ansible apt git sudo
 
-WORKDIR /home/$USERNAME/dotfiles
+WORKDIR /root/dotfiles
 COPY non-sudoer ./non-sudoer
 COPY roles ./roles
+COPY prompts ./prompts
 COPY setup_sudoer.yml .
-RUN ansible-playbook setup_sudoer.yml -K
+RUN ansible-playbook setup_sudoer.yml
 COPY tests ./tests
 RUN rm -rf /var/lib/apt/lists/*
