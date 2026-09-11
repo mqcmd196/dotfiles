@@ -4,7 +4,7 @@
     "sessionUrl": false
   },
   "permissions": {
-    "defaultMode": "dontAsk"
+    "defaultMode": "bypassPermissions"
   },
   "model": "opus[1m]",
   "enabledPlugins": {
