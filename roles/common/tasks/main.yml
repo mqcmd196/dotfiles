@@ -213,6 +213,38 @@
         update_cache: yes
         state: present
 
+- name: Setup Claude Code configs
+  tags: claude
+  block:
+    - name: Create ~/.claude directory
+      file:
+        path: "{{ ansible_env.HOME }}/.claude"
+        state: directory
+    - name: Create symbolic link for Claude Code settings.json
+      file:
+        src: "{{ role_path }}/agents/settings.json"
+        dest: "{{ ansible_env.HOME }}/.claude/settings.json"
+        state: link
+        force: true
+
+- name: Setup shared instructions for Claude Code and Codex
+  tags: [claude, codex, prompts]
+  block:
+    - name: Create Codex config directory
+      file:
+        path: "{{ ansible_env.HOME }}/.codex"
+        state: directory
+
+    - name: Link shared home instructions for Claude Code and Codex
+      file:
+        src: "{{ role_path }}/../../prompts/home.md"
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
+        state: link
+      loop:
+        - CLAUDE.md
+        - AGENTS.md
+        - .codex/AGENTS.md
+
 - name: Install Copilot
   become: true
   community.general.npm:

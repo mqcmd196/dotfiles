@@ -1,0 +1,19 @@
+{
+  "attribution": {
+    "commit": "",
+    "sessionUrl": false
+  },
+  "permissions": {
+    "defaultMode": "dontAsk"
+  },
+  "model": "opus[1m]",
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true
+  },
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true
+}
