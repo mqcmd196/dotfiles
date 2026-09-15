@@ -105,12 +105,12 @@ C-c v g : Magit status
 C-c f r : Find recently opened file
 
 ## CI
-GitHub Actions tests the macOS Ansible setup on Apple Silicon (`macos-15`) and
-Intel (`macos-15-intel`), using an isolated home directory (see the
+GitHub Actions tests the macOS Ansible setup on Apple Silicon (`macos-15`),
+using an isolated home directory (see the
 [GitHub runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)). It checks repeat-run
 idempotency, interactive zsh startup, Emacs loading, tmux clipboard bindings, and
-shared agent links. The limited installer is tested on Ubuntu and both Mac
-architectures; the existing Debian/Ubuntu container matrix remains enabled.
+shared agent links. The limited installer is tested on Ubuntu only; the existing
+Debian/Ubuntu container matrix remains enabled.
 
 After installing the dotfiles, run the configuration checks with:
 

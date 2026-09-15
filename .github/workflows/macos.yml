@@ -11,11 +11,7 @@ permissions:
 
 jobs:
   setup:
-    strategy:
-      fail-fast: false
-      matrix:
-        runner: [macos-15, macos-15-intel]
-    runs-on: ${{ matrix.runner }}
+    runs-on: macos-15
     timeout-minutes: 30
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
