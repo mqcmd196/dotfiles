@@ -218,4 +218,3 @@
   community.general.npm:
     name: '@github/copilot-language-server'
     global: true
-
