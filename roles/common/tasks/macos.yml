@@ -22,6 +22,7 @@
 - name: Check for an existing Emacs installation
   ansible.builtin.command: which emacs
   register: macos_emacs
+  check_mode: false
   changed_when: false
   failed_when: false
 
