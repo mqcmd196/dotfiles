@@ -2,42 +2,33 @@
 
 set -e
 
-SETUP_ROOT_USER_CONFIGDIR=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
-SETUP_CONFIGDIR="$SETUP_ROOT_USER_CONFIGDIR/non-sudoer"
+SETUP_CONFIGDIR=$(cd $(dirname -- $0);pwd)/non-sudoer
+SETUP_ROOT_USER_CONFIGDIR=$(cd $(dirname -- $0);pwd)
 
-if [ ! -e "$HOME/.local/src" ]; then
-    mkdir -p "$HOME/.local/src"
+if [ ! -e $HOME/.local/src ]; then
+    mkdir -p $HOME/.local/src
 fi
 
-if [ ! -e "$HOME/tmp" ]; then
-    mkdir -p "$HOME/tmp"
+if [ ! -e $HOME/tmp ]; then
+    mkdir -p $HOME/tmp
 fi
 
-ln -sfn "$SETUP_CONFIGDIR/rc.bash" "$HOME/.bashrc"
-ln -sfn "$SETUP_CONFIGDIR/emacs.el" "$HOME/.emacs"
-ln -sfn "$SETUP_ROOT_USER_CONFIGDIR/roles/common/tmux/tmux.conf" "$HOME/.tmux.conf"
-mkdir -p "$HOME/.config/git"
-ln -sfn "$SETUP_ROOT_USER_CONFIGDIR/roles/common/git/gitignore_global" "$HOME/.config/git/ignore"
-mkdir -p "$HOME/.percol.d"
-ln -sfn "$SETUP_ROOT_USER_CONFIGDIR/roles/common/percol/rc.py" "$HOME/.percol.d/rc.py"
-ln -sfn "$SETUP_ROOT_USER_CONFIGDIR/roles/common/docker" "$HOME/.docker"
+ln -sf $SETUP_CONFIGDIR/rc.bash $HOME/.bashrc
+ln -sf $SETUP_CONFIGDIR/emacs.el $HOME/.emacs
+ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/tmux/tmux.conf $HOME/.tmux.conf
+mkdir -p $HOME/.config/git
+ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/git/gitignore_global $HOME/.config/git/ignore
+mkdir -p $HOME/.percol.d
+ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/percol/rc.py $HOME/.percol.d/rc.py
+ln -sf $SETUP_ROOT_USER_CONFIGDIR/roles/common/docker $HOME/.docker
 
-if ! command -v percol >/dev/null 2>&1; then
+if [ ! command -v percol &> /dev/null ]; then
     echo "percol command not found. Installing..."
-    if command -v pipx >/dev/null 2>&1; then
-        pipx install percol
-    else
-        PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install --user percol
-    fi
+    PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install --user percol
 fi
 
-if [ "$(uname -s)" = Linux ] && ! command -v xsel >/dev/null 2>&1; then
+if [ ! command -v xsel &> /dev/null ]; then
     echo "xsel command not found. Installing..."
-    if [ ! -d "$HOME/.local/src/xsel" ]; then
-        git clone --branch 1.2.1 --depth 1 https://github.com/kfish/xsel.git "$HOME/.local/src/xsel"
-    fi
-    cd "$HOME/.local/src/xsel"
-    ./autogen.sh
-    ./configure --prefix="$HOME/.local"
-    make -j"$(nproc)" install
+    git clone --branch 1.2.1 --depth 1 https://github.com/kfish/xsel.git $HOME/.local/src/xsel
+    cd $HOME/.local/src/xsel && ./autogen.sh && ./configure --prefix=$HOME/.local && make -j$(nproc) install
 fi
