@@ -33,6 +33,13 @@ else
   export EDITOR='emacs -nw'
 fi
 
+# Initialize completion before NVM, ROS, or other Bash completion scripts.
+# conda-zsh-completion
+fpath+=~/.conda-zsh-completion
+zstyle ":conda_zsh_completion:*" sort-envs-by-time true
+autoload -U compinit && compinit
+autoload -U +X bashcompinit && bashcompinit # enable complete command
+
 ### NVM CONFIGS
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -61,10 +68,11 @@ bindkey '^r' peco-history-selection
 bindkey -e # emacs like keybinding
 WORDCHARS='*?[]~&;!#$%^(){}<>' # for word jumping
 
-autoload -U +X bashcompinit && bashcompinit # enable complete command
 local zsh_personal_config_dir="$HOME/.zsh.d"
 source ${zsh_personal_config_dir}/alias.zsh
-source ${zsh_personal_config_dir}/ros.zsh
+if [[ $OSTYPE != darwin* ]]; then
+  source ${zsh_personal_config_dir}/ros.zsh
+fi
 source ${zsh_personal_config_dir}/grc.zsh
 if [ -f ${zsh_personal_config_dir}/local.zsh ]; then
   source ${zsh_personal_config_dir}/local.zsh
@@ -112,15 +120,9 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-# conda-zsh-completion
-fpath+=~/.conda-zsh-completion
-zstyle ":conda_zsh_completion:*" sort-envs-by-time true
 
 # try zsh completion
 [[ ! -r ~/.local/src/try/completions/try.bash ]] || source ~/.local/src/try/completions/try.bash
-
-# init completions
-autoload -U compinit && compinit
 
 # zsh syntax highlighting
 local zsh_plugin_share=/usr/share
