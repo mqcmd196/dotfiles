@@ -180,8 +180,10 @@ type colcon &> /dev/null && source /usr/share/colcon_cd/function/colcon_cd.sh \
   && source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 
 # Hotfix for completion issue in jazzy. Known bug in https://github.com/ros2/ros2cli/issues/534
-eval "$(register-python-argcomplete ros2)"
-eval "$(register-python-argcomplete colcon)"
+if (( $+commands[register-python-argcomplete] )); then
+    eval "$(register-python-argcomplete ros2)"
+    eval "$(register-python-argcomplete colcon)"
+fi
 
 if [ -d /opt/ros ]; then
     init_ros_zsh

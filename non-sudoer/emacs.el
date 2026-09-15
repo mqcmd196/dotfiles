@@ -1,7 +1,8 @@
 (setq initial-scratch-message 'nil)
 (setq inhibit-startup-message 't)
 (menu-bar-mode -1)
-(tool-bar-mode 0)
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode 0))
 (load-theme 'deeper-blue)
 (setq backup-directory-alist '((".*" . "~/tmp"))) ;; backup
 (setq auto-save-file-name-transforms   '((".*" "~/tmp/" t))) ;; backup

@@ -2,7 +2,7 @@
 
 # editor
 alias em='emacs'
-alias eml='/usr/bin/emacs -q --load ~/.emacs-light.el'
+alias eml='emacs -q --load ~/.emacs-light.el'
 
 alias doom='~/.emacs.d/bin/doom'
 
@@ -18,7 +18,11 @@ if type "batcat" > /dev/null 2>&1; then
 fi
 
 # ls
-alias ls='ls --color=auto'
+if [[ $OSTYPE == darwin* ]]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -38,12 +42,14 @@ alias gp='git push'
 alias gst='git status'
 alias gd='git diff'
 
-alias clangd='clangd-18'
-alias clang-format='clang-format-18'
+(( ! $+commands[clangd-18] )) || alias clangd='clangd-18'
+(( ! $+commands[clang-format-18] )) || alias clang-format='clang-format-18'
 
 # explorer
 if [ -v WSLENV ]; then
     alias e='explorer.exe'
+elif [[ $OSTYPE == darwin* ]]; then
+    alias e='open'
 else
     alias e='xdg-open'
 fi

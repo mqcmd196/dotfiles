@@ -1,0 +1,11 @@
+- name: Set up macOS dotfiles
+  hosts: localhost
+  connection: local
+  pre_tasks:
+    - name: Require macOS
+      ansible.builtin.assert:
+        that: ansible_facts['system'] == 'Darwin'
+      tags: always
+  roles:
+    - role: common
+      tags: common

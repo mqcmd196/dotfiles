@@ -1,3 +1,12 @@
+# Homebrew uses different prefixes on Apple Silicon and Intel Macs.
+if [[ $OSTYPE == darwin* ]]; then
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+fi
+
 if [ -v WSLENV ]; then
   source $HOME/.profile # In wsl-22.04 sometimes .profile is not loaded
   export LIBGL_ALWAYS_SOFTWARE=1 # For showing robot model in rviz in WSL2
@@ -10,7 +19,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source ~/.powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -r ~/.powerlevel10k/powerlevel10k.zsh-theme ]] || source ~/.powerlevel10k/powerlevel10k.zsh-theme
 
 ### POWERLINE10K CONFIGS
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -66,7 +75,7 @@ if [ -z "$HISTFILE" ]; then
   HISTFILE=$HOME/.zsh_history
 fi
 
-setopt histappend
+setopt appendhistory
 setopt inc_append_history
 setopt hist_verify
 setopt extended_history
@@ -84,14 +93,14 @@ zshaddhistory(){
 }
 HIST_STAMPS='yyyy-mm-dd HH:MM:SS'
 
-source /etc/zsh_command_not_found # for command-not-found
+[[ ! -r /etc/zsh_command_not_found ]] || source /etc/zsh_command_not_found # for command-not-found
 
 # enable comment out in command line
 setopt interactivecomments
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('$HOME/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$("$HOME/miniconda3/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -108,17 +117,25 @@ fpath+=~/.conda-zsh-completion
 zstyle ":conda_zsh_completion:*" sort-envs-by-time true
 
 # try zsh completion
-source ~/.local/src/try/completions/try.bash
+[[ ! -r ~/.local/src/try/completions/try.bash ]] || source ~/.local/src/try/completions/try.bash
 
 # init completions
+fpath+=(~/.zsh-completions/src)
 autoload -U compinit && compinit
 
 # zsh syntax highlighting
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-ZSH_HIGHLIGHT_STYLES[comment]=fg=245 # make comment out color lighter
+local zsh_plugin_share=/usr/share
+[[ $OSTYPE != darwin* ]] || zsh_plugin_share=${HOMEBREW_PREFIX:-/usr/local}/share
+if [[ -r $zsh_plugin_share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source "$zsh_plugin_share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  ZSH_HIGHLIGHT_STYLES[comment]=fg=245 # make comment out color lighter
+fi
 
 # zsh autosuggestions
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ -r $zsh_plugin_share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+  source "$zsh_plugin_share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+unset zsh_plugin_share
 ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 ZSH_AUTOSUGGEST_USE_ASYNC=1 # avoid too slow completion
 

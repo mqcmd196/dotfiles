@@ -1,0 +1,33 @@
+- name: Install Homebrew CLI packages
+  community.general.homebrew:
+    name:
+      - bat
+      - ccache
+      - cmake
+      - gh
+      - git
+      - git-lfs
+      - grc
+      - jq
+      - ninja
+      - peco
+      - pipx
+      - tmux
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+    state: present
+    path: /opt/homebrew/bin:/usr/local/bin
+
+- name: Check for an existing Emacs installation
+  ansible.builtin.command: which emacs
+  register: macos_emacs
+  changed_when: false
+  failed_when: false
+
+- name: Install Emacs if unavailable
+  community.general.homebrew:
+    name: emacs
+    state: present
+    path: /opt/homebrew/bin:/usr/local/bin
+  when: macos_emacs.rc != 0
