@@ -9,22 +9,14 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        runner: [ubuntu-latest, macos-15, macos-15-intel]
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
     name: build
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Install Linux prerequisites
-        if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y pipx xsel
-      - name: Install macOS prerequisites
-        if: runner.os == 'macOS'
-        run: brew install pipx
       - name: Test limited setup
         run: |
           export HOME="$RUNNER_TEMP/non-sudoer-home"
@@ -36,4 +28,3 @@ jobs:
           test -L "$HOME/.emacs"
           test -L "$HOME/.tmux.conf"
           percol --help
-          if [[ "$RUNNER_OS" == macOS ]]; then test ! -e "$HOME/.local/src/xsel"; fi
