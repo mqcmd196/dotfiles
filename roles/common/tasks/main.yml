@@ -184,7 +184,7 @@
         force: yes
 
 - name: Create symbolic link for wsl.conf
-  when: "'WSLENV' in ansible_env"
+  when: ansible_facts['system'] != 'Darwin'
   file:
     src: "{{ role_path }}/wsl/wsl.conf"
     dest: "/etc/wsl.conf"
