@@ -1,0 +1,41 @@
+name: macOS
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-15, macos-15-intel]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install Ansible
+        run: brew install ansible
+      - name: Check playbook syntax
+        run: |
+          ansible-playbook setup_macos.yml --syntax-check
+          ansible-playbook setup_sudoer.yml --syntax-check
+      - name: Set up dotfiles in an isolated home
+        run: |
+          mkdir -p "$RUNNER_TEMP/dotfiles-home"
+          ansible-playbook setup_macos.yml -e "{\"ansible_env\": {\"HOME\": \"$RUNNER_TEMP/dotfiles-home\"}}"
+      - name: Verify setup is idempotent
+        run: |
+          ansible-playbook setup_macos.yml -e "{\"ansible_env\": {\"HOME\": \"$RUNNER_TEMP/dotfiles-home\"}}" | tee "$RUNNER_TEMP/second-run.log"
+          grep -Eq 'changed=0 .*failed=0' "$RUNNER_TEMP/second-run.log"
+      - name: Test installed configs
+        run: HOME="$RUNNER_TEMP/dotfiles-home" sh tests/test.sh

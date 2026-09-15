@@ -1,4 +1,4 @@
-# Debian/Ubuntu/Windows Settings for mqcmd196
+# Debian/Ubuntu/macOS/Windows Settings for mqcmd196
 ![sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/sudoer.yml/badge.svg?branch=master) ![non-sudoer test](https://github.com/mqcmd196/dotfiles/actions/workflows/non-sudoer.yml/badge.svg?branch=master)
 
 ## Prerequisite
@@ -14,6 +14,39 @@ git clone --recursive https://github.com/mqcmd196/dotfiles.git
 ```
 
 ## Setup
+### macOS (Apple Silicon and Intel)
+Install [Homebrew](https://brew.sh/) first, then run:
+
+```bash
+brew install ansible git
+cd ~/dotfiles
+ansible-playbook setup_macos.yml
+```
+
+Homebrew packages are installed as your user, without `sudo`. An existing Emacs
+installation is reused. The playbook links
+shared zsh, tmux, Git, and agent settings and installs shell plugins. The same
+role detects macOS when called through `setup_sudoer.yml`.
+
+macOS uses the lightweight Emacs configuration (`non-sudoer/emacs.el`), since the
+full configuration requires Debian-packaged Emacs extensions. Linux-only apt
+repositories, ROS, Docker Engine, fonts, and Miniconda are not installed on macOS.
+Install GUI apps and a conda distribution separately if needed. Terminal clipboard
+copying in tmux uses `pbcopy`, and zsh loads Homebrew plugins from the appropriate
+prefix. Existing conflicting configuration files may need to be backed up before
+running the playbook.
+
+To link only configuration files (without installing packages):
+
+```bash
+ansible-playbook setup_macos.yml --tags configs,claude,codex,prompts
+```
+
+For the limited Bash/Emacs setup on macOS, run `brew install pipx` followed by
+`./setup_nonsudoer`. This does not configure zsh. To use its Bash configuration
+in a login shell, source `~/.bashrc` from your `~/.bash_profile`.
+
+### Debian / Ubuntu
 ### When you are authorized to install packages with sudo
 ```bash
 ansible-playbook setup_sudoer.yml -K
@@ -70,3 +103,17 @@ C-c v g : Magit status
 
 ##### file
 C-c f r : Find recently opened file
+
+## CI
+GitHub Actions tests the macOS Ansible setup on Apple Silicon (`macos-15`) and
+Intel (`macos-15-intel`), using an isolated home directory (see the
+[GitHub runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)). It checks repeat-run
+idempotency, interactive zsh startup, Emacs loading, tmux clipboard bindings, and
+shared agent links. The limited installer is tested on Ubuntu and both Mac
+architectures; the existing Debian/Ubuntu container matrix remains enabled.
+
+After installing the dotfiles, run the configuration checks with:
+
+```bash
+sh tests/test.sh
+```
