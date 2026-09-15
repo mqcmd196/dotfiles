@@ -126,10 +126,7 @@ fi
 
 # for using peco on reverse-i-search
 _replace_by_history() {
- local l
- l=$(HISTTIMEFORMAT= history | {
-     if command -v tac >/dev/null 2>&1; then tac; else tail -r; fi
- } | sed -E 's/^[[:space:]]*[0-9]+[[:space:]]+//' | percol --query "$READLINE_LINE")
+ local l=$(HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | percol --query "$READLINE_LINE")
  READLINE_LINE="$l"
  READLINE_POINT=${#l}
 }

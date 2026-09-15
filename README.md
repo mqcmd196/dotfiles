@@ -42,10 +42,6 @@ To link only configuration files (without installing packages):
 ansible-playbook setup_macos.yml --tags configs,claude,codex,prompts
 ```
 
-For the limited Bash/Emacs setup on macOS, run `brew install pipx` followed by
-`./setup_nonsudoer`. This does not configure zsh. To use its Bash configuration
-in a login shell, source `~/.bashrc` from your `~/.bash_profile`.
-
 ### Debian / Ubuntu
 ### When you are authorized to install packages with sudo
 ```bash
