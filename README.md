@@ -23,24 +23,8 @@ cd ~/dotfiles
 ansible-playbook setup_macos.yml
 ```
 
-Homebrew packages are installed as your user, without `sudo`. An existing Emacs
-installation is reused. The playbook links
-shared zsh, tmux, Git, and agent settings and installs shell plugins. The same
-role detects macOS when called through `setup_sudoer.yml`.
-
-macOS uses the lightweight Emacs configuration (`non-sudoer/emacs.el`), since the
-full configuration requires Debian-packaged Emacs extensions. Linux-only apt
-repositories, ROS, Docker Engine, fonts, and Miniconda are not installed on macOS.
-Install GUI apps and a conda distribution separately if needed. Terminal clipboard
-copying in tmux uses `pbcopy`, and zsh loads Homebrew plugins from the appropriate
-prefix. Existing conflicting configuration files may need to be backed up before
-running the playbook.
-
-To link only configuration files (without installing packages):
-
-```bash
-ansible-playbook setup_macos.yml --tags configs,claude,codex,prompts
-```
+Uses Homebrew without `sudo` and the lightweight Emacs configuration.
+ROS, Docker Engine, fonts, and Miniconda are not installed on macOS.
 
 ### Debian / Ubuntu
 ### When you are authorized to install packages with sudo
@@ -101,14 +85,10 @@ C-c v g : Magit status
 C-c f r : Find recently opened file
 
 ## CI
-GitHub Actions tests the macOS Ansible setup on Apple Silicon (`macos-15`),
-using an isolated home directory (see the
-[GitHub runner reference](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)). It checks repeat-run
-idempotency, interactive zsh startup, Emacs loading, tmux clipboard bindings, and
-shared agent links. The limited installer is tested on Ubuntu only; the existing
-Debian/Ubuntu container matrix remains enabled.
+GitHub Actions tests Debian/Ubuntu and macOS (Apple Silicon).
+The non-sudoer setup is tested on Ubuntu only.
 
-After installing the dotfiles, run the configuration checks with:
+Run configuration checks after setup:
 
 ```bash
 sh tests/test.sh
